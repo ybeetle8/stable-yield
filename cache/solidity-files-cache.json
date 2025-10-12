@@ -1,392 +1,6 @@
 {
   "_format": "hh-sol-cache-2",
   "files": {
-    "/home/ybeetle/code/stable-yield/contracts/HelloWorld.sol": {
-      "lastModificationDate": 1760178878013,
-      "contentHash": "ae3a95373043638e363a7cab38ff5d19",
-      "sourceName": "contracts/HelloWorld.sol",
-      "solcConfig": {
-        "version": "0.8.28",
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 200
-          },
-          "viaIR": true,
-          "evmVersion": "paris",
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [
-        "^0.8.28"
-      ],
-      "artifacts": [
-        "HelloWorld"
-      ]
-    },
-    "/home/ybeetle/code/stable-yield/contracts/OLA.sol": {
-      "lastModificationDate": 1760178878030,
-      "contentHash": "aef9a4da84e7569f71d970765d711ec8",
-      "sourceName": "contracts/OLA.sol",
-      "solcConfig": {
-        "version": "0.8.28",
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 200
-          },
-          "viaIR": true,
-          "evmVersion": "paris",
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [
-        "./abstract/OLABase.sol"
-      ],
-      "versionPragmas": [
-        "^0.8.20"
-      ],
-      "artifacts": [
-        "OLA"
-      ]
-    },
-    "/home/ybeetle/code/stable-yield/contracts/abstract/OLABase.sol": {
-      "lastModificationDate": 1760178877999,
-      "contentHash": "e38a8a0beea502005801056f59276e00",
-      "sourceName": "contracts/abstract/OLABase.sol",
-      "solcConfig": {
-        "version": "0.8.28",
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 200
-          },
-          "viaIR": true,
-          "evmVersion": "paris",
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [
-        "@openzeppelin/contracts/token/ERC20/ERC20.sol",
-        "@openzeppelin/contracts/token/ERC20/IERC20.sol",
-        "@openzeppelin/contracts/access/Ownable.sol",
-        "../interfaces/IPancakeRouter.sol",
-        "../interfaces/IPancakePair.sol",
-        "../interfaces/IPancakeFactory.sol",
-        "../interfaces/IStaking.sol",
-        "../interfaces/ILiquidityStaking.sol",
-        "../utils/FundRelay.sol",
-        "../utils/Helper.sol"
-      ],
-      "versionPragmas": [
-        "^0.8.20"
-      ],
-      "artifacts": [
-        "OLABase"
-      ]
-    },
-    "/home/ybeetle/code/stable-yield/contracts/interfaces/IPancakeRouter.sol": {
-      "lastModificationDate": 1760178878014,
-      "contentHash": "fc0870dfa84b67b6a656cc68851ecbd3",
-      "sourceName": "contracts/interfaces/IPancakeRouter.sol",
-      "solcConfig": {
-        "version": "0.8.28",
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 200
-          },
-          "viaIR": true,
-          "evmVersion": "paris",
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [
-        "^0.8.20"
-      ],
-      "artifacts": [
-        "IPancakeRouter"
-      ]
-    },
-    "/home/ybeetle/code/stable-yield/contracts/interfaces/IPancakePair.sol": {
-      "lastModificationDate": 1760178878025,
-      "contentHash": "ae0fef628ebe84dadcb3186570f389d9",
-      "sourceName": "contracts/interfaces/IPancakePair.sol",
-      "solcConfig": {
-        "version": "0.8.28",
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 200
-          },
-          "viaIR": true,
-          "evmVersion": "paris",
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [
-        "^0.8.20"
-      ],
-      "artifacts": [
-        "IPancakePair"
-      ]
-    },
-    "/home/ybeetle/code/stable-yield/contracts/interfaces/IPancakeFactory.sol": {
-      "lastModificationDate": 1760178878009,
-      "contentHash": "95c1b7d212ba5ca1e841f75c3b47a03e",
-      "sourceName": "contracts/interfaces/IPancakeFactory.sol",
-      "solcConfig": {
-        "version": "0.8.28",
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 200
-          },
-          "viaIR": true,
-          "evmVersion": "paris",
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [
-        "^0.8.20"
-      ],
-      "artifacts": [
-        "IPancakeFactory"
-      ]
-    },
-    "/home/ybeetle/code/stable-yield/contracts/interfaces/IStaking.sol": {
-      "lastModificationDate": 1760178878020,
-      "contentHash": "61534ae98f6e96a4a5b9ec49382101be",
-      "sourceName": "contracts/interfaces/IStaking.sol",
-      "solcConfig": {
-        "version": "0.8.28",
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 200
-          },
-          "viaIR": true,
-          "evmVersion": "paris",
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [
-        "^0.8.20"
-      ],
-      "artifacts": [
-        "IStaking"
-      ]
-    },
-    "/home/ybeetle/code/stable-yield/contracts/interfaces/ILiquidityStaking.sol": {
-      "lastModificationDate": 1760178878006,
-      "contentHash": "f796075a43bd944605475e574f79b7c2",
-      "sourceName": "contracts/interfaces/ILiquidityStaking.sol",
-      "solcConfig": {
-        "version": "0.8.28",
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 200
-          },
-          "viaIR": true,
-          "evmVersion": "paris",
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [
-        "^0.8.20"
-      ],
-      "artifacts": [
-        "ILiquidityStaking"
-      ]
-    },
-    "/home/ybeetle/code/stable-yield/contracts/utils/FundRelay.sol": {
-      "lastModificationDate": 1760178878043,
-      "contentHash": "1104749768fd6bf26ee51d6d606b1868",
-      "sourceName": "contracts/utils/FundRelay.sol",
-      "solcConfig": {
-        "version": "0.8.28",
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 200
-          },
-          "viaIR": true,
-          "evmVersion": "paris",
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [
-        "@openzeppelin/contracts/token/ERC20/IERC20.sol",
-        "@openzeppelin/contracts/access/Ownable.sol"
-      ],
-      "versionPragmas": [
-        "^0.8.20"
-      ],
-      "artifacts": [
-        "FundRelay"
-      ]
-    },
-    "/home/ybeetle/code/stable-yield/contracts/utils/Helper.sol": {
-      "lastModificationDate": 1760178878043,
-      "contentHash": "d8e5497236a1f4994b56da5c4a713274",
-      "sourceName": "contracts/utils/Helper.sol",
-      "solcConfig": {
-        "version": "0.8.28",
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 200
-          },
-          "viaIR": true,
-          "evmVersion": "paris",
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [
-        "^0.8.20"
-      ],
-      "artifacts": [
-        "Helper"
-      ]
-    },
     "/home/ybeetle/code/stable-yield/node_modules/@openzeppelin/contracts/access/Ownable.sol": {
       "lastModificationDate": 1760178954339,
       "contentHash": "d3c790edc9ccf808a17c5a6cd13614fd",
@@ -618,90 +232,6 @@
       ],
       "artifacts": [
         "IERC20Metadata"
-      ]
-    },
-    "/home/ybeetle/code/stable-yield/contracts/abstract/StakingBase.sol": {
-      "lastModificationDate": 1760178878019,
-      "contentHash": "80789cc0de0fe318cd08c8fbd1bc0e78",
-      "sourceName": "contracts/abstract/StakingBase.sol",
-      "solcConfig": {
-        "version": "0.8.28",
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 200
-          },
-          "viaIR": true,
-          "evmVersion": "paris",
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [
-        "@prb/math/src/UD60x18.sol",
-        "../interfaces/IPancakeRouter.sol",
-        "../interfaces/IPancakePair.sol",
-        "../interfaces/IOLA.sol",
-        "../interfaces/IStaking.sol",
-        "@openzeppelin/contracts/token/ERC20/IERC20.sol",
-        "@openzeppelin/contracts/access/Ownable.sol"
-      ],
-      "versionPragmas": [
-        "^0.8.20"
-      ],
-      "artifacts": [
-        "StakingBase"
-      ]
-    },
-    "/home/ybeetle/code/stable-yield/contracts/interfaces/IOLA.sol": {
-      "lastModificationDate": 1760178878008,
-      "contentHash": "5c963d43efac970c8466260c61077e83",
-      "sourceName": "contracts/interfaces/IOLA.sol",
-      "solcConfig": {
-        "version": "0.8.28",
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 200
-          },
-          "viaIR": true,
-          "evmVersion": "paris",
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [
-        "@openzeppelin/contracts/token/ERC20/IERC20.sol"
-      ],
-      "versionPragmas": [
-        "^0.8.20"
-      ],
-      "artifacts": [
-        "IOLA"
       ]
     },
     "/home/ybeetle/code/stable-yield/node_modules/@prb/math/src/UD60x18.sol": {
@@ -1910,276 +1440,6 @@
       ],
       "artifacts": []
     },
-    "/home/ybeetle/code/stable-yield/contracts/Staking.sol": {
-      "lastModificationDate": 1760178878033,
-      "contentHash": "38aaf701a66c3cce7e2db0f7e62ab5ac",
-      "sourceName": "contracts/Staking.sol",
-      "solcConfig": {
-        "version": "0.8.28",
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 200
-          },
-          "viaIR": true,
-          "evmVersion": "paris",
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [
-        "./abstract/StakingBase.sol"
-      ],
-      "versionPragmas": [
-        "^0.8.20"
-      ],
-      "artifacts": [
-        "Staking"
-      ]
-    },
-    "/home/ybeetle/code/stable-yield/contracts/PancakeFactory.sol": {
-      "lastModificationDate": 1760178878028,
-      "contentHash": "e1ca39fdf871663f3e493486f0e24d96",
-      "sourceName": "contracts/PancakeFactory.sol",
-      "solcConfig": {
-        "version": "0.8.28",
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 200
-          },
-          "viaIR": true,
-          "evmVersion": "paris",
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [
-        "^0.8.28"
-      ],
-      "artifacts": [
-        "IERC20",
-        "IPancakePair",
-        "PancakeFactory",
-        "PancakePair"
-      ]
-    },
-    "/home/ybeetle/code/stable-yield/contracts/PancakeRouter.sol": {
-      "lastModificationDate": 1760178878032,
-      "contentHash": "85220ac6d03bb9016b8811902c0c31f0",
-      "sourceName": "contracts/PancakeRouter.sol",
-      "solcConfig": {
-        "version": "0.8.28",
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 200
-          },
-          "viaIR": true,
-          "evmVersion": "paris",
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [
-        "./PancakeFactory.sol"
-      ],
-      "versionPragmas": [
-        "^0.8.28"
-      ],
-      "artifacts": [
-        "IWBNB",
-        "PancakeLibrary",
-        "PancakeRouter",
-        "SafeMath",
-        "TransferHelper"
-      ]
-    },
-    "/home/ybeetle/code/stable-yield/contracts/TestToken.sol": {
-      "lastModificationDate": 1760178878037,
-      "contentHash": "886d25f29952ed56915b1e4b28440c3e",
-      "sourceName": "contracts/TestToken.sol",
-      "solcConfig": {
-        "version": "0.8.28",
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 200
-          },
-          "viaIR": true,
-          "evmVersion": "paris",
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [
-        "^0.8.28"
-      ],
-      "artifacts": [
-        "TestToken"
-      ]
-    },
-    "/home/ybeetle/code/stable-yield/contracts/WBNB.sol": {
-      "lastModificationDate": 1760178878050,
-      "contentHash": "57c93bab76fbe4ed972a5f40eb040df4",
-      "sourceName": "contracts/WBNB.sol",
-      "solcConfig": {
-        "version": "0.8.28",
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 200
-          },
-          "viaIR": true,
-          "evmVersion": "paris",
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [
-        "^0.8.28"
-      ],
-      "artifacts": [
-        "WBNB"
-      ]
-    },
-    "/home/ybeetle/code/stable-yield/contracts/tokens/USDT.sol": {
-      "lastModificationDate": 1760178878046,
-      "contentHash": "8aa9dba911bb3aaa25aa70d50c3a7df6",
-      "sourceName": "contracts/tokens/USDT.sol",
-      "solcConfig": {
-        "version": "0.8.28",
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 200
-          },
-          "viaIR": true,
-          "evmVersion": "paris",
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [
-        "^0.8.28"
-      ],
-      "artifacts": [
-        "USDT"
-      ]
-    },
-    "/home/ybeetle/code/stable-yield/contracts/utils/Math.sol": {
-      "lastModificationDate": 1760178878039,
-      "contentHash": "f5b6b4679ea4a680b9e21a497dc2856f",
-      "sourceName": "contracts/utils/Math.sol",
-      "solcConfig": {
-        "version": "0.8.28",
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 200
-          },
-          "viaIR": true,
-          "evmVersion": "paris",
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [
-        "^0.8.20"
-      ],
-      "artifacts": [
-        "Math"
-      ]
-    },
     "/home/ybeetle/code/stable-yield/contracts/test-pancake/PancakeSwapDemo.sol": {
       "lastModificationDate": 1760198959084,
       "contentHash": "31ecfa9c155ad7631382344cf4a27b90",
@@ -2492,6 +1752,550 @@
       ],
       "artifacts": [
         "Staking"
+      ]
+    },
+    "/home/ybeetle/code/stable-yield/contracts/SYI/abstract/SYIBase.sol": {
+      "lastModificationDate": 1760263487222,
+      "contentHash": "861b503ced09983c7366b7e008e91cb0",
+      "sourceName": "contracts/SYI/abstract/SYIBase.sol",
+      "solcConfig": {
+        "version": "0.8.28",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "viaIR": true,
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "@openzeppelin/contracts/token/ERC20/ERC20.sol",
+        "@openzeppelin/contracts/token/ERC20/IERC20.sol",
+        "@openzeppelin/contracts/access/Ownable.sol",
+        "../interfaces/IUniswapV2Router02.sol",
+        "../interfaces/IUniswapV2Pair.sol",
+        "../interfaces/IUniswapV2Factory.sol",
+        "../interfaces/IStaking.sol",
+        "../interfaces/ILiquidityStaking.sol",
+        "../utils/FundRelay.sol",
+        "../utils/Helper.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.20"
+      ],
+      "artifacts": [
+        "SYIBase"
+      ]
+    },
+    "/home/ybeetle/code/stable-yield/contracts/SYI/interfaces/IUniswapV2Router02.sol": {
+      "lastModificationDate": 1760263438236,
+      "contentHash": "cad07c8f8f9fed39e2de5de876625329",
+      "sourceName": "contracts/SYI/interfaces/IUniswapV2Router02.sol",
+      "solcConfig": {
+        "version": "0.8.28",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "viaIR": true,
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.20"
+      ],
+      "artifacts": [
+        "IUniswapV2Router02"
+      ]
+    },
+    "/home/ybeetle/code/stable-yield/contracts/SYI/interfaces/IUniswapV2Pair.sol": {
+      "lastModificationDate": 1760263438324,
+      "contentHash": "d2af4d4f3dfce1f9f1a5bca16f0d71af",
+      "sourceName": "contracts/SYI/interfaces/IUniswapV2Pair.sol",
+      "solcConfig": {
+        "version": "0.8.28",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "viaIR": true,
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.20"
+      ],
+      "artifacts": [
+        "IUniswapV2Pair"
+      ]
+    },
+    "/home/ybeetle/code/stable-yield/contracts/SYI/interfaces/IUniswapV2Factory.sol": {
+      "lastModificationDate": 1760263438406,
+      "contentHash": "8eb4c9b3ff16c1563c7a3f5aa3f1e17e",
+      "sourceName": "contracts/SYI/interfaces/IUniswapV2Factory.sol",
+      "solcConfig": {
+        "version": "0.8.28",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "viaIR": true,
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.20"
+      ],
+      "artifacts": [
+        "IUniswapV2Factory"
+      ]
+    },
+    "/home/ybeetle/code/stable-yield/contracts/SYI/interfaces/IStaking.sol": {
+      "lastModificationDate": 1760263341898,
+      "contentHash": "8689b335646a0d109a165b5d7944aaf2",
+      "sourceName": "contracts/SYI/interfaces/IStaking.sol",
+      "solcConfig": {
+        "version": "0.8.28",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "viaIR": true,
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.20"
+      ],
+      "artifacts": [
+        "IStaking"
+      ]
+    },
+    "/home/ybeetle/code/stable-yield/contracts/SYI/interfaces/ILiquidityStaking.sol": {
+      "lastModificationDate": 1760263341829,
+      "contentHash": "11b9a5bc13d1f334ed4add6d3570f0da",
+      "sourceName": "contracts/SYI/interfaces/ILiquidityStaking.sol",
+      "solcConfig": {
+        "version": "0.8.28",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "viaIR": true,
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.20"
+      ],
+      "artifacts": [
+        "ILiquidityStaking"
+      ]
+    },
+    "/home/ybeetle/code/stable-yield/contracts/SYI/utils/FundRelay.sol": {
+      "lastModificationDate": 1760263383103,
+      "contentHash": "cb7566cb8dc0f8ed145013c999796014",
+      "sourceName": "contracts/SYI/utils/FundRelay.sol",
+      "solcConfig": {
+        "version": "0.8.28",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "viaIR": true,
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "@openzeppelin/contracts/token/ERC20/IERC20.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.20"
+      ],
+      "artifacts": [
+        "FundRelay"
+      ]
+    },
+    "/home/ybeetle/code/stable-yield/contracts/SYI/utils/Helper.sol": {
+      "lastModificationDate": 1760263341764,
+      "contentHash": "90085a279a50af424ced24c5cd3b9451",
+      "sourceName": "contracts/SYI/utils/Helper.sol",
+      "solcConfig": {
+        "version": "0.8.28",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "viaIR": true,
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.20"
+      ],
+      "artifacts": [
+        "Helper"
+      ]
+    },
+    "/home/ybeetle/code/stable-yield/contracts/SYI/mainnet/SYI.sol": {
+      "lastModificationDate": 1760263338864,
+      "contentHash": "74acf1cbd8fd0b3aa8321986478412be",
+      "sourceName": "contracts/SYI/mainnet/SYI.sol",
+      "solcConfig": {
+        "version": "0.8.28",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "viaIR": true,
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "../abstract/SYIBase.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.20"
+      ],
+      "artifacts": [
+        "SYI"
+      ]
+    },
+    "/home/ybeetle/code/stable-yield/contracts/LiquidityStaking/abstract/LiquidityStakingBase.sol": {
+      "lastModificationDate": 1760265747339,
+      "contentHash": "d0665a8645ec86140673eff6ad51f8e5",
+      "sourceName": "contracts/LiquidityStaking/abstract/LiquidityStakingBase.sol",
+      "solcConfig": {
+        "version": "0.8.28",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "viaIR": true,
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "@openzeppelin/contracts/token/ERC20/IERC20.sol",
+        "@openzeppelin/contracts/utils/ReentrancyGuard.sol",
+        "../interfaces/IStaking.sol",
+        "../interfaces/ISYI.sol",
+        "@openzeppelin/contracts/access/Ownable.sol",
+        "@uniswap/v2-periphery/contracts/interfaces/IUniswapV2Router02.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.20"
+      ],
+      "artifacts": [
+        "LiquidityStakingBase"
+      ]
+    },
+    "/home/ybeetle/code/stable-yield/contracts/LiquidityStaking/interfaces/IStaking.sol": {
+      "lastModificationDate": 1760265597451,
+      "contentHash": "b67ad241a6e677b4c12e2f2ff49e2ef9",
+      "sourceName": "contracts/LiquidityStaking/interfaces/IStaking.sol",
+      "solcConfig": {
+        "version": "0.8.28",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "viaIR": true,
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.20"
+      ],
+      "artifacts": [
+        "IStaking"
+      ]
+    },
+    "/home/ybeetle/code/stable-yield/contracts/LiquidityStaking/interfaces/ISYI.sol": {
+      "lastModificationDate": 1760265624275,
+      "contentHash": "f66226fca991f0d089472423d6c22715",
+      "sourceName": "contracts/LiquidityStaking/interfaces/ISYI.sol",
+      "solcConfig": {
+        "version": "0.8.28",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "viaIR": true,
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "@openzeppelin/contracts/token/ERC20/IERC20.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.20"
+      ],
+      "artifacts": [
+        "ISYI"
+      ]
+    },
+    "/home/ybeetle/code/stable-yield/node_modules/@openzeppelin/contracts/utils/ReentrancyGuard.sol": {
+      "lastModificationDate": 1760178954342,
+      "contentHash": "190613e556d509d9e9a0ea43dc5d891d",
+      "sourceName": "@openzeppelin/contracts/utils/ReentrancyGuard.sol",
+      "solcConfig": {
+        "version": "0.8.28",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "viaIR": true,
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.20"
+      ],
+      "artifacts": [
+        "ReentrancyGuard"
+      ]
+    },
+    "/home/ybeetle/code/stable-yield/contracts/LiquidityStaking/mainnet/LiquidityStaking.sol": {
+      "lastModificationDate": 1760265760981,
+      "contentHash": "27589e4adbdab4ce240081af13f8eccb",
+      "sourceName": "contracts/LiquidityStaking/mainnet/LiquidityStaking.sol",
+      "solcConfig": {
+        "version": "0.8.28",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "viaIR": true,
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "../abstract/LiquidityStakingBase.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.20"
+      ],
+      "artifacts": [
+        "LiquidityStaking"
       ]
     }
   }
