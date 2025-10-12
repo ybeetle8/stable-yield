@@ -1,0 +1,17 @@
+{
+  "network": "BSC Fork (localhost)",
+  "timestamp": "2025-10-12T09:33:56.052Z",
+  "deployer": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+  "feeRecipient": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+  "contracts": {
+    "Staking": "0x88A41C238d8dE404ceC1744a203b3D3CD01BAEef",
+    "USDT": "0x55d398326f99059fF775485246999027B3197955",
+    "PancakeRouter": "0x10ED43C718714eb63d5aA57B78B54704E256024E"
+  },
+  "stakingInfo": {
+    "name": "Staked SYI",
+    "symbol": "sSYI",
+    "decimals": "18",
+    "rootAddress": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
+  }
+}
