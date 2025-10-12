@@ -238,8 +238,16 @@ https://bscscan.com/address/0xfb9690de036711027c062d043ec3fde4ab5849fd
 交易时,不要买卖税和盈利税
 
 
+查区块号
+curl -s -X POST https://binance.llamarpc.com -H "Content-Type: application/json" --data  '{"jsonrpc":"2.0","method":"eth_blockNumber","params":[],"id":1}' | jq -r '.result' | xargs printf "%d\n"
+
+
+
 打开带 Pancake 的节点
-npx hardhat node --fork https://binance.llamarpc.com --fork-block-number 63482920
+npx hardhat node --fork https://binance.llamarpc.com --fork-block-number 63612920
+npx hardhat node --fork https://1rpc.io/bnb --fork-block-number 64340000
+npx hardhat node --fork https://rpc.tornadoeth.cash/bsc --fork-block-number 64340000
+
 
 可用替代节点（已本机实测，按块号查询能正常返回，而不是 missing trie node）
   - https://1rpc.io/bnb
