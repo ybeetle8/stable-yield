@@ -1,0 +1,601 @@
+<!DOCTYPE html><html><head>
+      <title>LiquidityStaking功能说明</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      
+      <link rel="stylesheet" href="file:////home/ybeetle/.vscode-server/extensions/shd101wyy.markdown-preview-enhanced-0.8.19/crossnote/dependencies/katex/katex.min.css">
+      
+      
+      
+      
+      
+      <style>
+      code[class*=language-],pre[class*=language-]{color:#333;background:0 0;font-family:Consolas,"Liberation Mono",Menlo,Courier,monospace;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.4;-moz-tab-size:8;-o-tab-size:8;tab-size:8;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:.8em;overflow:auto;border-radius:3px;background:#f5f5f5}:not(pre)>code[class*=language-]{padding:.1em;border-radius:.3em;white-space:normal;background:#f5f5f5}.token.blockquote,.token.comment{color:#969896}.token.cdata{color:#183691}.token.doctype,.token.macro.property,.token.punctuation,.token.variable{color:#333}.token.builtin,.token.important,.token.keyword,.token.operator,.token.rule{color:#a71d5d}.token.attr-value,.token.regex,.token.string,.token.url{color:#183691}.token.atrule,.token.boolean,.token.code,.token.command,.token.constant,.token.entity,.token.number,.token.property,.token.symbol{color:#0086b3}.token.prolog,.token.selector,.token.tag{color:#63a35c}.token.attr-name,.token.class,.token.class-name,.token.function,.token.id,.token.namespace,.token.pseudo-class,.token.pseudo-element,.token.url-reference .token.variable{color:#795da3}.token.entity{cursor:help}.token.title,.token.title .token.punctuation{font-weight:700;color:#1d3e81}.token.list{color:#ed6a43}.token.inserted{background-color:#eaffea;color:#55a532}.token.deleted{background-color:#ffecec;color:#bd2c00}.token.bold{font-weight:700}.token.italic{font-style:italic}.language-json .token.property{color:#183691}.language-markup .token.tag .token.punctuation{color:#333}.language-css .token.function,code.language-css{color:#0086b3}.language-yaml .token.atrule{color:#63a35c}code.language-yaml{color:#183691}.language-ruby .token.function{color:#333}.language-markdown .token.url{color:#795da3}.language-makefile .token.symbol{color:#795da3}.language-makefile .token.variable{color:#183691}.language-makefile .token.builtin{color:#0086b3}.language-bash .token.keyword{color:#0086b3}pre[data-line]{position:relative;padding:1em 0 1em 3em}pre[data-line] .line-highlight-wrapper{position:absolute;top:0;left:0;background-color:transparent;display:block;width:100%}pre[data-line] .line-highlight{position:absolute;left:0;right:0;padding:inherit 0;margin-top:1em;background:hsla(24,20%,50%,.08);background:linear-gradient(to right,hsla(24,20%,50%,.1) 70%,hsla(24,20%,50%,0));pointer-events:none;line-height:inherit;white-space:pre}pre[data-line] .line-highlight:before,pre[data-line] .line-highlight[data-end]:after{content:attr(data-start);position:absolute;top:.4em;left:.6em;min-width:1em;padding:0 .5em;background-color:hsla(24,20%,50%,.4);color:#f4f1ef;font:bold 65%/1.5 sans-serif;text-align:center;vertical-align:.3em;border-radius:999px;text-shadow:none;box-shadow:0 1px #fff}pre[data-line] .line-highlight[data-end]:after{content:attr(data-end);top:auto;bottom:.4em}html body{font-family:'Helvetica Neue',Helvetica,'Segoe UI',Arial,freesans,sans-serif;font-size:16px;line-height:1.6;color:#333;background-color:#fff;overflow:initial;box-sizing:border-box;word-wrap:break-word}html body>:first-child{margin-top:0}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{line-height:1.2;margin-top:1em;margin-bottom:16px;color:#000}html body h1{font-size:2.25em;font-weight:300;padding-bottom:.3em}html body h2{font-size:1.75em;font-weight:400;padding-bottom:.3em}html body h3{font-size:1.5em;font-weight:500}html body h4{font-size:1.25em;font-weight:600}html body h5{font-size:1.1em;font-weight:600}html body h6{font-size:1em;font-weight:600}html body h1,html body h2,html body h3,html body h4,html body h5{font-weight:600}html body h5{font-size:1em}html body h6{color:#5c5c5c}html body strong{color:#000}html body del{color:#5c5c5c}html body a:not([href]){color:inherit;text-decoration:none}html body a{color:#08c;text-decoration:none}html body a:hover{color:#00a3f5;text-decoration:none}html body img{max-width:100%}html body>p{margin-top:0;margin-bottom:16px;word-wrap:break-word}html body>ol,html body>ul{margin-bottom:16px}html body ol,html body ul{padding-left:2em}html body ol.no-list,html body ul.no-list{padding:0;list-style-type:none}html body ol ol,html body ol ul,html body ul ol,html body ul ul{margin-top:0;margin-bottom:0}html body li{margin-bottom:0}html body li.task-list-item{list-style:none}html body li>p{margin-top:0;margin-bottom:0}html body .task-list-item-checkbox{margin:0 .2em .25em -1.8em;vertical-align:middle}html body .task-list-item-checkbox:hover{cursor:pointer}html body blockquote{margin:16px 0;font-size:inherit;padding:0 15px;color:#5c5c5c;background-color:#f0f0f0;border-left:4px solid #d6d6d6}html body blockquote>:first-child{margin-top:0}html body blockquote>:last-child{margin-bottom:0}html body hr{height:4px;margin:32px 0;background-color:#d6d6d6;border:0 none}html body table{margin:10px 0 15px 0;border-collapse:collapse;border-spacing:0;display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}html body table th{font-weight:700;color:#000}html body table td,html body table th{border:1px solid #d6d6d6;padding:6px 13px}html body dl{padding:0}html body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:700}html body dl dd{padding:0 16px;margin-bottom:16px}html body code{font-family:Menlo,Monaco,Consolas,'Courier New',monospace;font-size:.85em;color:#000;background-color:#f0f0f0;border-radius:3px;padding:.2em 0}html body code::after,html body code::before{letter-spacing:-.2em;content:'\00a0'}html body pre>code{padding:0;margin:0;word-break:normal;white-space:pre;background:0 0;border:0}html body .highlight{margin-bottom:16px}html body .highlight pre,html body pre{padding:1em;overflow:auto;line-height:1.45;border:#d6d6d6;border-radius:3px}html body .highlight pre{margin-bottom:0;word-break:normal}html body pre code,html body pre tt{display:inline;max-width:initial;padding:0;margin:0;overflow:initial;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}html body pre code:after,html body pre code:before,html body pre tt:after,html body pre tt:before{content:normal}html body blockquote,html body dl,html body ol,html body p,html body pre,html body ul{margin-top:0;margin-bottom:16px}html body kbd{color:#000;border:1px solid #d6d6d6;border-bottom:2px solid #c7c7c7;padding:2px 4px;background-color:#f0f0f0;border-radius:3px}@media print{html body{background-color:#fff}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{color:#000;page-break-after:avoid}html body blockquote{color:#5c5c5c}html body pre{page-break-inside:avoid}html body table{display:table}html body img{display:block;max-width:100%;max-height:100%}html body code,html body pre{word-wrap:break-word;white-space:pre}}.markdown-preview{width:100%;height:100%;box-sizing:border-box}.markdown-preview ul{list-style:disc}.markdown-preview ul ul{list-style:circle}.markdown-preview ul ul ul{list-style:square}.markdown-preview ol{list-style:decimal}.markdown-preview ol ol,.markdown-preview ul ol{list-style-type:lower-roman}.markdown-preview ol ol ol,.markdown-preview ol ul ol,.markdown-preview ul ol ol,.markdown-preview ul ul ol{list-style-type:lower-alpha}.markdown-preview .newpage,.markdown-preview .pagebreak{page-break-before:always}.markdown-preview pre.line-numbers{position:relative;padding-left:3.8em;counter-reset:linenumber}.markdown-preview pre.line-numbers>code{position:relative}.markdown-preview pre.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:0;width:3em;letter-spacing:-1px;border-right:1px solid #999;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.markdown-preview pre.line-numbers .line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.markdown-preview pre.line-numbers .line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}.markdown-preview .mathjax-exps .MathJax_Display{text-align:center!important}.markdown-preview:not([data-for=preview]) .code-chunk .code-chunk-btn-group{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .status{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .output-div{margin-bottom:16px}.markdown-preview .md-toc{padding:0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link div,.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}.markdown-preview .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}.scrollbar-style::-webkit-scrollbar{width:8px}.scrollbar-style::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}.scrollbar-style::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode]){position:relative;width:100%;height:100%;top:0;left:0;margin:0;padding:0;overflow:auto}html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{position:relative;top:0;min-height:100vh}@media screen and (min-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em calc(50% - 457px + 2em)}}@media screen and (max-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{font-size:14px!important;padding:1em}}@media print{html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{display:none}}html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{position:fixed;bottom:8px;left:8px;font-size:28px;cursor:pointer;color:inherit;z-index:99;width:32px;text-align:center;opacity:.4}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] #sidebar-toc-btn{opacity:1}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc{position:fixed;top:0;left:0;width:300px;height:100%;padding:32px 0 48px 0;font-size:14px;box-shadow:0 0 4px rgba(150,150,150,.33);box-sizing:border-box;overflow:auto;background-color:inherit}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar{width:8px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc a{text-decoration:none}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc{padding:0 16px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link div,html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{left:300px;width:calc(100% - 300px);padding:2em calc(50% - 457px - 300px / 2);margin:0;box-sizing:border-box}@media screen and (max-width:1274px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{width:100%}}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .markdown-preview{left:50%;transform:translateX(-50%)}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .md-sidebar-toc{display:none}
+/* Please visit the URL below for more information: */
+/*   https://shd101wyy.github.io/markdown-preview-enhanced/#/customize-css */
+
+      </style>
+      <!-- The content below will be included at the end of the <head> element. --><script type="text/javascript">
+  document.addEventListener("DOMContentLoaded", function () {
+    // your code here
+  });
+</script></head><body for="html-export">
+    
+    
+      <div class="crossnote markdown-preview  ">
+      
+<h1 id="liquiditystaking-流动性质押系统功能说明">LiquidityStaking 流动性质押系统功能说明 </h1>
+<h2 id="-项目概述">📋 项目概述 </h2>
+<p>LiquidityStaking 是一个基于 Solidity 0.8.20 的 LP 代币质押奖励系统，为 OLA/USDT 流动性提供者提供额外的 USDT 奖励激励。系统通过接收 OLA 代币税费（BLA 奖励），自动兑换为 USDT 后分配给质押者，奖励分配基于质押金额和时间权重。</p>
+<p><strong>代码位置</strong>: <code>othercode/LiquidityStaking/src/</code></p>
+<hr>
+<h2 id="️-架构设计">🏗️ 架构设计 </h2>
+<h3 id="合约层次结构">合约层次结构 </h3>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>src/
+├── abstract/
+│   └── LiquidityStakingBase.sol (590行)    # 核心业务逻辑实现
+├── mainnet/
+│   └── LiquidityStaking.sol (33行)         # 主网环境配置（24小时锁定期）
+└── interfaces/
+    ├── IStaking.sol                         # Staking 接口
+    └── IOLA.sol                             # OLA 代币接口
+</code></pre><p><strong>设计模式</strong>: 抽象基类模式</p>
+<ul>
+<li><code>LiquidityStakingBase.sol</code>: 包含所有核心功能实现</li>
+<li><code>LiquidityStaking.sol</code>: 仅配置环境参数（最短质押时间）</li>
+<li>修改业务逻辑 → 编辑 <code>LiquidityStakingBase.sol</code></li>
+<li>修改时间参数 → 编辑 <code>LiquidityStaking.sol</code></li>
+</ul>
+<hr>
+<h2 id="-核心功能模块">💰 核心功能模块 </h2>
+<h3 id="1-lp-代币质押系统">1. LP 代币质押系统 </h3>
+<h4 id="11-质押流程">1.1 质押流程 </h4>
+<p><strong>函数</strong>: <code>stake(uint256 amount)</code></p>
+<p><strong>执行步骤</strong>:</p>
+<ol>
+<li>✅ 验证质押金额 &gt; 0</li>
+<li>✅ 检查用户是否被排除在质押之外</li>
+<li>💱 转入 LP 代币到合约</li>
+<li>📝 创建/更新质押记录</li>
+<li>📊 更新奖励池状态</li>
+<li>🔄 触发 BLA 奖励处理</li>
+</ol>
+<p><strong>质押信息结构</strong>:</p>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token keyword keyword-struct">struct</span> <span class="token class-name">StakeInfo</span> <span class="token punctuation">{</span>
+    <span class="token builtin">uint256</span> amount<span class="token punctuation">;</span>              <span class="token comment">// 质押的 LP 代币数量</span>
+    <span class="token builtin">uint256</span> stakeTime<span class="token punctuation">;</span>           <span class="token comment">// 首次质押时间</span>
+    <span class="token builtin">uint256</span> lastRewardTime<span class="token punctuation">;</span>      <span class="token comment">// 最后领取奖励时间</span>
+    <span class="token builtin">uint256</span> accumulatedReward<span class="token punctuation">;</span>   <span class="token comment">// 累积已领取奖励</span>
+<span class="token punctuation">}</span>
+</code></pre><p><strong>关键特性</strong>:</p>
+<ul>
+<li>✅ 支持多次追加质押</li>
+<li>✅ stakeTime 保持不变（计算时间权重用）</li>
+<li>✅ 实时更新用户奖励状态</li>
+</ul>
+<p><strong>实现位置</strong>: <code>LiquidityStakingBase.sol:stake()</code> (152-180行)</p>
+<h4 id="12-解除质押流程">1.2 解除质押流程 </h4>
+<p><strong>函数</strong>: <code>unstake(uint256 amount)</code></p>
+<p><strong>执行步骤</strong>:</p>
+<ol>
+<li>✅ 验证质押记录存在</li>
+<li>✅ 检查是否满足最短质押期（24小时）</li>
+<li>💰 自动领取待发放奖励</li>
+<li>📝 更新质押金额</li>
+<li>🔙 返还 LP 代币给用户</li>
+<li>🗑️ 如果余额为 0，移除质押者记录</li>
+<li>🔄 触发 BLA 奖励处理</li>
+</ol>
+<p><strong>限制条件</strong>:</p>
+<ul>
+<li>⏰ 必须满足最短质押期：24小时（主网）</li>
+<li>⚠️ 部分解除质押：可以部分取出，不影响剩余质押的时间权重</li>
+</ul>
+<p><strong>实现位置</strong>: <code>LiquidityStakingBase.sol:unstake()</code> (182-226行)</p>
+<h4 id="13-领取奖励">1.3 领取奖励 </h4>
+<p><strong>函数</strong>: <code>claimReward()</code></p>
+<p><strong>执行步骤</strong>:</p>
+<ol>
+<li>📈 计算待领取奖励</li>
+<li>✅ 验证奖励 &gt;= 最小领取金额（0.001 USDT）</li>
+<li>📝 更新用户奖励状态</li>
+<li>💸 转账 USDT 到用户</li>
+<li>📊 更新奖励池统计数据</li>
+<li>🔄 触发 BLA 奖励处理</li>
+</ol>
+<p><strong>关键参数</strong>:</p>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code>MIN_REWARD_AMOUNT <span class="token operator">=</span> <span class="token number">1000</span><span class="token punctuation">;</span>  <span class="token comment">// 0.001 USDT (18 decimals: 1000 wei)</span>
+</code></pre><p><strong>实现位置</strong>: <code>LiquidityStakingBase.sol:claimReward()</code> (228-252行)</p>
+<hr>
+<h3 id="2-奖励池机制">2. 奖励池机制 </h3>
+<h4 id="21-奖励池结构">2.1 奖励池结构 </h4>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token keyword keyword-struct">struct</span> <span class="token class-name">RewardPool</span> <span class="token punctuation">{</span>
+    <span class="token builtin">uint256</span> totalRewards<span class="token punctuation">;</span>           <span class="token comment">// 累计总奖励（历史）</span>
+    <span class="token builtin">uint256</span> rewardPerSecond<span class="token punctuation">;</span>        <span class="token comment">// 每秒奖励速率</span>
+    <span class="token builtin">uint256</span> lastUpdateTime<span class="token punctuation">;</span>         <span class="token comment">// 最后更新时间</span>
+    <span class="token builtin">uint256</span> rewardPerTokenStored<span class="token punctuation">;</span>   <span class="token comment">// 每代币累积奖励</span>
+    <span class="token builtin">uint256</span> totalStaked<span class="token punctuation">;</span>            <span class="token comment">// 总质押量（LP 代币）</span>
+    <span class="token builtin">uint256</span> totalWeight<span class="token punctuation">;</span>            <span class="token comment">// 总权重（含时间加成）</span>
+    <span class="token builtin">uint256</span> distributedRewards<span class="token punctuation">;</span>     <span class="token comment">// 已分发奖励</span>
+    <span class="token builtin">uint256</span> pendingRewards<span class="token punctuation">;</span>         <span class="token comment">// 待分发奖励池</span>
+<span class="token punctuation">}</span>
+</code></pre><h4 id="22-奖励分配算法">2.2 奖励分配算法 </h4>
+<p><strong>核心公式</strong>: rewardPerToken 算法（类似 Synthetix StakingRewards）</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>rewardPerToken = rewardPerTokenStored + (Δt × rewardPerSecond × 1e18) / totalStaked
+
+用户奖励 = (用户质押量 × ΔrewardPerToken / 1e18) × 时间权重
+</code></pre><p><strong>时间权重计算</strong>:</p>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code>timeMultiplier <span class="token operator">=</span> <span class="token number">1e18</span> <span class="token operator">+</span> <span class="token punctuation">(</span>质押天数 × <span class="token number">1e18</span><span class="token punctuation">)</span> <span class="token operator">/</span> <span class="token number">365</span> days
+</code></pre><p><strong>示例</strong>:</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>质押 100 LP，质押 30 天：
+timeMultiplier = 1e18 + (30天 × 1e18) / 365天 = 1.082e18
+权重 = 100 × 1.082 = 108.2
+
+质押 100 LP，质押 365 天：
+timeMultiplier = 1e18 + (365天 × 1e18) / 365天 = 2e18
+权重 = 100 × 2 = 200
+
+=&gt; 质押 1 年，获得的奖励是同等金额质押 1 天的 2 倍
+</code></pre><p><strong>实现位置</strong>:</p>
+<ul>
+<li><code>_rewardPerToken()</code>: (314-325行)</li>
+<li><code>_calculateWeight()</code>: (301-307行)</li>
+<li><code>_calculateEarnedRewards()</code>: (343-358行)</li>
+</ul>
+<h4 id="23-奖励分发周期">2.3 奖励分发周期 </h4>
+<p><strong>固定周期</strong>: 7 天</p>
+<p><strong>计算方式</strong>:</p>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code>rewardPerSecond <span class="token operator">=</span> pendingRewards <span class="token operator">/</span> <span class="token number">7</span> days
+</code></pre><p><strong>特点</strong>:</p>
+<ul>
+<li>✅ 每次存入奖励时重新计算 <code>rewardPerSecond</code></li>
+<li>✅ 确保奖励在 7 天内分发完毕</li>
+<li>✅ 新奖励存入会立即提高分发速率</li>
+</ul>
+<hr>
+<h3 id="3-bla-奖励管理">3. BLA 奖励管理 </h3>
+<h4 id="31-bla-奖励来源">3.1 BLA 奖励来源 </h4>
+<p>BLA 奖励由 OLA 代币合约自动存入，来源于交易税费：</p>
+<table>
+<thead>
+<tr>
+<th>来源</th>
+<th>比例</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>买入税</td>
+<td>2%</td>
+<td>LP 奖励（直接存入）</td>
+</tr>
+<tr>
+<td>卖出税</td>
+<td>1.5%</td>
+<td>LP 累积费用（批量存入）</td>
+</tr>
+<tr>
+<td>利润税</td>
+<td>40%</td>
+<td>利润税的 40% 部分</td>
+</tr>
+</tbody>
+</table>
+<p><strong>存入函数</strong>: <code>depositBLARewards(uint256 blaAmount)</code></p>
+<p><strong>权限</strong>: 仅 OLA 合约和 owner 可调用</p>
+<p><strong>实现位置</strong>: <code>LiquidityStakingBase.sol:depositBLARewards()</code> (278-295行)</p>
+<h4 id="32-bla-累积机制">3.2 BLA 累积机制 </h4>
+<p><strong>累积变量</strong>:</p>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token builtin">uint256</span> <span class="token keyword keyword-public">public</span> accumulatedBLA<span class="token punctuation">;</span>  <span class="token comment">// 累积的 BLA 代币</span>
+</code></pre><p><strong>累积流程</strong>:</p>
+<ol>
+<li>OLA 合约调用 <code>depositBLARewards()</code></li>
+<li>转入 BLA 代币到 LiquidityStaking 合约</li>
+<li>累积到 <code>accumulatedBLA</code> 变量</li>
+<li>触发事件: <code>BLARewardsAccumulated</code></li>
+</ol>
+<p><strong>特点</strong>: 不立即兑换，累积后统一处理</p>
+<h4 id="33-bla-自动兑换机制">3.3 BLA 自动兑换机制 </h4>
+<p><strong>触发条件</strong>:</p>
+<ul>
+<li>累积的 BLA &gt;= 10 OLA</li>
+<li>在 stake/unstake/claimReward 操作时自动触发</li>
+</ul>
+<p><strong>处理流程</strong>:</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>1. 检查 accumulatedBLA &gt;= 10 ether
+2. 重置 accumulatedBLA = 0
+3. Swap BLA → USDT (通过 Uniswap Router)
+4. 将兑换得到的 USDT 存入奖励池
+5. 重新计算 rewardPerSecond
+6. 触发事件: BLASwappedToRewards
+</code></pre><p><strong>Swap 配置</strong>:</p>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code>path<span class="token punctuation">:</span> <span class="token punctuation">[</span>OLA<span class="token punctuation">,</span> USDT<span class="token punctuation">]</span>
+minAmountOut<span class="token punctuation">:</span> <span class="token number">0</span>  <span class="token comment">// 无滑点保护（接受任意数量）</span>
+deadline<span class="token punctuation">:</span> block<span class="token punctuation">.</span>timestamp <span class="token operator">+</span> <span class="token number">300</span>  <span class="token comment">// 5 分钟过期</span>
+</code></pre><p><strong>实现位置</strong>:</p>
+<ul>
+<li><code>_processAccumulatedBLA()</code>: (417-443行)</li>
+<li><code>_swapBLAForUSDT()</code>: (445-475行)</li>
+</ul>
+<hr>
+<h3 id="4-权重系统">4. 权重系统 </h3>
+<h4 id="41-权重计算公式">4.1 权重计算公式 </h4>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code>weight <span class="token operator">=</span> amount × timeMultiplier <span class="token operator">/</span> <span class="token number">1e18</span>
+
+其中<span class="token punctuation">:</span>
+timeMultiplier <span class="token operator">=</span> <span class="token number">1e18</span> <span class="token operator">+</span> <span class="token punctuation">(</span>stakeDuration × <span class="token number">1e18</span><span class="token punctuation">)</span> <span class="token operator">/</span> <span class="token number">365</span> days
+</code></pre><h4 id="42-权重特性">4.2 权重特性 </h4>
+<ul>
+<li>✅ <strong>线性增长</strong>: 质押时间越长，权重越高</li>
+<li>✅ <strong>持续累积</strong>: 时间权重持续增长，最高可达 2 倍（1年）</li>
+<li>✅ <strong>实时计算</strong>: 每次查询时实时计算最新权重</li>
+<li>✅ <strong>缓存优化</strong>: 使用 <code>cachedTotalWeight</code> 减少重复计算</li>
+</ul>
+<h4 id="43-权重对奖励的影响">4.3 权重对奖励的影响 </h4>
+<p><strong>场景对比</strong>:</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>场景1: 用户 A 质押 100 LP，质押 1 天
+  - 权重 = 100 × (1 + 1/365) ≈ 100.27
+  - 奖励比例 = 100.27 / totalWeight
+
+场景2: 用户 B 质押 100 LP，质押 30 天
+  - 权重 = 100 × (1 + 30/365) ≈ 108.22
+  - 奖励比例 = 108.22 / totalWeight
+
+场景3: 用户 C 质押 100 LP，质押 365 天
+  - 权重 = 100 × (1 + 365/365) = 200
+  - 奖励比例 = 200 / totalWeight
+
+结论: C 的奖励是 A 的约 2 倍
+</code></pre><p><strong>实现位置</strong>: <code>_calculateWeight()</code> (301-307行)</p>
+<hr>
+<h3 id="5-查询和统计">5. 查询和统计 </h3>
+<h4 id="51-用户质押信息">5.1 用户质押信息 </h4>
+<p><strong>函数</strong>: <code>getUserStakeInfo(address account)</code></p>
+<p><strong>返回值</strong>:</p>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token keyword keyword-returns">returns</span> <span class="token punctuation">(</span>
+    <span class="token builtin">uint256</span> stakedAmount<span class="token punctuation">,</span>        <span class="token comment">// 质押数量</span>
+    <span class="token builtin">uint256</span> stakeTime<span class="token punctuation">,</span>           <span class="token comment">// 质押时间</span>
+    <span class="token builtin">uint256</span> pendingReward<span class="token punctuation">,</span>       <span class="token comment">// 待领取奖励</span>
+    <span class="token builtin">uint256</span> accumulatedReward<span class="token punctuation">,</span>   <span class="token comment">// 累积已领取奖励</span>
+    <span class="token builtin">uint256</span> weight               <span class="token comment">// 当前权重</span>
+<span class="token punctuation">)</span>
+</code></pre><p><strong>实现位置</strong>: (481-504行)</p>
+<h4 id="52-奖励池信息">5.2 奖励池信息 </h4>
+<p><strong>函数</strong>: <code>getRewardPoolInfo()</code></p>
+<p><strong>返回值</strong>:</p>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token keyword keyword-returns">returns</span> <span class="token punctuation">(</span>
+    <span class="token builtin">uint256</span> totalRewards<span class="token punctuation">,</span>        <span class="token comment">// 累计总奖励（历史）</span>
+    <span class="token builtin">uint256</span> rewardPerSecond<span class="token punctuation">,</span>     <span class="token comment">// 每秒奖励速率</span>
+    <span class="token builtin">uint256</span> totalStaked<span class="token punctuation">,</span>         <span class="token comment">// 总质押量</span>
+    <span class="token builtin">uint256</span> totalWeight<span class="token punctuation">,</span>         <span class="token comment">// 总权重</span>
+    <span class="token builtin">uint256</span> stakersCount<span class="token punctuation">,</span>        <span class="token comment">// 质押者数量</span>
+    <span class="token builtin">uint256</span> distributedRewards<span class="token punctuation">,</span>  <span class="token comment">// 已分发奖励</span>
+    <span class="token builtin">uint256</span> pendingRewards       <span class="token comment">// 待分发奖励</span>
+<span class="token punctuation">)</span>
+</code></pre><p><strong>实现位置</strong>: (506-526行)</p>
+<h4 id="53-解除质押检查">5.3 解除质押检查 </h4>
+<p><strong>函数</strong>: <code>canWithdrawStake(address account)</code></p>
+<p><strong>返回值</strong>:</p>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token keyword keyword-returns">returns</span> <span class="token punctuation">(</span>
+    <span class="token builtin">bool</span> canWithdraw<span class="token punctuation">,</span>            <span class="token comment">// 是否可以解除质押</span>
+    <span class="token builtin">uint256</span> stakedAmount<span class="token punctuation">,</span>        <span class="token comment">// 质押数量</span>
+    <span class="token builtin">uint256</span> timeRemaining        <span class="token comment">// 剩余锁定时间（秒）</span>
+<span class="token punctuation">)</span>
+</code></pre><p><strong>实现位置</strong>: (538-564行)</p>
+<hr>
+<h3 id="6-管理功能">6. 管理功能 </h3>
+<h4 id="61-直接存入-usdt-奖励">6.1 直接存入 USDT 奖励 </h4>
+<p><strong>函数</strong>: <code>depositRewards(uint256 amount)</code></p>
+<p><strong>用途</strong>: 允许 OLA 合约或 owner 直接存入 USDT 作为奖励</p>
+<p><strong>流程</strong>:</p>
+<ol>
+<li>转入 USDT 到合约</li>
+<li>累加到 <code>totalRewards</code> 和 <code>pendingRewards</code></li>
+<li>重新计算 <code>rewardPerSecond</code> (基于 7 天周期)</li>
+<li>触发事件: <code>RewardsDeposited</code></li>
+</ol>
+<p><strong>权限</strong>: onlyAdmin (OLA 合约 或 owner)</p>
+<p><strong>实现位置</strong>: (258-276行)</p>
+<h4 id="62-排除地址">6.2 排除地址 </h4>
+<p><strong>函数</strong>: <code>setExcluded(address account, bool excluded)</code></p>
+<p><strong>用途</strong>: 排除某些地址不参与质押（如 marketing、合约地址）</p>
+<p><strong>默认排除地址</strong>:</p>
+<ul>
+<li>LiquidityStaking 合约自身</li>
+<li>OLA 合约地址</li>
+<li>Marketing 地址（如果提供）</li>
+</ul>
+<p><strong>实现位置</strong>: (578-581行)</p>
+<h4 id="63-紧急提取">6.3 紧急提取 </h4>
+<p><strong>函数</strong>: <code>emergencyWithdraw(address token, uint256 amount)</code></p>
+<p><strong>用途</strong>: 紧急情况下提取代币到 OLA 合约</p>
+<p><strong>权限</strong>: onlyAdmin</p>
+<p><strong>实现位置</strong>: (583-588行)</p>
+<hr>
+<h2 id="-与-ola-生态系统的集成">🔄 与 OLA 生态系统的集成 </h2>
+<h3 id="双向集成关系">双向集成关系 </h3>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>OLA 代币 ←→ LiquidityStaking
+
+OLA 调用 LiquidityStaking:
+- depositBLARewards(): 存入 BLA 奖励（税费）
+- depositRewards(): 存入 USDT 奖励（可选）
+
+LiquidityStaking 调用 OLA:
+- approve(): 授权 Router 兑换 BLA
+- triggerFundRelayDistribution(): 触发 FundRelay 分发
+</code></pre><h3 id="奖励流转路径">奖励流转路径 </h3>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>用户交易 OLA (买入/卖出)
+    ↓
+OLA 合约收取税费（3% 交易税 + 25% 利润税）
+    ↓
+├─ 2% 买入税 → LiquidityStaking (BLA)
+├─ 1.5% 卖出税 → 累积后存入 LiquidityStaking (BLA)
+└─ 40% 利润税 → LiquidityStaking (BLA)
+    ↓
+LiquidityStaking 累积 BLA (&gt;= 10 OLA)
+    ↓
+自动 Swap: BLA → USDT
+    ↓
+分配给 LP 质押者（7天周期）
+</code></pre><hr>
+<h2 id="-使用流程示例">📈 使用流程示例 </h2>
+<h3 id="完整用户旅程">完整用户旅程 </h3>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token comment">// 1. 用户准备</span>
+<span class="token builtin">address</span> user <span class="token operator">=</span> <span class="token number">0x123</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">;</span>
+<span class="token builtin">address</span> lpToken <span class="token operator">=</span> OLA_USDT_PAIR<span class="token punctuation">;</span>  <span class="token comment">// OLA/USDT LP 代币</span>
+<span class="token builtin">uint256</span> amount <span class="token operator">=</span> <span class="token number">100</span> ether<span class="token punctuation">;</span>       <span class="token comment">// 100 LP 代币</span>
+
+<span class="token comment">// 2. 授权 LP 代币</span>
+<span class="token function">IERC20</span><span class="token punctuation">(</span>lpToken<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">approve</span><span class="token punctuation">(</span><span class="token builtin">address</span><span class="token punctuation">(</span>liquidityStaking<span class="token punctuation">)</span><span class="token punctuation">,</span> amount<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 3. 质押 LP 代币</span>
+liquidityStaking<span class="token punctuation">.</span><span class="token function">stake</span><span class="token punctuation">(</span>amount<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 4. 查询质押状态</span>
+<span class="token punctuation">(</span>
+    <span class="token builtin">uint256</span> stakedAmount<span class="token punctuation">,</span>
+    <span class="token builtin">uint256</span> stakeTime<span class="token punctuation">,</span>
+    <span class="token builtin">uint256</span> pendingReward<span class="token punctuation">,</span>
+    <span class="token builtin">uint256</span> accumulatedReward<span class="token punctuation">,</span>
+    <span class="token builtin">uint256</span> weight
+<span class="token punctuation">)</span> <span class="token operator">=</span> liquidityStaking<span class="token punctuation">.</span><span class="token function">getUserStakeInfo</span><span class="token punctuation">(</span>user<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 5. 随时领取奖励（如果 &gt;= 0.001 USDT）</span>
+liquidityStaking<span class="token punctuation">.</span><span class="token function">claimReward</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 6. 等待 24 小时后解除质押</span>
+<span class="token punctuation">(</span><span class="token builtin">bool</span> canWithdraw<span class="token punctuation">,</span> <span class="token punctuation">,</span> <span class="token builtin">uint256</span> timeRemaining<span class="token punctuation">)</span> <span class="token operator">=</span>
+    liquidityStaking<span class="token punctuation">.</span><span class="token function">canWithdrawStake</span><span class="token punctuation">(</span>user<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>canWithdraw<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 部分解除质押（自动领取奖励）</span>
+    liquidityStaking<span class="token punctuation">.</span><span class="token function">unstake</span><span class="token punctuation">(</span><span class="token number">50</span> ether<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// 或全部解除质押</span>
+    liquidityStaking<span class="token punctuation">.</span><span class="token function">unstake</span><span class="token punctuation">(</span>stakedAmount<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><hr>
+<h2 id="-技术栈">🔧 技术栈 </h2>
+<table>
+<thead>
+<tr>
+<th>组件</th>
+<th>版本</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Solidity</td>
+<td>0.8.20</td>
+<td>智能合约语言</td>
+</tr>
+<tr>
+<td>OpenZeppelin</td>
+<td>^5.0.0</td>
+<td>ERC20、ReentrancyGuard、Ownable</td>
+</tr>
+<tr>
+<td>Uniswap V2</td>
+<td>-</td>
+<td>Router 接口（BLA 兑换）</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="️-重要注意事项">⚠️ 重要注意事项 </h2>
+<h3 id="用户须知">用户须知 </h3>
+<ol>
+<li>✅ <strong>最短质押期</strong>: 24小时（主网），解除质押前需满足</li>
+<li>✅ <strong>时间权重</strong>: 质押时间越长，获得的奖励越多（最高 2 倍）</li>
+<li>✅ <strong>奖励来源</strong>: 来自 OLA 代币交易税费（BLA），自动兑换为 USDT</li>
+<li>✅ <strong>奖励周期</strong>: 7 天分发周期，每秒均匀分发</li>
+<li>✅ <strong>最小领取</strong>: 0.001 USDT，低于此金额无法领取</li>
+<li>✅ <strong>自动领取</strong>: 解除质押时自动领取所有待发放奖励</li>
+</ol>
+<h3 id="与-ola-staking-的区别">与 OLA Staking 的区别 </h3>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>OLA Staking</th>
+<th>LiquidityStaking</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>质押资产</td>
+<td>USDT</td>
+<td>OLA/USDT LP 代币</td>
+</tr>
+<tr>
+<td>质押目的</td>
+<td>获得 OLA 复利收益</td>
+<td>获得 USDT 奖励</td>
+</tr>
+<tr>
+<td>奖励来源</td>
+<td>Swap 获得 USDT</td>
+<td>BLA 税费兑换 USDT</td>
+</tr>
+<tr>
+<td>锁定期</td>
+<td>1-30 天（档位）</td>
+<td>24 小时</td>
+</tr>
+<tr>
+<td>推荐奖励</td>
+<td>有（5% + 35%）</td>
+<td>无</td>
+</tr>
+<tr>
+<td>复利机制</td>
+<td>有（日复利）</td>
+<td>无（线性分发）</td>
+</tr>
+<tr>
+<td>权重系统</td>
+<td>无</td>
+<td>有（时间权重）</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="-安全机制">🔐 安全机制 </h2>
+<h3 id="重入保护">重入保护 </h3>
+<ul>
+<li>✅ 使用 OpenZeppelin <code>ReentrancyGuard</code></li>
+<li>✅ 所有外部调用函数添加 <code>nonReentrant</code> modifier</li>
+</ul>
+<h3 id="权限控制">权限控制 </h3>
+<ul>
+<li>✅ <code>onlyAdmin</code> modifier: 仅 OLA 合约和 owner 可调用管理函数</li>
+<li>✅ 排除地址: 防止合约地址和特殊地址参与质押</li>
+</ul>
+<h3 id="异常处理">异常处理 </h3>
+<ul>
+<li>✅ Swap 失败容错: <code>_swapBLAForUSDT</code> 使用 try-catch 捕获异常</li>
+<li>✅ FundRelay 触发容错: 即使失败也不影响主流程</li>
+</ul>
+<hr>
+<h2 id="-关键参数配置">📊 关键参数配置 </h2>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MIN_REWARD_AMOUNT</td>
+<td>0.001 USDT</td>
+<td>最小领取奖励金额</td>
+</tr>
+<tr>
+<td>最短质押期</td>
+<td>24小时</td>
+<td>主网配置（可在子类修改）</td>
+</tr>
+<tr>
+<td>奖励分发周期</td>
+<td>7天</td>
+<td>固定周期</td>
+</tr>
+<tr>
+<td>BLA 自动兑换阈值</td>
+<td>10 OLA</td>
+<td>累积到此数量自动兑换</td>
+</tr>
+<tr>
+<td>时间权重公式</td>
+<td>1 + (天数 / 365)</td>
+<td>最高 2 倍（1年）</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="-关键事件">📚 关键事件 </h2>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token comment">// 质押事件</span>
+<span class="token keyword keyword-event">event</span> <span class="token function">Staked</span><span class="token punctuation">(</span><span class="token builtin">address</span> <span class="token keyword keyword-indexed">indexed</span> user<span class="token punctuation">,</span> <span class="token builtin">uint256</span> amount<span class="token punctuation">,</span> <span class="token builtin">uint256</span> timestamp<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 解除质押事件</span>
+<span class="token keyword keyword-event">event</span> <span class="token function">Unstaked</span><span class="token punctuation">(</span><span class="token builtin">address</span> <span class="token keyword keyword-indexed">indexed</span> user<span class="token punctuation">,</span> <span class="token builtin">uint256</span> amount<span class="token punctuation">,</span> <span class="token builtin">uint256</span> reward<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 领取奖励事件</span>
+<span class="token keyword keyword-event">event</span> <span class="token function">RewardClaimed</span><span class="token punctuation">(</span><span class="token builtin">address</span> <span class="token keyword keyword-indexed">indexed</span> user<span class="token punctuation">,</span> <span class="token builtin">uint256</span> reward<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// USDT 奖励存入事件</span>
+<span class="token keyword keyword-event">event</span> <span class="token function">RewardsDeposited</span><span class="token punctuation">(</span><span class="token builtin">uint256</span> amount<span class="token punctuation">,</span> <span class="token builtin">uint256</span> newRewardRate<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// BLA 累积事件</span>
+<span class="token keyword keyword-event">event</span> <span class="token function">BLARewardsAccumulated</span><span class="token punctuation">(</span><span class="token builtin">uint256</span> blaAmount<span class="token punctuation">,</span> <span class="token builtin">uint256</span> totalAccumulated<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// BLA 兑换事件</span>
+<span class="token keyword keyword-event">event</span> <span class="token function">BLASwappedToRewards</span><span class="token punctuation">(</span>
+    <span class="token builtin">uint256</span> blaAmount<span class="token punctuation">,</span>
+    <span class="token builtin">uint256</span> usdtAmount<span class="token punctuation">,</span>
+    <span class="token builtin">uint256</span> newRewardRate
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 地址排除事件</span>
+<span class="token keyword keyword-event">event</span> <span class="token function">AddressExcluded</span><span class="token punctuation">(</span><span class="token builtin">address</span> <span class="token keyword keyword-indexed">indexed</span> account<span class="token punctuation">,</span> <span class="token builtin">bool</span> excluded<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre><hr>
+<h2 id="-设计亮点">🎯 设计亮点 </h2>
+<ol>
+<li><strong>时间权重奖励</strong>: 鼓励长期质押，质押时间越长奖励越多</li>
+<li><strong>自动化流程</strong>: BLA 自动累积和兑换，无需手动操作</li>
+<li><strong>实时奖励</strong>: 基于 rewardPerToken 算法，奖励实时累积</li>
+<li><strong>灵活解除质押</strong>: 支持部分解除质押，不影响剩余质押的时间权重</li>
+<li><strong>Gas 优化</strong>: 权重缓存、延迟处理减少 gas 消耗</li>
+<li><strong>容错机制</strong>: Swap 失败不影响主流程，提高系统稳定性</li>
+</ol>
+<hr>
+<h2 id="-常见问题">❓ 常见问题 </h2>
+<h3 id="q1-liquiditystaking-和-ola-staking-有什么区别">Q1: LiquidityStaking 和 OLA Staking 有什么区别？ </h3>
+<p><strong>A</strong>: OLA Staking 是质押 USDT 获得 OLA 复利收益，有锁定期档位（1-30天）和推荐奖励。LiquidityStaking 是质押 LP 代币获得 USDT 奖励，只有 24 小时锁定期，奖励基于时间权重。</p>
+<h3 id="q2-为什么奖励基于时间权重">Q2: 为什么奖励基于时间权重？ </h3>
+<p><strong>A</strong>: 鼓励长期持有 LP 代币，为 OLA/USDT 池提供稳定的流动性。质押 1 年的用户获得的奖励是同等金额质押 1 天的 2 倍。</p>
+<h3 id="q3-bla-是什么">Q3: BLA 是什么？ </h3>
+<p><strong>A</strong>: BLA 是 OLA 代币的别称，指的是从 OLA 交易税费中分配给 LiquidityStaking 的 OLA 代币。累积后自动兑换为 USDT 分配给质押者。</p>
+<h3 id="q4-为什么要累积到-10-ola-才兑换">Q4: 为什么要累积到 10 OLA 才兑换？ </h3>
+<p><strong>A</strong>: 减少频繁 swap 的 gas 成本，提高系统效率。每次 stake/unstake/claimReward 时会检查是否达到阈值。</p>
+<h3 id="q5-解除质押时是否必须领取奖励">Q5: 解除质押时是否必须领取奖励？ </h3>
+<p><strong>A</strong>: 是的，解除质押时会自动领取所有待发放奖励。如果只想领取奖励不解除质押，使用 <code>claimReward()</code> 函数。</p>
+<h3 id="q6-可以部分解除质押吗">Q6: 可以部分解除质押吗？ </h3>
+<p><strong>A</strong>: 可以。部分解除质押不会影响剩余质押的时间权重，剩余部分继续累积时间权重和奖励。</p>
+<h3 id="q7-如果累积的奖励--0001-usdt-能否领取">Q7: 如果累积的奖励 &lt; 0.001 USDT 能否领取？ </h3>
+<p><strong>A</strong>: 不能。<code>claimReward()</code> 函数会直接返回，不会转账。但解除质押时会自动领取所有奖励（无最小限制）。</p>
+<h3 id="q8-质押的奖励资金是什么币种">Q8: 质押的奖励资金是什么币种？ </h3>
+<p><strong>A</strong>: 奖励资金是 <strong>USDT</strong>。虽然 LiquidityStaking 合约接收的是 BLA（OLA 代币）作为税费奖励，但系统会自动将 BLA 兑换为 USDT 后再分配给质押者。用户领取奖励时收到的是 USDT。</p>
+<h3 id="q9-质押奖励的资金来源有哪些">Q9: 质押奖励的资金来源有哪些？ </h3>
+<p><strong>A</strong>: 主要有两个来源：</p>
+<p><strong>主要来源 - BLA 税费奖励（自动兑换为 USDT）</strong>:</p>
+<ul>
+<li><strong>买入税</strong>: 用户通过 DEX 买入 OLA 时，2% 的 LP 奖励直接存入 LiquidityStaking</li>
+<li><strong>卖出税</strong>: 用户卖出 OLA 时，1.5% 的 LP 累积费用批量存入 LiquidityStaking</li>
+<li><strong>利润税</strong>: 用户卖出 OLA 获利时，利润的 25% 作为利润税，其中 40% 分配给 LiquidityStaking</li>
+</ul>
+<p><strong>次要来源 - 直接 USDT 存入</strong>:</p>
+<ul>
+<li>OLA 合约或管理员可以通过 <code>depositRewards()</code> 函数直接存入 USDT 作为奖励</li>
+</ul>
+<p>所有 BLA 奖励累积到 ≥10 OLA 时，会自动通过 Uniswap Router 兑换为 USDT，然后按 7 天周期分配给 LP 质押者。</p>
+<hr>
+<p><strong>文档生成时间</strong>: 2025-10-11<br>
+<strong>合约版本</strong>: Solidity 0.8.20<br>
+<strong>文档作者</strong>: Claude Code</p>
+
+      </div>
+      
+      
+    
+    
+    
+    
+    
+    
+  
+    </body></html>
