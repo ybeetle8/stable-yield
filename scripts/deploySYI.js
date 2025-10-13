@@ -7,10 +7,10 @@ async function main() {
   console.log("开始部署完整的 SYI 系统");
   console.log("==========================================\n");
 
-  const [deployer, marketingWallet, rootWallet] = await hre.ethers.getSigners();
+  const [deployer, feeRecipientWallet, rootWallet] = await hre.ethers.getSigners();
 
   console.log("部署账户:", deployer.address);
-  console.log("营销钱包:", marketingWallet.address);
+  console.log("质押手续费接收钱包:", feeRecipientWallet.address);
   console.log("Root 钱包:", rootWallet.address);
 
   const balance = await hre.ethers.provider.getBalance(deployer.address);
@@ -43,8 +43,8 @@ async function main() {
   const staking = await Staking.deploy(
     usdtAddress,
     routerAddress,
-    rootWallet.address,      // rootAddress - 推荐系统根节点
-    marketingWallet.address  // feeRecipient - 手续费接收地址
+    rootWallet.address,         // rootAddress - 推荐系统根节点
+    feeRecipientWallet.address  // feeRecipient - 手续费接收地址
   );
   await staking.waitForDeployment();
   const stakingAddress = await staking.getAddress();
@@ -132,7 +132,7 @@ async function main() {
     chainId: (await hre.ethers.provider.getNetwork()).chainId.toString(),
     timestamp: new Date().toISOString(),
     deployer: deployer.address,
-    marketingWallet: marketingWallet.address,
+    feeRecipientWallet: feeRecipientWallet.address,
     rootWallet: rootWallet.address,
     contracts: {
       SYI: syiAddress,
