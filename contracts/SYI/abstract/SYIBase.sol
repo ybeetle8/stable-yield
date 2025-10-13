@@ -277,7 +277,7 @@ abstract contract SYIBase is ERC20, Ownable {
         uniswapV2Router = IUniswapV2Router02(_router);
         staking = IStaking(_staking);
 
-        _mint(owner(), 10_000_000 ether);
+        _mint(owner(), 100_000_000 ether);
 
         contractDeployTime = block.timestamp;
         presaleStartTime = block.timestamp;

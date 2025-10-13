@@ -1755,8 +1755,8 @@
       ]
     },
     "/home/ybeetle/code/stable-yield/contracts/SYI/abstract/SYIBase.sol": {
-      "lastModificationDate": 1760360098583,
-      "contentHash": "7198a488fb53ba6785c58a4e49d50da4",
+      "lastModificationDate": 1760363481373,
+      "contentHash": "ded345c6341273628c0ceac2096adcb8",
       "sourceName": "contracts/SYI/abstract/SYIBase.sol",
       "solcConfig": {
         "version": "0.8.28",
