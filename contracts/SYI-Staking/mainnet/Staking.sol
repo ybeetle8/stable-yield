@@ -23,21 +23,21 @@ contract Staking is StakingBase {
     // ENVIRONMENT SPECIFIC CONSTANTS - MAINNET VALUES
     // =========================================================================
 
-    // APY Rates (Production mode: daily compounding to match documentation expectations)
+    // APY Rates (Production mode: daily compounding)
     function getAPYRate1D() internal pure override returns (uint256) {
-        return 1002999999999999900; // 0.3% over 1 day
-    }
-
-    function getAPYRate7D() internal pure override returns (uint256) {
-        return 1006005015832844700; // 4.28% over 7 days
-    }
-
-    function getAPYRate15D() internal pure override returns (uint256) {
-        return 1010001800489432400; // 16.1% over 15 days
+        return 1003000000000000000; // 0.3% daily
     }
 
     function getAPYRate30D() internal pure override returns (uint256) {
-        return 1015000428130702600; // 56.31% over 30 days
+        return 1006000000000000000; // 0.6% daily
+    }
+
+    function getAPYRate90D() internal pure override returns (uint256) {
+        return 1009000000000000000; // 0.9% daily
+    }
+
+    function getAPYRate180D() internal pure override returns (uint256) {
+        return 1015000000000000000; // 1.5% daily
     }
 
     // Staking Periods (Production mode: days)
@@ -45,16 +45,16 @@ contract Staking is StakingBase {
         return 1 days;
     }
 
-    function getStakePeriod7D() internal pure override returns (uint256) {
-        return 7 days;
-    }
-
-    function getStakePeriod15D() internal pure override returns (uint256) {
-        return 15 days;
-    }
-
     function getStakePeriod30D() internal pure override returns (uint256) {
         return 30 days;
+    }
+
+    function getStakePeriod90D() internal pure override returns (uint256) {
+        return 90 days;
+    }
+
+    function getStakePeriod180D() internal pure override returns (uint256) {
+        return 180 days;
     }
 
     // Team Thresholds (Production mode: V1..V7)

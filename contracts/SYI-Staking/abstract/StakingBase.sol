@@ -21,15 +21,15 @@ abstract contract StakingBase is Ownable, IStaking {
 
     // APY Rates
     function getAPYRate1D() internal pure virtual returns (uint256);
-    function getAPYRate7D() internal pure virtual returns (uint256);
-    function getAPYRate15D() internal pure virtual returns (uint256);
     function getAPYRate30D() internal pure virtual returns (uint256);
+    function getAPYRate90D() internal pure virtual returns (uint256);
+    function getAPYRate180D() internal pure virtual returns (uint256);
 
     // Staking Periods
     function getStakePeriod1D() internal pure virtual returns (uint256);
-    function getStakePeriod7D() internal pure virtual returns (uint256);
-    function getStakePeriod15D() internal pure virtual returns (uint256);
     function getStakePeriod30D() internal pure virtual returns (uint256);
+    function getStakePeriod90D() internal pure virtual returns (uint256);
+    function getStakePeriod180D() internal pure virtual returns (uint256);
 
     // Compound Interest Time Unit
     function getCompoundTimeUnit() internal pure virtual returns (uint256);
@@ -421,9 +421,9 @@ abstract contract StakingBase is Ownable, IStaking {
         require(stakeIndex <= MAX_STAKE_INDEX, "Invalid stake index");
 
         if (stakeIndex == 0) return getStakePeriod1D();
-        if (stakeIndex == 1) return getStakePeriod7D();
-        if (stakeIndex == 2) return getStakePeriod15D();
-        if (stakeIndex == 3) return getStakePeriod30D();
+        if (stakeIndex == 1) return getStakePeriod30D();
+        if (stakeIndex == 2) return getStakePeriod90D();
+        if (stakeIndex == 3) return getStakePeriod180D();
     }
 
     function getStakePeriods()
@@ -834,9 +834,9 @@ abstract contract StakingBase is Ownable, IStaking {
 
     function _updateRatesForMode() internal {
         rates[0] = getAPYRate1D();
-        rates[1] = getAPYRate7D();
-        rates[2] = getAPYRate15D();
-        rates[3] = getAPYRate30D();
+        rates[1] = getAPYRate30D();
+        rates[2] = getAPYRate90D();
+        rates[3] = getAPYRate180D();
         emit StakingRatesUpdated(rates);
     }
 
