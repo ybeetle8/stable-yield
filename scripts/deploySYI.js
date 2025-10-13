@@ -73,8 +73,8 @@ async function main() {
   const syi = await SYI.deploy(
     usdtAddress,
     routerAddress,
-    stakingAddress,
-    marketingWallet.address
+    stakingAddress
+    // marketingWallet.address 已移除 - 无交易税系统
   );
   await syi.waitForDeployment();
   const syiAddress = await syi.getAddress();
@@ -188,12 +188,12 @@ async function main() {
       swapAtAmount: (await syi.swapAtAmount()).toString()
     },
     taxRates: {
-      buyTax: "1%",
-      buyBurn: "1%",
-      sellTax: "1.5%",
-      sellMarketing: "1.5%",
-      profitTax: "25%",
-      note: "已移除 LP 质押相关费用"
+      buyTax: "0%",
+      buyBurn: "0%",
+      sellTax: "0%",
+      sellMarketing: "0%",
+      profitTax: "0%",
+      note: "完全移除所有交易税，买卖无任何费用"
     }
   };
 
@@ -212,9 +212,10 @@ async function main() {
   console.log("- Factory:", factoryAddress);
   console.log("- Pair:", pairAddress);
   console.log("\n税费结构:");
-  console.log("- 买入税: 1% (burn)");
-  console.log("- 卖出税: 1.5% (marketing)");
-  console.log("- 盈利税: 25% (全部给节点/营销)");
+  console.log("- 买入税: 0% (完全无税)");
+  console.log("- 卖出税: 0% (完全无税)");
+  console.log("- 盈利税: 0% (完全无税)");
+  console.log("- 说明: 已移除所有交易税机制，买卖无任何费用");
   console.log("\n下一步:");
   console.log("1. 运行测试脚本: npx hardhat run scripts/testSYI.js --network localhost");
   console.log("2. 添加初始流动性（如需要）");

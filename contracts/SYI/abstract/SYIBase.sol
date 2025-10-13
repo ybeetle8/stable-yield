@@ -202,13 +202,14 @@ abstract contract SYIBase is ERC20, Ownable {
     address public constant DEAD_ADDRESS =
         0x000000000000000000000000000000000000dEaD;
     uint256 private constant BASIS_POINTS = 10000;
-    uint256 private constant BUY_BURN_FEE = 100; // 1%
-    uint256 private constant BUY_LIQUIDITY_FEE = 200; // 2%
-    uint256 private constant SELL_MARKETING_FEE = 150; // 1.5%
-    uint256 private constant SELL_LIQUIDITY_ACCUM_FEE = 150; // 1.5%
-    uint256 private constant PROFIT_TAX_RATE = 2500; // 25%
-    uint256 private constant NO_PROFIT_FEE = 2500; // 25%
-    uint256 private constant LP_HANDLE_FEE = 250; // 2.5%
+    // All trading fees removed - set to 0%
+    uint256 private constant BUY_BURN_FEE = 0; // 0% (was 1%)
+    uint256 private constant BUY_LIQUIDITY_FEE = 0; // 0% (was 2%)
+    uint256 private constant SELL_MARKETING_FEE = 0; // 0% (was 1.5%)
+    uint256 private constant SELL_LIQUIDITY_ACCUM_FEE = 0; // 0% (was 1.5%)
+    uint256 private constant PROFIT_TAX_RATE = 0; // 0% (was 25%)
+    uint256 private constant NO_PROFIT_FEE = 0; // 0% (was 25%)
+    uint256 private constant LP_HANDLE_FEE = 250; // 2.5% (kept for liquidity operations)
 
     address public immutable USDT;
     IUniswapV2Router02 public immutable uniswapV2Router;
@@ -283,20 +284,17 @@ abstract contract SYIBase is ERC20, Ownable {
     constructor(
         address _usdt,
         address _router,
-        address _staking,
-        address _marketingAddress
+        address _staking
     ) ERC20("SYI Token", "SYI") Ownable(msg.sender) {
         if (
             _usdt == address(0) ||
             _router == address(0) ||
-            _staking == address(0) ||
-            _marketingAddress == address(0)
+            _staking == address(0)
         ) revert ZeroAddress();
 
         USDT = _usdt;
         uniswapV2Router = IUniswapV2Router02(_router);
         staking = IStaking(_staking);
-        marketingAddress = _marketingAddress;
 
         _mint(owner(), 10_000_000 ether);
 
@@ -324,7 +322,6 @@ abstract contract SYIBase is ERC20, Ownable {
         feeWhitelisted[owner()] = true;
         feeWhitelisted[address(this)] = true;
         feeWhitelisted[address(staking)] = true;
-        feeWhitelisted[marketingAddress] = true;
         feeWhitelisted[address(uniswapV2Router)] = true;
     }
 
@@ -579,7 +576,8 @@ abstract contract SYIBase is ERC20, Ownable {
     function getUserInvestment(
         address user
     ) external view returns (uint256 investment, uint256 lastBuy) {
-        return (userInvestment[user], lastBuyTime[user]);
+        // Cost tracking removed - always returns 0 for investment
+        return (0, lastBuyTime[user]);
     }
 
     function getUniswapV2Pair() external view returns (address) {
@@ -819,6 +817,7 @@ abstract contract SYIBase is ERC20, Ownable {
         address to,
         uint256 amount
     ) private notBlacklisted(to) delayedBuyCheck(to) {
+        // Check presale period
         if (
             presaleActive &&
             block.timestamp < presaleStartTime + presaleDuration
@@ -826,24 +825,37 @@ abstract contract SYIBase is ERC20, Ownable {
             revert NotAllowedBuy();
         }
 
-        // 只保留 1% burn 费用，移除 2% LP 费用
-        uint256 burnFee = (amount * BUY_BURN_FEE) / BASIS_POINTS;
-        uint256 totalFees = burnFee;
-        uint256 netAmount = amount - totalFees;
+        // No fees - direct transfer full amount
+        super._update(from, to, amount);
 
-        if (burnFee > 0) {
-            super._update(from, DEAD_ADDRESS, burnFee);
-            emit TokensBurned(burnFee);
-        }
+        // Update last buy time for cooldown mechanism
+        lastBuyTime[to] = block.timestamp;
 
-        super._update(from, to, netAmount);
-
-        _updateBuyInvestmentAndEmitEvent(
+        // Emit events for tracking (all fees are 0)
+        emit TransactionExecuted(
             to,
+            block.timestamp,
+            "BUY",
             amount,
-            netAmount,
-            burnFee,
-            0  // liquidityFee 设为 0
+            0,  // usdtAmount (not tracked)
+            amount,  // netUserReceived (full amount)
+            0,  // previousInvestment (not tracked)
+            0,  // newInvestment (not tracked)
+            0,  // burnFee
+            0,  // lpFee
+            0,  // marketingFee
+            0,  // profitAmount
+            0,  // profitTax
+            address(0)  // referrer
+        );
+
+        emit UserTransaction(
+            to,
+            block.timestamp,
+            "BUY",
+            amount,
+            0,  // usdtAmount
+            amount  // netReceived
         );
     }
 
@@ -852,85 +864,49 @@ abstract contract SYIBase is ERC20, Ownable {
         address to,
         uint256 amount
     ) private notBlacklisted(from) {
+        // Check cooldown time
         if (block.timestamp < lastBuyTime[from] + coldTime)
             revert InColdPeriod();
 
-        // 只保留 1.5% marketing 费用，移除 1.5% LP 费用
-        uint256 marketingFee = (amount * SELL_MARKETING_FEE) / BASIS_POINTS;
-        uint256 netAmountAfterTradingFees = amount - marketingFee;
+        // No fees - direct transfer full amount
+        super._update(from, to, amount);
 
-        uint256 estimatedUSDTFromSale = _estimateSwapOutput(
-            netAmountAfterTradingFees
+        // Emit events for tracking (all fees are 0)
+        emit SellTransaction(
+            from,
+            block.timestamp,
+            amount,  // originalXFAmount
+            0,  // tradingFeeXF
+            0,  // marketingFeeXF
+            0,  // lpFeeXF
+            amount,  // netXFAfterTradingFees (full amount)
+            0,  // estimatedUSDTFromSale (not calculated)
+            0,  // userHistoricalInvestment (not tracked)
+            0,  // totalProfitAmount
+            0,  // profitTaxUSDT
+            0,  // noProfitFeeUSDT
+            0,  // profitTaxToMarketing
+            0,  // profitTaxToReferrer
+            0,  // userNetProfitUSDT
+            0,  // finalUSDTReceived
+            address(0)  // referrer
         );
 
-        uint256 profitTaxUSDT = 0;
-        uint256 profitTaxInSYI = 0;
-        uint256 profitAmount = 0;
-        uint256 noProfitFeeUSDT = 0;
-        uint256 userCurrentInvestment = userInvestment[from];
-
-        if (
-            userCurrentInvestment > 0 &&
-            estimatedUSDTFromSale > userCurrentInvestment
-        ) {
-            profitAmount = estimatedUSDTFromSale - userCurrentInvestment;
-            profitTaxUSDT = (profitAmount * PROFIT_TAX_RATE) / BASIS_POINTS;
-
-            profitTaxInSYI =
-                (profitTaxUSDT * netAmountAfterTradingFees) /
-                estimatedUSDTFromSale;
-        }
-
-        uint256 netAmount = amount - marketingFee - profitTaxInSYI;
-
-        uint256 actualUSDTReceived = estimatedUSDTFromSale -
-            profitTaxUSDT -
-            noProfitFeeUSDT;
-
-        if (marketingFee > 0) {
-            super._update(from, address(this), marketingFee);
-            amountMarketingFee += marketingFee;
-        }
-
-        uint256 profitTaxToMarketing = 0;
-        uint256 profitTaxToReferrer = 0;
-
-        if (profitTaxInSYI > 0) {
-            super._update(from, address(this), profitTaxInSYI);
-
-            uint256 usdtAmountFromProfitTax = _swapTokensForUSDT(
-                profitTaxInSYI
-            );
-
-            if (usdtAmountFromProfitTax > 0) {
-                // 盈利税全部给节点/营销地址，不再分给 LP
-                address nodeAddr = nodeDividendAddress != address(0)
-                    ? nodeDividendAddress
-                    : marketingAddress;
-                IERC20(USDT).transfer(nodeAddr, usdtAmountFromProfitTax);
-
-                profitTaxToMarketing = usdtAmountFromProfitTax;
-                profitTaxToReferrer = 0;  // 不再有 LP 份额
-            }
-        }
-
-        super._update(from, to, netAmount);
-
-        _updateInvestmentAfterSell(from, actualUSDTReceived);
-
-        _emitSellTransactionEvent(
+        emit TransactionExecuted(
             from,
+            block.timestamp,
+            "SELL",
             amount,
-            marketingFee,
-            0,  // liquidityAccumFee 设为 0
-            netAmountAfterTradingFees,
-            estimatedUSDTFromSale,
-            userCurrentInvestment,
-            profitTaxUSDT,
-            noProfitFeeUSDT,
-            profitTaxToMarketing,
-            profitTaxToReferrer,
-            actualUSDTReceived
+            0,  // usdtAmount
+            amount,  // netUserReceived (full amount)
+            0,  // previousInvestment
+            0,  // newInvestment
+            0,  // burnFee
+            0,  // lpFee
+            0,  // marketingFee
+            0,  // profitAmount
+            0,  // profitTax
+            address(0)  // referrer
         );
     }
 

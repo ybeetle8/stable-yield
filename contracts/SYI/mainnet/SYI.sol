@@ -15,9 +15,8 @@ contract SYI is SYIBase {
     constructor(
         address _usdt,
         address _router,
-        address _staking,
-        address _marketingAddress
-    ) SYIBase(_usdt, _router, _staking, _marketingAddress) {}
+        address _staking
+    ) SYIBase(_usdt, _router, _staking) {}
 
     // =========================================================================
     // ENVIRONMENT SPECIFIC CONSTANTS - MAINNET VALUES

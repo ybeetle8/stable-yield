@@ -1755,8 +1755,8 @@
       ]
     },
     "/home/ybeetle/code/stable-yield/contracts/SYI/abstract/SYIBase.sol": {
-      "lastModificationDate": 1760334322768,
-      "contentHash": "922d7ed01f9ed669ce6fbfbb24249836",
+      "lastModificationDate": 1760358117272,
+      "contentHash": "7a1a469d49b3da2be45e15d9f2085a87",
       "sourceName": "contracts/SYI/abstract/SYIBase.sol",
       "solcConfig": {
         "version": "0.8.28",
@@ -2063,8 +2063,8 @@
       ]
     },
     "/home/ybeetle/code/stable-yield/contracts/SYI/mainnet/SYI.sol": {
-      "lastModificationDate": 1760263338864,
-      "contentHash": "74acf1cbd8fd0b3aa8321986478412be",
+      "lastModificationDate": 1760358007788,
+      "contentHash": "4631edb739978062e656d39429635be9",
       "sourceName": "contracts/SYI/mainnet/SYI.sol",
       "solcConfig": {
         "version": "0.8.28",

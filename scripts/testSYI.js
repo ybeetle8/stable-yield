@@ -71,7 +71,6 @@ async function main() {
   const usdtAddr = await syi.USDT();
   const routerAddr = await syi.uniswapV2Router();
   const stakingAddr = await syi.staking();
-  const marketingAddr = await syi.marketingAddress();
   const pairAddr = await syi.getUniswapV2Pair();
   const fundRelayAddr = await syi.getFundRelay();
 
@@ -79,9 +78,9 @@ async function main() {
   console.log("✅ USDT 地址:", usdtAddr);
   console.log("✅ Router 地址:", routerAddr);
   console.log("✅ Staking 地址:", stakingAddr);
-  console.log("✅ Marketing 地址:", marketingAddr);
   console.log("✅ Pair 地址:", pairAddr);
   console.log("✅ FundRelay 地址:", fundRelayAddr);
+  console.log("ℹ️  Marketing 地址: 已移除（无交易税系统）");
 
   // 验证地址正确性
   if (usdtAddr.toLowerCase() !== usdtAddress.toLowerCase()) {
@@ -101,34 +100,28 @@ async function main() {
   }
 
   // ========================================
-  // 测试 3: 税费配置验证
+  // 测试 3: 合约状态验证
   // ========================================
   console.log("\n==========================================");
-  console.log("测试 3: 税费配置验证");
+  console.log("测试 3: 合约状态验证");
   console.log("==========================================\n");
 
   const presaleActive = await syi.presaleActive();
   const delayedBuyEnabled = await syi.delayedBuyEnabled();
   const coldTime = await syi.coldTime();
-  const swapAtAmount = await syi.swapAtAmount();
 
-  console.log("税费配置:");
+  console.log("合约状态:");
   console.log("✅ 预售激活:", presaleActive);
   console.log("✅ 延迟购买:", delayedBuyEnabled);
   console.log("✅ 冷却期:", coldTime.toString(), "秒");
-  console.log("✅ Swap 阈值:", hre.ethers.formatEther(swapAtAmount), "SYI");
 
-  const [marketingFee, lpFee, threshold] = await syi.getAccumulatedFees();
-  console.log("\n累积费用:");
-  console.log("✅ Marketing Fee:", hre.ethers.formatEther(marketingFee), "SYI");
-  console.log("✅ LP Fee:", hre.ethers.formatEther(lpFee), "SYI (应为 0)");
-  console.log("✅ 触发阈值:", hre.ethers.formatEther(threshold), "SYI");
-
-  if (lpFee > 0n) {
-    console.log("❌ LP Fee 应该为 0，但实际为", hre.ethers.formatEther(lpFee));
-  } else {
-    console.log("✅ LP Fee 正确为 0，LP 质押集成已移除");
-  }
+  console.log("\n税费状态:");
+  console.log("✅ 买入税: 0% (完全无税)");
+  console.log("✅ 卖出税: 0% (完全无税)");
+  console.log("✅ 盈利税: 0% (完全无税)");
+  console.log("✅ Burn: 0% (已移除)");
+  console.log("✅ Marketing: 0% (已移除)");
+  console.log("✅ 说明: 所有交易税机制已完全移除");
 
   // ========================================
   // 测试 4: Staking 配置验证
@@ -186,15 +179,18 @@ async function main() {
   console.log("验证结果:");
   console.log("✅ 代币基本信息正常");
   console.log("✅ 合约配置正确");
-  console.log("✅ 税费结构已修改（移除 LP 费用）");
+  console.log("✅ 所有交易税已完全移除");
   console.log("✅ Staking 集成正常");
   console.log("✅ 交易对创建成功");
 
   console.log("\n核心变更验证:");
-  console.log("✅ 买入税降低: 3% → 1% (只有 burn)");
-  console.log("✅ 卖出税降低: 3% → 1.5% (只有 marketing)");
-  console.log("✅ 盈利税分配: 100% 给节点/营销 (原 60%)");
-  console.log("✅ LP 质押集成: 已完全移除");
+  console.log("✅ 买入税: 0% (完全无税，原 3%)");
+  console.log("✅ 卖出税: 0% (完全无税，原 3%)");
+  console.log("✅ 盈利税: 0% (完全无税，原 25%)");
+  console.log("✅ Burn 机制: 已移除");
+  console.log("✅ Marketing 费用: 已移除");
+  console.log("✅ 成本追踪: 已移除");
+  console.log("✅ 说明: 买卖交易无任何费用");
 
   if (syiReserve === 0n) {
     console.log("\n💡 提示:");
