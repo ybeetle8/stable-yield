@@ -1118,32 +1118,6 @@
       "type": "function"
     },
     {
-      "inputs": [],
-      "name": "amountLPFee",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "amountMarketingFee",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
       "inputs": [
         {
           "internalType": "address",
@@ -1290,42 +1264,6 @@
       "type": "function"
     },
     {
-      "inputs": [],
-      "name": "fundRelay",
-      "outputs": [
-        {
-          "internalType": "contract FundRelay",
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "getAccumulatedFees",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "marketing",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "lp",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "threshold",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
       "inputs": [
         {
           "internalType": "uint256",
@@ -1418,37 +1356,6 @@
     },
     {
       "inputs": [],
-      "name": "getDelayedSwapStatus",
-      "outputs": [
-        {
-          "internalType": "bool",
-          "name": "pending",
-          "type": "bool"
-        },
-        {
-          "internalType": "uint256",
-          "name": "totalFees",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "getFundRelay",
-      "outputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
       "name": "getPresaleStatus",
       "outputs": [
         {
@@ -1501,30 +1408,6 @@
           "internalType": "address",
           "name": "",
           "type": "address"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "user",
-          "type": "address"
-        }
-      ],
-      "name": "getUserInvestment",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "investment",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "lastBuy",
-          "type": "uint256"
         }
       ],
       "stateMutability": "view",
@@ -1596,51 +1479,12 @@
     },
     {
       "inputs": [],
-      "name": "liquidityThreshold",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "marketingAddress",
-      "outputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
       "name": "name",
       "outputs": [
         {
           "internalType": "string",
           "name": "",
           "type": "string"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "nodeDividendAddress",
-      "outputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
         }
       ],
       "stateMutability": "view",
@@ -1851,58 +1695,6 @@
       "inputs": [
         {
           "internalType": "address",
-          "name": "_fundRelay",
-          "type": "address"
-        }
-      ],
-      "name": "setFundRelay",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "newThreshold",
-          "type": "uint256"
-        }
-      ],
-      "name": "setLiquidityThreshold",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "_newAddress",
-          "type": "address"
-        }
-      ],
-      "name": "setMarketingAddress",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "_node",
-          "type": "address"
-        }
-      ],
-      "name": "setNodeDividendAddress",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
           "name": "_pair",
           "type": "address"
         }
@@ -1933,19 +1725,6 @@
       "type": "function"
     },
     {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "_swapAtAmount",
-          "type": "uint256"
-        }
-      ],
-      "name": "setSwapAtAmount",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
       "inputs": [],
       "name": "staking",
       "outputs": [
@@ -1953,19 +1732,6 @@
           "internalType": "contract IStaking",
           "name": "",
           "type": "address"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "swapAtAmount",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
         }
       ],
       "stateMutability": "view",
@@ -2065,20 +1831,6 @@
     },
     {
       "inputs": [],
-      "name": "triggerFeeProcessing",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "triggerFundRelayDistribution",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [],
       "name": "uniswapV2Pair",
       "outputs": [
         {
@@ -2098,25 +1850,6 @@
           "internalType": "contract IUniswapV2Router02",
           "name": "",
           "type": "address"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "name": "userInvestment",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
         }
       ],
       "stateMutability": "view",

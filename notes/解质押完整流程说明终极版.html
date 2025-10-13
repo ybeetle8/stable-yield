@@ -1,0 +1,1139 @@
+<!DOCTYPE html><html><head>
+      <title>解质押完整流程说明终极版</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      
+      <link rel="stylesheet" href="file:////home/ybeetle/.vscode-server/extensions/shd101wyy.markdown-preview-enhanced-0.8.19/crossnote/dependencies/katex/katex.min.css">
+      
+      
+      <script type="text/javascript" src="file:////home/ybeetle/.vscode-server/extensions/shd101wyy.markdown-preview-enhanced-0.8.19/crossnote/dependencies/mermaid/mermaid.min.js" charset="UTF-8"></script>
+      
+      
+      <style>
+      code[class*=language-],pre[class*=language-]{color:#333;background:0 0;font-family:Consolas,"Liberation Mono",Menlo,Courier,monospace;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.4;-moz-tab-size:8;-o-tab-size:8;tab-size:8;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:.8em;overflow:auto;border-radius:3px;background:#f5f5f5}:not(pre)>code[class*=language-]{padding:.1em;border-radius:.3em;white-space:normal;background:#f5f5f5}.token.blockquote,.token.comment{color:#969896}.token.cdata{color:#183691}.token.doctype,.token.macro.property,.token.punctuation,.token.variable{color:#333}.token.builtin,.token.important,.token.keyword,.token.operator,.token.rule{color:#a71d5d}.token.attr-value,.token.regex,.token.string,.token.url{color:#183691}.token.atrule,.token.boolean,.token.code,.token.command,.token.constant,.token.entity,.token.number,.token.property,.token.symbol{color:#0086b3}.token.prolog,.token.selector,.token.tag{color:#63a35c}.token.attr-name,.token.class,.token.class-name,.token.function,.token.id,.token.namespace,.token.pseudo-class,.token.pseudo-element,.token.url-reference .token.variable{color:#795da3}.token.entity{cursor:help}.token.title,.token.title .token.punctuation{font-weight:700;color:#1d3e81}.token.list{color:#ed6a43}.token.inserted{background-color:#eaffea;color:#55a532}.token.deleted{background-color:#ffecec;color:#bd2c00}.token.bold{font-weight:700}.token.italic{font-style:italic}.language-json .token.property{color:#183691}.language-markup .token.tag .token.punctuation{color:#333}.language-css .token.function,code.language-css{color:#0086b3}.language-yaml .token.atrule{color:#63a35c}code.language-yaml{color:#183691}.language-ruby .token.function{color:#333}.language-markdown .token.url{color:#795da3}.language-makefile .token.symbol{color:#795da3}.language-makefile .token.variable{color:#183691}.language-makefile .token.builtin{color:#0086b3}.language-bash .token.keyword{color:#0086b3}pre[data-line]{position:relative;padding:1em 0 1em 3em}pre[data-line] .line-highlight-wrapper{position:absolute;top:0;left:0;background-color:transparent;display:block;width:100%}pre[data-line] .line-highlight{position:absolute;left:0;right:0;padding:inherit 0;margin-top:1em;background:hsla(24,20%,50%,.08);background:linear-gradient(to right,hsla(24,20%,50%,.1) 70%,hsla(24,20%,50%,0));pointer-events:none;line-height:inherit;white-space:pre}pre[data-line] .line-highlight:before,pre[data-line] .line-highlight[data-end]:after{content:attr(data-start);position:absolute;top:.4em;left:.6em;min-width:1em;padding:0 .5em;background-color:hsla(24,20%,50%,.4);color:#f4f1ef;font:bold 65%/1.5 sans-serif;text-align:center;vertical-align:.3em;border-radius:999px;text-shadow:none;box-shadow:0 1px #fff}pre[data-line] .line-highlight[data-end]:after{content:attr(data-end);top:auto;bottom:.4em}html body{font-family:'Helvetica Neue',Helvetica,'Segoe UI',Arial,freesans,sans-serif;font-size:16px;line-height:1.6;color:#333;background-color:#fff;overflow:initial;box-sizing:border-box;word-wrap:break-word}html body>:first-child{margin-top:0}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{line-height:1.2;margin-top:1em;margin-bottom:16px;color:#000}html body h1{font-size:2.25em;font-weight:300;padding-bottom:.3em}html body h2{font-size:1.75em;font-weight:400;padding-bottom:.3em}html body h3{font-size:1.5em;font-weight:500}html body h4{font-size:1.25em;font-weight:600}html body h5{font-size:1.1em;font-weight:600}html body h6{font-size:1em;font-weight:600}html body h1,html body h2,html body h3,html body h4,html body h5{font-weight:600}html body h5{font-size:1em}html body h6{color:#5c5c5c}html body strong{color:#000}html body del{color:#5c5c5c}html body a:not([href]){color:inherit;text-decoration:none}html body a{color:#08c;text-decoration:none}html body a:hover{color:#00a3f5;text-decoration:none}html body img{max-width:100%}html body>p{margin-top:0;margin-bottom:16px;word-wrap:break-word}html body>ol,html body>ul{margin-bottom:16px}html body ol,html body ul{padding-left:2em}html body ol.no-list,html body ul.no-list{padding:0;list-style-type:none}html body ol ol,html body ol ul,html body ul ol,html body ul ul{margin-top:0;margin-bottom:0}html body li{margin-bottom:0}html body li.task-list-item{list-style:none}html body li>p{margin-top:0;margin-bottom:0}html body .task-list-item-checkbox{margin:0 .2em .25em -1.8em;vertical-align:middle}html body .task-list-item-checkbox:hover{cursor:pointer}html body blockquote{margin:16px 0;font-size:inherit;padding:0 15px;color:#5c5c5c;background-color:#f0f0f0;border-left:4px solid #d6d6d6}html body blockquote>:first-child{margin-top:0}html body blockquote>:last-child{margin-bottom:0}html body hr{height:4px;margin:32px 0;background-color:#d6d6d6;border:0 none}html body table{margin:10px 0 15px 0;border-collapse:collapse;border-spacing:0;display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}html body table th{font-weight:700;color:#000}html body table td,html body table th{border:1px solid #d6d6d6;padding:6px 13px}html body dl{padding:0}html body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:700}html body dl dd{padding:0 16px;margin-bottom:16px}html body code{font-family:Menlo,Monaco,Consolas,'Courier New',monospace;font-size:.85em;color:#000;background-color:#f0f0f0;border-radius:3px;padding:.2em 0}html body code::after,html body code::before{letter-spacing:-.2em;content:'\00a0'}html body pre>code{padding:0;margin:0;word-break:normal;white-space:pre;background:0 0;border:0}html body .highlight{margin-bottom:16px}html body .highlight pre,html body pre{padding:1em;overflow:auto;line-height:1.45;border:#d6d6d6;border-radius:3px}html body .highlight pre{margin-bottom:0;word-break:normal}html body pre code,html body pre tt{display:inline;max-width:initial;padding:0;margin:0;overflow:initial;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}html body pre code:after,html body pre code:before,html body pre tt:after,html body pre tt:before{content:normal}html body blockquote,html body dl,html body ol,html body p,html body pre,html body ul{margin-top:0;margin-bottom:16px}html body kbd{color:#000;border:1px solid #d6d6d6;border-bottom:2px solid #c7c7c7;padding:2px 4px;background-color:#f0f0f0;border-radius:3px}@media print{html body{background-color:#fff}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{color:#000;page-break-after:avoid}html body blockquote{color:#5c5c5c}html body pre{page-break-inside:avoid}html body table{display:table}html body img{display:block;max-width:100%;max-height:100%}html body code,html body pre{word-wrap:break-word;white-space:pre}}.markdown-preview{width:100%;height:100%;box-sizing:border-box}.markdown-preview ul{list-style:disc}.markdown-preview ul ul{list-style:circle}.markdown-preview ul ul ul{list-style:square}.markdown-preview ol{list-style:decimal}.markdown-preview ol ol,.markdown-preview ul ol{list-style-type:lower-roman}.markdown-preview ol ol ol,.markdown-preview ol ul ol,.markdown-preview ul ol ol,.markdown-preview ul ul ol{list-style-type:lower-alpha}.markdown-preview .newpage,.markdown-preview .pagebreak{page-break-before:always}.markdown-preview pre.line-numbers{position:relative;padding-left:3.8em;counter-reset:linenumber}.markdown-preview pre.line-numbers>code{position:relative}.markdown-preview pre.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:0;width:3em;letter-spacing:-1px;border-right:1px solid #999;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.markdown-preview pre.line-numbers .line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.markdown-preview pre.line-numbers .line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}.markdown-preview .mathjax-exps .MathJax_Display{text-align:center!important}.markdown-preview:not([data-for=preview]) .code-chunk .code-chunk-btn-group{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .status{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .output-div{margin-bottom:16px}.markdown-preview .md-toc{padding:0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link div,.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}.markdown-preview .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}.scrollbar-style::-webkit-scrollbar{width:8px}.scrollbar-style::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}.scrollbar-style::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode]){position:relative;width:100%;height:100%;top:0;left:0;margin:0;padding:0;overflow:auto}html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{position:relative;top:0;min-height:100vh}@media screen and (min-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em calc(50% - 457px + 2em)}}@media screen and (max-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{font-size:14px!important;padding:1em}}@media print{html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{display:none}}html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{position:fixed;bottom:8px;left:8px;font-size:28px;cursor:pointer;color:inherit;z-index:99;width:32px;text-align:center;opacity:.4}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] #sidebar-toc-btn{opacity:1}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc{position:fixed;top:0;left:0;width:300px;height:100%;padding:32px 0 48px 0;font-size:14px;box-shadow:0 0 4px rgba(150,150,150,.33);box-sizing:border-box;overflow:auto;background-color:inherit}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar{width:8px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc a{text-decoration:none}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc{padding:0 16px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link div,html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{left:300px;width:calc(100% - 300px);padding:2em calc(50% - 457px - 300px / 2);margin:0;box-sizing:border-box}@media screen and (max-width:1274px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{width:100%}}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .markdown-preview{left:50%;transform:translateX(-50%)}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .md-sidebar-toc{display:none}
+/* Please visit the URL below for more information: */
+/*   https://shd101wyy.github.io/markdown-preview-enhanced/#/customize-css */
+
+      </style>
+      <!-- The content below will be included at the end of the <head> element. --><script type="text/javascript">
+  document.addEventListener("DOMContentLoaded", function () {
+    // your code here
+  });
+</script></head><body for="html-export">
+    
+    
+      <div class="crossnote markdown-preview  ">
+      
+<h1 id="解质押完整流程说明终极版">解质押完整流程说明（终极版） </h1>
+<blockquote>
+<p>本文档详细说明 SYI 质押系统的解质押流程，重点解析 <strong>Staking 合约的 SYI 储备机制</strong> 和 <strong>Recycle 循环回收机制</strong></p>
+</blockquote>
+<hr>
+<h2 id="目录">目录 </h2>
+<ol>
+<li><a href="#%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5">核心概念</a></li>
+<li><a href="#%E5%AE%8C%E6%95%B4%E6%B5%81%E7%A8%8B%E5%9B%BE">完整流程图</a></li>
+<li><a href="#%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4%E6%8B%86%E8%A7%A3">详细步骤拆解</a></li>
+<li><a href="#recycle-%E6%9C%BA%E5%88%B6%E6%B7%B1%E5%BA%A6%E8%A7%A3%E6%9E%90">Recycle 机制深度解析</a></li>
+<li><a href="#%E4%B8%8E%E4%B8%BB%E6%B5%81-defi-%E9%A1%B9%E7%9B%AE%E5%AF%B9%E6%AF%94">与主流 DeFi 项目对比</a></li>
+<li><a href="#%E5%AE%89%E5%85%A8%E6%80%A7%E5%88%86%E6%9E%90">安全性分析</a></li>
+<li><a href="#%E5%85%B3%E9%94%AE%E4%BB%A3%E7%A0%81%E7%B4%A2%E5%BC%95">关键代码索引</a></li>
+</ol>
+<hr>
+<h2 id="核心概念">核心概念 </h2>
+<h3 id="三个关键问题">三个关键问题 </h3>
+<h4 id="q1-staking-合约上有-syi-储备吗">Q1: Staking 合约上有 SYI 储备吗？ </h4>
+<p><strong>答：有！</strong> Staking 合约必须预先持有 SYI 储备（通常在部署时转入）。</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>初始状态示例：
+├─ Staking 合约: 200,000 SYI （储备）
+└─ Pair 流动性池: 4,000,000 SYI + 40,000 USDT
+</code></pre><h4 id="q2-解质押时卖出的-162981-syi-从哪里来">Q2: 解质押时卖出的 162,981 SYI 从哪里来？ </h4>
+<p><strong>答：从 Staking 合约的 SYI 储备中来。</strong></p>
+<p>代码位置：<code>contracts/SYI-Staking/abstract/StakingBase.sol:922-950</code></p>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token keyword keyword-function">function</span> <span class="token function">_swapSYIForReward</span><span class="token punctuation">(</span><span class="token builtin">uint256</span> calculatedReward<span class="token punctuation">)</span> <span class="token keyword keyword-private">private</span> <span class="token keyword keyword-returns">returns</span> <span class="token punctuation">(</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token builtin">uint256</span> syiBalanceBefore <span class="token operator">=</span> SYI<span class="token punctuation">.</span><span class="token function">balanceOf</span><span class="token punctuation">(</span><span class="token builtin">address</span><span class="token punctuation">(</span><span class="token keyword keyword-this">this</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 查询 Staking 储备</span>
+
+    <span class="token comment">// 用 Staking 的 SYI 储备换 USDT</span>
+    ROUTER<span class="token punctuation">.</span><span class="token function">swapTokensForExactTokens</span><span class="token punctuation">(</span>
+        calculatedReward<span class="token punctuation">,</span>      <span class="token comment">// 需要换取的 USDT 数量</span>
+        maxSYIInput<span class="token punctuation">,</span>           <span class="token comment">// 最多用多少 SYI</span>
+        swapPath<span class="token punctuation">,</span>              <span class="token comment">// [SYI, USDT]</span>
+        <span class="token builtin">address</span><span class="token punctuation">(</span><span class="token keyword keyword-this">this</span><span class="token punctuation">)</span><span class="token punctuation">,</span>         <span class="token comment">// USDT 转到 Staking 合约</span>
+        block<span class="token punctuation">.</span>timestamp
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    syiTokensUsed <span class="token operator">=</span> syiBalanceBefore <span class="token operator">-</span> SYI<span class="token punctuation">.</span><span class="token function">balanceOf</span><span class="token punctuation">(</span><span class="token builtin">address</span><span class="token punctuation">(</span><span class="token keyword keyword-this">this</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// 返回实际使用的 SYI 数量（例如：162,981）</span>
+<span class="token punctuation">}</span>
+</code></pre><h4 id="q3-为什么需要-recycle">Q3: 为什么需要 Recycle？ </h4>
+<p><strong>答：为了让 Staking 合约的 SYI 储备永远用不完，实现可持续运行。</strong></p>
+<hr>
+<h2 id="完整流程图">完整流程图 </h2>
+<h3 id="流程图-1-解质押--recycle-完整流程">流程图 1: 解质押 + Recycle 完整流程 </h3>
+<div class="mermaid">sequenceDiagram
+    autonumber
+    participant User as 用户
+    participant Staking as Staking 合约
+    participant SYI as SYI 代币合约
+    participant Router as PancakeRouter
+    participant Pair as 流动性池(Pair)
+
+    Note over Staking,Pair: 初始状态&lt;br/&gt;Staking: 200,000 SYI&lt;br/&gt;Pair: 4,000,000 SYI + 40,000 USDT
+
+    User-&gt;&gt;Staking: unstake(stakeIndex)
+
+    rect rgb(255, 245, 230)
+        Note over Staking: 阶段 1: 计算奖励
+        Staking-&gt;&gt;Staking: _burn(stakeIndex)
+        Note over Staking: 返回:&lt;br/&gt;本金 = 1,000 USDT&lt;br/&gt;奖励 = 1,563.1 USDT
+    end
+
+    rect rgb(230, 245, 255)
+        Note over Staking,Pair: 阶段 2: 卖 SYI 换 USDT（使用 Staking 储备）
+
+        Staking-&gt;&gt;SYI: balanceOf(Staking)
+        SYI--&gt;&gt;Staking: 200,000 SYI ✅ 储备充足
+
+        Staking-&gt;&gt;Router: swapTokensForExactTokens(&lt;br/&gt;  需要: 1,563.1 USDT&lt;br/&gt;  最多用: 200,000 SYI&lt;br/&gt;)
+
+        Note over Router: AMM 计算:&lt;br/&gt;需要约 162,981 SYI
+
+        Router-&gt;&gt;SYI: transferFrom(Staking, Pair, 162,981)
+        SYI-&gt;&gt;Pair: 转账 162,981 SYI
+        Note over Pair: SYI balance:&lt;br/&gt;4,000,000 + 162,981&lt;br/&gt;= 4,162,981 SYI
+
+        Router-&gt;&gt;Pair: swap(0, 1563.1, Staking)
+        Pair--&gt;&gt;Staking: 转账 1,563.1 USDT
+
+        Note over Staking: Staking 余额变化:&lt;br/&gt;SYI: 200,000 → 37,019 ⚠️&lt;br/&gt;USDT: + 1,563.1 ✅
+    end
+
+    rect rgb(245, 255, 245)
+        Note over Staking: 阶段 3: 分配奖励
+        Staking-&gt;&gt;User: 转账 1,337.86 USDT (用户净收益)
+        Staking-&gt;&gt;User: 转账 28.155 USDT (Friend 5%)
+        Staking-&gt;&gt;User: 转账 197.085 USDT (团队 35%)
+    end
+
+    rect rgb(255, 230, 230)
+        Note over Staking,Pair: 阶段 4: 🔥 Recycle 回收（关键）
+
+        Staking-&gt;&gt;SYI: recycle(162,981)
+
+        Note over SYI: 权限检查
+        SYI-&gt;&gt;SYI: require(msg.sender == staking)
+
+        SYI-&gt;&gt;Pair: balanceOf(Pair)
+        Pair--&gt;&gt;SYI: 4,162,981 SYI
+
+        Note over SYI: 计算安全上限:&lt;br/&gt;maxRecyclable = 4,162,981 / 3&lt;br/&gt;= 1,387,660 SYI&lt;br/&gt;&lt;br/&gt;请求 162,981 &lt; 上限 ✅
+
+        SYI-&gt;&gt;SYI: _update(Pair, Staking, 162,981)
+        Note over SYI: 直接修改余额:&lt;br/&gt;Pair: 4,162,981 - 162,981 = 4,000,000&lt;br/&gt;Staking: 37,019 + 162,981 = 200,000 ✅
+
+        SYI-&gt;&gt;Pair: sync()
+        Note over Pair: 同步储备量:&lt;br/&gt;reserve_SYI = 4,000,000&lt;br/&gt;reserve_USDT = 38,436.9&lt;br/&gt;价格重新计算 ✅
+    end
+
+    Note over Staking,Pair: 最终状态&lt;br/&gt;Staking: 200,000 SYI ✅ 恢复&lt;br/&gt;Pair: 4,000,000 SYI + 38,436.9 USDT&lt;br/&gt;用户获得: 1,337.86 USDT
+</div><h3 id="流程图-2-资金闭环示意图">流程图 2: 资金闭环示意图 </h3>
+<div class="mermaid">graph TB
+    subgraph 初始部署
+        D[部署时预充值&lt;br/&gt;200,000 SYI]
+        D --&gt; S1[Staking 合约&lt;br/&gt;储备: 200,000 SYI]
+    end
+
+    subgraph 解质押流程
+        U1[用户解质押] --&gt; C1[计算奖励&lt;br/&gt;1,563.1 USDT]
+        C1 --&gt; S2[Staking 卖出&lt;br/&gt;162,981 SYI]
+        S2 --&gt; P1[转入 Pair]
+        P1 --&gt; U2[换得 1,563.1 USDT]
+        U2 --&gt; D1[分配给用户/团队]
+
+        Note1[此时 Staking&lt;br/&gt;只剩 37,019 SYI ⚠️]
+    end
+
+    subgraph Recycle回收
+        D1 --&gt; R1[调用 SYI.recycle&lt;br/&gt;162,981 SYI]
+        R1 --&gt; P2[从 Pair 取回]
+        P2 --&gt; S3[Staking 余额恢复&lt;br/&gt;200,000 SYI ✅]
+        S3 --&gt; SY1[调用 Pair.sync&lt;br/&gt;同步储备量]
+    end
+
+    subgraph 循环
+        SY1 -.循环使用.-&gt; U1
+    end
+
+    style S1 fill:#e1f5e1
+    style Note1 fill:#ffe1e1
+    style S3 fill:#e1f5e1
+    style R1 fill:#fff3e1
+</div><h3 id="流程图-3-recycle-决策树">流程图 3: Recycle 决策树 </h3>
+<div class="mermaid">flowchart TD
+    Start[Staking.unstake&lt;br/&gt;卖出后需要 recycle] --&gt; Check1{调用者是否&lt;br/&gt;Staking 合约?}
+
+    Check1 --&gt;|否| Fail1[❌ revert:&lt;br/&gt;Only staking contract]
+    Check1 --&gt;|是| GetBalance[获取 Pair 的 SYI 余额]
+
+    GetBalance --&gt; Check2{Pair 中有 SYI?}
+    Check2 --&gt;|pairBalance = 0| Fail2[❌ 无法回收&lt;br/&gt;池子空了]
+    Check2 --&gt;|pairBalance &gt; 0| Calc[计算安全上限&lt;br/&gt;maxRecyclable = pairBalance / 3]
+
+    Calc --&gt; Check3{请求数量 vs 上限}
+    Check3 --&gt;|请求 ≤ 上限| Full[✅ 全额回收&lt;br/&gt;recycleAmount = 请求数量]
+    Check3 --&gt;|请求 &gt; 上限| Partial[⚠️ 部分回收&lt;br/&gt;recycleAmount = maxRecyclable]
+
+    Full --&gt; Execute[执行 _update&lt;br/&gt;from: Pair&lt;br/&gt;to: Staking]
+    Partial --&gt; Execute
+
+    Execute --&gt; UpdateBalance[更新余额:&lt;br/&gt;Pair -= recycleAmount&lt;br/&gt;Staking += recycleAmount]
+    UpdateBalance --&gt; Sync[调用 Pair.sync&lt;br/&gt;同步储备量]
+    Sync --&gt; Done[✅ 回收完成]
+
+    style Fail1 fill:#ffcccc
+    style Fail2 fill:#ffcccc
+    style Full fill:#ccffcc
+    style Partial fill:#ffffcc
+    style Done fill:#99ff99
+    style Execute fill:#e1f0ff
+</div><h3 id="流程图-4-对比有无-recycle-的区别">流程图 4: 对比有无 Recycle 的区别 </h3>
+<div class="mermaid">gantt
+    title Staking SYI 储备变化对比
+    dateFormat X
+    axisFormat %s
+
+    section 没有 Recycle（会耗尽）
+    初始储备 200,000 :done, 0, 1
+    第1次解质押 -162,981 → 37,019 :crit, 1, 2
+    第2次解质押 无法支付 ❌ :milestone, 2, 3
+
+    section 有 Recycle（永不耗尽）
+    初始储备 200,000 :done, 3, 4
+    第1次卖出 → 37,019 :active, 4, 4.3
+    第1次回收 → 200,000 ✅ :milestone, 4.3, 5
+    第2次卖出 → 37,019 :active, 5, 5.3
+    第2次回收 → 200,000 ✅ :milestone, 5.3, 6
+    可无限循环 ♾️ :done, 6, 7
+</div><hr>
+<h2 id="详细步骤拆解">详细步骤拆解 </h2>
+<h3 id="步骤-1-计算奖励-_burn">步骤 1: 计算奖励 (_burn) </h3>
+<p><strong>代码位置</strong>: <code>contracts/SYI-Staking/abstract/StakingBase.sol:897-920</code></p>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token keyword keyword-function">function</span> <span class="token function">_burn</span><span class="token punctuation">(</span><span class="token builtin">uint256</span> index<span class="token punctuation">)</span> <span class="token keyword keyword-private">private</span> <span class="token keyword keyword-returns">returns</span> <span class="token punctuation">(</span><span class="token builtin">uint256</span> reward<span class="token punctuation">,</span> <span class="token builtin">uint256</span> amount<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    Record <span class="token keyword keyword-storage">storage</span> user_record <span class="token operator">=</span> userStakeRecord<span class="token punctuation">[</span>msg<span class="token punctuation">.</span>sender<span class="token punctuation">]</span><span class="token punctuation">[</span>index<span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// 1. 检查质押期限</span>
+    <span class="token keyword keyword-require">require</span><span class="token punctuation">(</span>
+        block<span class="token punctuation">.</span>timestamp <span class="token operator">-</span> user_record<span class="token punctuation">.</span>stakeTime <span class="token operator">&gt;=</span> <span class="token function">getStakePeriod</span><span class="token punctuation">(</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token string">"Staking period not met"</span>
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// 2. 检查是否已提现</span>
+    <span class="token keyword keyword-require">require</span><span class="token punctuation">(</span><span class="token operator">!</span>user_record<span class="token punctuation">.</span>status<span class="token punctuation">,</span> <span class="token string">"Already withdrawn"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// 3. 计算复利奖励</span>
+    amount <span class="token operator">=</span> user_record<span class="token punctuation">.</span>amount<span class="token punctuation">;</span>           <span class="token comment">// 本金: 1,000 USDT</span>
+    reward <span class="token operator">=</span> <span class="token function">_calculateStakeReward</span><span class="token punctuation">(</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment">// 奖励: 1,563.1 USDT (含本金)</span>
+
+    <span class="token comment">// 4. 标记已提现</span>
+    user_record<span class="token punctuation">.</span>status <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// 5. 销毁 sSYI 代币</span>
+    <span class="token function">_update</span><span class="token punctuation">(</span>msg<span class="token punctuation">.</span>sender<span class="token punctuation">,</span> <span class="token builtin">address</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">,</span> amount<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><p><strong>输出</strong>:</p>
+<ul>
+<li><code>principalAmount</code>: 1,000 USDT（本金）</li>
+<li><code>calculatedReward</code>: 1,563.1 USDT（本金 + 利息）</li>
+</ul>
+<hr>
+<h3 id="步骤-2-卖-syi-换-usdt-_swapsyiforreward">步骤 2: 卖 SYI 换 USDT (_swapSYIForReward) </h3>
+<p><strong>代码位置</strong>: <code>contracts/SYI-Staking/abstract/StakingBase.sol:922-950</code></p>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token keyword keyword-function">function</span> <span class="token function">_swapSYIForReward</span><span class="token punctuation">(</span><span class="token builtin">uint256</span> calculatedReward<span class="token punctuation">)</span> <span class="token keyword keyword-private">private</span> <span class="token keyword keyword-returns">returns</span> <span class="token punctuation">(</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 1. 记录 Staking 合约的 SYI 余额（储备）</span>
+    <span class="token builtin">uint256</span> syiBalanceBefore <span class="token operator">=</span> SYI<span class="token punctuation">.</span><span class="token function">balanceOf</span><span class="token punctuation">(</span><span class="token builtin">address</span><span class="token punctuation">(</span><span class="token keyword keyword-this">this</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 例如: 200,000 SYI</span>
+
+    <span class="token comment">// 2. 记录 USDT 余额</span>
+    <span class="token builtin">uint256</span> usdtBalanceBefore <span class="token operator">=</span> <span class="token function">IERC20</span><span class="token punctuation">(</span>USDT<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">balanceOf</span><span class="token punctuation">(</span><span class="token builtin">address</span><span class="token punctuation">(</span><span class="token keyword keyword-this">this</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// 3. 设置交易路径</span>
+    <span class="token builtin">address</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token keyword keyword-memory">memory</span> swapPath <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">address</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    swapPath<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token builtin">address</span><span class="token punctuation">(</span>SYI<span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment">// 卖出 SYI</span>
+    swapPath<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token builtin">address</span><span class="token punctuation">(</span>USDT<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 买入 USDT</span>
+
+    <span class="token comment">// 4. 计算最大允许使用的 SYI 数量（含滑点保护）</span>
+    <span class="token builtin">uint256</span> maxSYIInput <span class="token operator">=</span> <span class="token function">_calculateMaxSYIInput</span><span class="token punctuation">(</span>
+        calculatedReward<span class="token punctuation">,</span>      <span class="token comment">// 需要 1,563.1 USDT</span>
+        syiBalanceBefore       <span class="token comment">// 可用 200,000 SYI</span>
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// 5. 执行交易：精确换取指定数量的 USDT</span>
+    ROUTER<span class="token punctuation">.</span><span class="token function">swapTokensForExactTokens</span><span class="token punctuation">(</span>
+        calculatedReward<span class="token punctuation">,</span>      <span class="token comment">// 精确需要: 1,563.1 USDT</span>
+        maxSYIInput<span class="token punctuation">,</span>           <span class="token comment">// 最多用: ~250,000 SYI (含滑点)</span>
+        swapPath<span class="token punctuation">,</span>              <span class="token comment">// [SYI, USDT]</span>
+        <span class="token builtin">address</span><span class="token punctuation">(</span><span class="token keyword keyword-this">this</span><span class="token punctuation">)</span><span class="token punctuation">,</span>         <span class="token comment">// USDT 转到 Staking 合约</span>
+        block<span class="token punctuation">.</span>timestamp        <span class="token comment">// 截止时间</span>
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// 6. 计算实际使用了多少 SYI</span>
+    <span class="token builtin">uint256</span> syiBalanceAfter <span class="token operator">=</span> SYI<span class="token punctuation">.</span><span class="token function">balanceOf</span><span class="token punctuation">(</span><span class="token builtin">address</span><span class="token punctuation">(</span><span class="token keyword keyword-this">this</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    syiTokensUsed <span class="token operator">=</span> syiBalanceBefore <span class="token operator">-</span> syiBalanceAfter<span class="token punctuation">;</span>  <span class="token comment">// 例如: 162,981 SYI</span>
+
+    <span class="token comment">// 7. 计算实际换得多少 USDT</span>
+    usdtReceived <span class="token operator">=</span> <span class="token function">IERC20</span><span class="token punctuation">(</span>USDT<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">balanceOf</span><span class="token punctuation">(</span><span class="token builtin">address</span><span class="token punctuation">(</span><span class="token keyword keyword-this">this</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">-</span> usdtBalanceBefore<span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token punctuation">(</span>usdtReceived<span class="token punctuation">,</span> syiTokensUsed<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><p><strong>关键点</strong>：</p>
+<ul>
+<li>✅ 使用 <code>swapTokensForExactTokens</code>：精确换取所需 USDT，避免计算误差</li>
+<li>✅ SYI 来自 Staking 合约的<strong>预充值储备</strong></li>
+<li>✅ 交易后 Staking 的 SYI 余额会大幅减少（200,000 → 37,019）</li>
+</ul>
+<p><strong>余额变化</strong>：</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>交易前:
+├─ Staking: 200,000 SYI + 0 USDT
+└─ Pair: 4,000,000 SYI + 40,000 USDT
+
+交易后:
+├─ Staking: 37,019 SYI + 1,563.1 USDT  ⚠️ SYI 储备大幅减少
+└─ Pair: 4,162,981 SYI + 38,436.9 USDT
+</code></pre><hr>
+<h3 id="步骤-3-分配奖励">步骤 3: 分配奖励 </h3>
+<p><strong>代码位置</strong>: <code>contracts/SYI-Staking/abstract/StakingBase.sol:208-258</code></p>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token keyword keyword-function">function</span> <span class="token function">unstake</span><span class="token punctuation">(</span><span class="token builtin">uint256</span> stakeIndex<span class="token punctuation">)</span> <span class="token keyword keyword-external">external</span> <span class="token keyword keyword-returns">returns</span> <span class="token punctuation">(</span><span class="token builtin">uint256</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// ... 前面获得了 usdtReceived = 1,563.1 USDT</span>
+
+    <span class="token comment">// 1. 计算利息</span>
+    <span class="token builtin">uint256</span> interestEarned <span class="token operator">=</span> usdtReceived <span class="token operator">-</span> principalAmount<span class="token punctuation">;</span>  <span class="token comment">// 563.1 USDT</span>
+
+    <span class="token comment">// 2. Friend 奖励 (5%)</span>
+    <span class="token builtin">uint256</span> friendReward <span class="token operator">=</span> <span class="token function">_distributeFriendReward</span><span class="token punctuation">(</span>msg<span class="token punctuation">.</span>sender<span class="token punctuation">,</span> interestEarned<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// = 563.1 * 5% = 28.155 USDT</span>
+
+    <span class="token comment">// 3. 团队奖励 (35%)</span>
+    <span class="token builtin">address</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token keyword keyword-memory">memory</span> referralChain <span class="token operator">=</span> <span class="token function">getReferrals</span><span class="token punctuation">(</span>msg<span class="token punctuation">.</span>sender<span class="token punctuation">,</span> <span class="token number">30</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token builtin">uint256</span> teamFee <span class="token operator">=</span> <span class="token function">_distributeTeamReward</span><span class="token punctuation">(</span>referralChain<span class="token punctuation">,</span> interestEarned<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// = 563.1 * 35% = 197.085 USDT</span>
+
+    <span class="token comment">// 4. 更新团队 KPI</span>
+    <span class="token function">_updateTeamInvestmentValues</span><span class="token punctuation">(</span>msg<span class="token punctuation">.</span>sender<span class="token punctuation">,</span> principalAmount<span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// 5. 计算用户实际收益</span>
+    <span class="token builtin">uint256</span> userPayout <span class="token operator">=</span> usdtReceived <span class="token operator">-</span> friendReward <span class="token operator">-</span> teamFee<span class="token punctuation">;</span>
+    <span class="token comment">// = 1,563.1 - 28.155 - 197.085 = 1,337.86 USDT</span>
+
+    <span class="token comment">// 6. 赎回费 (1%)</span>
+    <span class="token builtin">uint256</span> redemptionFee <span class="token operator">=</span> <span class="token punctuation">(</span>userPayout <span class="token operator">*</span> <span class="token number">100</span><span class="token punctuation">)</span> <span class="token operator">/</span> <span class="token number">10000</span><span class="token punctuation">;</span>  <span class="token comment">// 1% = 13.38 USDT</span>
+
+    <span class="token comment">// 7. 转账给用户</span>
+    <span class="token function">IERC20</span><span class="token punctuation">(</span>USDT<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">transfer</span><span class="token punctuation">(</span>msg<span class="token punctuation">.</span>sender<span class="token punctuation">,</span> userPayout<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// ... 接下来是 Recycle</span>
+<span class="token punctuation">}</span>
+</code></pre><p><strong>分配明细</strong>：</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>总奖励: 1,563.1 USDT
+├─ 本金: 1,000 USDT
+├─ 利息: 563.1 USDT
+    ├─ Friend (5%): 28.155 USDT
+    ├─ 团队 (35%): 197.085 USDT
+    └─ 用户剩余: 1,337.86 USDT
+        └─ 赎回费 (1%): 13.38 USDT (转给 feeRecipient)
+</code></pre><hr>
+<h3 id="步骤-4-recycle-回收-syi">步骤 4: Recycle 回收 SYI </h3>
+<p><strong>代码位置</strong>: <code>contracts/SYI/abstract/SYIBase.sol:405-505</code></p>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token keyword keyword-function">function</span> <span class="token function">recycle</span><span class="token punctuation">(</span><span class="token builtin">uint256</span> amount<span class="token punctuation">)</span> <span class="token keyword keyword-external">external</span> <span class="token punctuation">{</span>
+    <span class="token comment">// ===== 1. 权限检查 =====</span>
+    <span class="token comment">// 只允许 Staking 合约调用，防止任意地址抽取流动性</span>
+    <span class="token keyword keyword-require">require</span><span class="token punctuation">(</span>msg<span class="token punctuation">.</span>sender <span class="token operator">==</span> <span class="token builtin">address</span><span class="token punctuation">(</span>staking<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">"Only staking contract"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// ===== 2. 获取池子的 SYI 实际余额 =====</span>
+    <span class="token comment">// 注意：这里读取的是 balance (实际余额)，不是 reserve (账面储备)</span>
+    <span class="token builtin">uint256</span> pairBalance <span class="token operator">=</span> <span class="token function">balanceOf</span><span class="token punctuation">(</span><span class="token builtin">address</span><span class="token punctuation">(</span>uniswapV2Pair<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// 例如: 4,162,981 SYI</span>
+
+    <span class="token comment">// ===== 3. 计算安全上限 (1/3 规则) =====</span>
+    <span class="token comment">// 为什么是 1/3？防止一次性抽空池子，保证流动性</span>
+    <span class="token builtin">uint256</span> maxRecyclable <span class="token operator">=</span> pairBalance <span class="token operator">/</span> <span class="token number">3</span><span class="token punctuation">;</span>
+    <span class="token comment">// 例如: 4,162,981 / 3 = 1,387,660 SYI</span>
+
+    <span class="token comment">// ===== 4. 确定实际回收数量 =====</span>
+    <span class="token builtin">uint256</span> recycleAmount <span class="token operator">=</span> amount <span class="token operator">&gt;=</span> maxRecyclable
+        <span class="token operator">?</span> maxRecyclable   <span class="token comment">// 请求过多，按上限回收</span>
+        <span class="token punctuation">:</span> amount<span class="token punctuation">;</span>         <span class="token comment">// 请求合理，按需回收</span>
+    <span class="token comment">// 例如: 请求 162,981 &lt; 上限 1,387,660 ✅，回收 162,981</span>
+
+    <span class="token comment">// ===== 5. 执行回收操作 =====</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>recycleAmount <span class="token operator">&gt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// 5.1 直接修改余额（不走 transfer，避免触发税费逻辑）</span>
+        <span class="token function">_update</span><span class="token punctuation">(</span>
+            <span class="token builtin">address</span><span class="token punctuation">(</span>uniswapV2Pair<span class="token punctuation">)</span><span class="token punctuation">,</span>  <span class="token comment">// from: Pair 地址</span>
+            <span class="token builtin">address</span><span class="token punctuation">(</span>staking<span class="token punctuation">)</span><span class="token punctuation">,</span>        <span class="token comment">// to: Staking 地址</span>
+            recycleAmount            <span class="token comment">// amount: 162,981 SYI</span>
+        <span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token comment">// 此时余额变化:</span>
+        <span class="token comment">// Pair: 4,162,981 - 162,981 = 4,000,000 SYI ✅ 恢复</span>
+        <span class="token comment">// Staking: 37,019 + 162,981 = 200,000 SYI ✅ 恢复</span>
+
+        <span class="token comment">// 5.2 同步 Pair 的储备量（关键！）</span>
+        uniswapV2Pair<span class="token punctuation">.</span><span class="token function">sync</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token comment">// sync() 的作用:</span>
+        <span class="token comment">// - 将 reserve (账面) 更新为 balance (实际)</span>
+        <span class="token comment">// - 确保 AMM 价格计算正确</span>
+        <span class="token comment">// - 防止套利攻击</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><p><strong>为什么必须调用 sync()？</strong></p>
+<p>Uniswap V2 的价格基于 <code>reserve</code>（账面储备量），而不是 <code>balance</code>（实际余额）：</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>问题：recycle 直接修改了 balance，但 reserve 还是旧的
+
+修改前:
+├─ Pair balance: 4,162,981 SYI (实际余额)
+└─ Pair reserve: 4,162,981 SYI (账面储备) ✅ 一致
+
+recycle 后 (未 sync):
+├─ Pair balance: 4,000,000 SYI (实际余额)
+└─ Pair reserve: 4,162,981 SYI (账面储备) ❌ 不一致
+
+后果:
+├─ AMM 价格计算错误（基于旧的 reserve）
+├─ K 值验证失败（reserve0 * reserve1 != k）
+└─ 下一笔交易会 revert
+
+调用 sync() 后:
+├─ Pair balance: 4,000,000 SYI
+└─ Pair reserve: 4,000,000 SYI ✅ 重新一致
+</code></pre><p><strong>sync() 源码</strong> (Uniswap V2):</p>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token keyword keyword-function">function</span> <span class="token function">sync</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword keyword-external">external</span> <span class="token punctuation">{</span>
+    <span class="token function">_update</span><span class="token punctuation">(</span>
+        <span class="token function">IERC20</span><span class="token punctuation">(</span>token0<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">balanceOf</span><span class="token punctuation">(</span><span class="token builtin">address</span><span class="token punctuation">(</span><span class="token keyword keyword-this">this</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token function">IERC20</span><span class="token punctuation">(</span>token1<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">balanceOf</span><span class="token punctuation">(</span><span class="token builtin">address</span><span class="token punctuation">(</span><span class="token keyword keyword-this">this</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        reserve0<span class="token punctuation">,</span>
+        reserve1
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token comment">// 作用: 强制将 reserve 更新为当前 balance</span>
+</code></pre><hr>
+<h2 id="recycle-机制深度解析">Recycle 机制深度解析 </h2>
+<h3 id="核心问题为什么需要-recycle">核心问题：为什么需要 Recycle？ </h3>
+<h4 id="场景对比">场景对比 </h4>
+<p><strong>场景 A：没有 Recycle（传统模式）</strong></p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>初始状态:
+└─ Staking: 200,000 SYI 储备
+
+第 1 次解质押:
+├─ 用户 A 提现，卖出 162,981 SYI
+├─ Staking 余额: 200,000 - 162,981 = 37,019 SYI ⚠️
+└─ 剩余储备: 37,019 SYI
+
+第 2 次解质押:
+├─ 用户 B 提现，需要卖出 ~160,000 SYI
+├─ 但 Staking 只有 37,019 SYI！
+└─ ❌ 交易失败，系统崩溃
+
+解决方案:
+└─ 需要定期手动补充 SYI 储备（运营成本高）
+</code></pre><p><strong>场景 B：有 Recycle（创新模式）</strong></p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>初始状态:
+└─ Staking: 200,000 SYI 储备
+
+第 1 次解质押:
+├─ 1. 用户 A 提现，卖出 162,981 SYI
+│   Staking 余额: 37,019 SYI ⚠️
+├─ 2. 调用 recycle(162,981)
+│   从 Pair 取回 162,981 SYI
+└─ 3. Staking 余额: 37,019 + 162,981 = 200,000 SYI ✅
+
+第 2 次解质押:
+├─ Staking 依然有 200,000 SYI ✅
+├─ 可以正常处理提现
+└─ 再次 recycle，继续循环
+
+第 N 次解质押:
+└─ 理论上可以无限循环 ♾️
+</code></pre><h3 id="recycle-的本质">Recycle 的本质 </h3>
+<p><strong>Recycle 不是"创造" SYI，而是"借用并归还"</strong></p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>┌─────────────────────────────────────────┐
+│ Staking 需要 USDT 支付奖励              │
+│         ↓                               │
+│ 但 Staking 只有 SYI 储备                │
+│         ↓                               │
+│ 1. 用 SYI 在 DEX 上换 USDT （卖出）    │
+│         ↓                               │
+│ 2. SYI 暂时留在 Pair 中                │
+│         ↓                               │
+│ 3. Recycle 把 SYI 拿回来 （归还）      │
+│         ↓                               │
+│ Staking 的 SYI 储备恢复 ✅              │
+└─────────────────────────────────────────┘
+
+关键理解:
+├─ SYI 只是"媒介货币"，不是奖励本身
+├─ 真正的奖励是 USDT（来自后续用户质押）
+└─ Recycle 让 SYI 循环使用，不会消耗
+</code></pre><h3 id="安全上限为什么只能回收-13">安全上限：为什么只能回收 1/3？ </h3>
+<p><strong>代码</strong>: <code>uint256 maxRecyclable = pairBalance / 3;</code></p>
+<p><strong>原因分析</strong>:</p>
+<ol>
+<li>
+<p><strong>保护流动性深度</strong></p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>如果允许全部回收:
+├─ Pair 中 SYI 被抽空
+├─ 流动性归零
+└─ 用户无法交易 ❌
+
+限制 1/3:
+├─ Pair 至少保留 2/3 的 SYI
+├─ 保证用户可以正常买卖
+└─ 价格不会剧烈波动 ✅
+</code></pre></li>
+<li>
+<p><strong>防止价格操纵</strong></p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>恶意攻击场景:
+├─ 攻击者大量买入 SYI（推高价格）
+├─ Pair 中 SYI 余额增加
+├─ 如果允许无限 recycle，Staking 可以拿走所有
+└─ 导致 Pair 流动性归零，价格崩盘
+
+1/3 限制:
+└─ 即使被操纵，也只能影响 1/3 的流动性
+</code></pre></li>
+<li>
+<p><strong>多人并发提现保护</strong></p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>极端情况:
+├─ 10 个用户同时解质押
+├─ Staking 需要连续卖出 10 次
+├─ 每次卖出后 Pair 余额增加
+└─ 但 recycle 只能拿回 1/3，防止耗尽池子
+</code></pre></li>
+</ol>
+<h3 id="recycle-的限制和风险">Recycle 的限制和风险 </h3>
+<h4 id="风险-1-流动性不足">风险 1: 流动性不足 </h4>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token comment">// 如果 Pair 中 SYI 太少</span>
+<span class="token builtin">uint256</span> pairBalance <span class="token operator">=</span> <span class="token number">100</span><span class="token punctuation">,</span><span class="token number">000</span> SYI<span class="token punctuation">;</span>  <span class="token comment">// 池子很浅</span>
+<span class="token builtin">uint256</span> maxRecyclable <span class="token operator">=</span> <span class="token number">100</span><span class="token punctuation">,</span><span class="token number">000</span> <span class="token operator">/</span> <span class="token number">3</span> <span class="token operator">=</span> <span class="token number">33</span><span class="token punctuation">,</span><span class="token number">333</span> SYI<span class="token punctuation">;</span>  <span class="token comment">// 最多回收 33k</span>
+
+<span class="token comment">// 但 Staking 需要回收 162,981 SYI</span>
+<span class="token function">recycle</span><span class="token punctuation">(</span><span class="token number">162</span><span class="token punctuation">,</span><span class="token number">981</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 实际只能回收 33,333 SYI ⚠️</span>
+
+<span class="token comment">// 结果:</span>
+<span class="token comment">// Staking 余额: 37,019 + 33,333 = 70,352 SYI</span>
+<span class="token comment">// 依然不够下次解质押使用 ❌</span>
+</code></pre><p><strong>解决方案</strong>:</p>
+<ul>
+<li>确保流动性池深度至少是 Staking 储备的 10 倍</li>
+<li>例如: Staking 200k SYI → Pair 至少 2M SYI</li>
+</ul>
+<h4 id="风险-2-大量并发提现">风险 2: 大量并发提现 </h4>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>10 个用户同时解质押:
+├─ Staking 初始: 200,000 SYI
+├─ 第 1 人: 卖出 162,981 SYI → recycle → 恢复 200k ✅
+├─ 第 2 人: 卖出 162,981 SYI → recycle → 恢复 200k ✅
+├─ ...
+└─ 第 10 人: 卖出时 Pair 可能太浅，recycle 不够 ⚠️
+</code></pre><p><strong>解决方案</strong>:</p>
+<ul>
+<li>增加 Staking 初始储备（例如 500k SYI）</li>
+<li>实现提现队列机制</li>
+<li>监控 Pair 流动性深度</li>
+</ul>
+<h4 id="风险-3-价格暴跌">风险 3: 价格暴跌 </h4>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>SYI 价格暴跌 50%:
+├─ 需要换取 1,563 USDT
+├─ 原本需要 162,981 SYI
+└─ 现在需要 325,962 SYI！❌
+
+Staking 储备不够:
+├─ 只有 200,000 SYI
+└─ 无法完成交易
+</code></pre><p><strong>解决方案</strong>:</p>
+<ul>
+<li>Staking 储备应该考虑价格波动（2-3 倍安全边际）</li>
+<li>设置最大单次提现限额</li>
+<li>紧急暂停机制</li>
+</ul>
+<hr>
+<h2 id="与主流-defi-项目对比">与主流 DeFi 项目对比 </h2>
+<h3 id="常见的质押奖励模式">常见的质押奖励模式 </h3>
+<table>
+<thead>
+<tr>
+<th>模式</th>
+<th>代表项目</th>
+<th>优点</th>
+<th>缺点</th>
+<th>SYI 采用?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>预铸造奖励池</strong></td>
+<td>Synthetix, Curve</td>
+<td>简单，可预测</td>
+<td>会耗尽，需定期补充</td>
+<td>❌</td>
+</tr>
+<tr>
+<td><strong>通胀铸造</strong></td>
+<td>Compound, Aave</td>
+<td>不耗尽</td>
+<td>持续通胀，稀释持币者</td>
+<td>❌</td>
+</tr>
+<tr>
+<td><strong>交易费分红</strong></td>
+<td>PancakeSwap</td>
+<td>可持续</td>
+<td>依赖交易量，不稳定</td>
+<td>❌</td>
+</tr>
+<tr>
+<td><strong>Rebase 机制</strong></td>
+<td>Ampleforth, OHM</td>
+<td>不耗尽</td>
+<td>价格剧烈波动</td>
+<td>❌</td>
+</tr>
+<tr>
+<td><strong>🔥 Recycle 机制</strong></td>
+<td><strong>SYI (创新)</strong></td>
+<td>不耗尽，无通胀</td>
+<td>依赖流动性深度</td>
+<td>✅</td>
+</tr>
+</tbody>
+</table>
+<h3 id="详细对比">详细对比 </h3>
+<h4 id="1-synthetix-预铸造奖励池">1. Synthetix (预铸造奖励池) </h4>
+<p><strong>机制</strong>:</p>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token comment">// 部署时预先铸造 1 亿 SNX</span>
+<span class="token builtin">uint256</span> <span class="token keyword keyword-public">public</span> rewardPool <span class="token operator">=</span> <span class="token number">100</span>_000_000 ether<span class="token punctuation">;</span>
+
+<span class="token keyword keyword-function">function</span> <span class="token function">distributeReward</span><span class="token punctuation">(</span><span class="token builtin">address</span> user<span class="token punctuation">,</span> <span class="token builtin">uint256</span> amount<span class="token punctuation">)</span> <span class="token keyword keyword-external">external</span> <span class="token punctuation">{</span>
+    <span class="token keyword keyword-require">require</span><span class="token punctuation">(</span>rewardPool <span class="token operator">&gt;=</span> amount<span class="token punctuation">,</span> <span class="token string">"Reward pool empty"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    rewardPool <span class="token operator">-=</span> amount<span class="token punctuation">;</span>
+    SNX<span class="token punctuation">.</span><span class="token function">transfer</span><span class="token punctuation">(</span>user<span class="token punctuation">,</span> amount<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><p><strong>问题</strong>:</p>
+<ul>
+<li>❌ 奖励池会耗尽，需要治理投票补充</li>
+<li>❌ 初期需要锁定大量代币（机会成本高）</li>
+</ul>
+<hr>
+<h4 id="2-compound-通胀铸造">2. Compound (通胀铸造) </h4>
+<p><strong>机制</strong>:</p>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token comment">// 每个区块动态铸造奖励</span>
+<span class="token keyword keyword-function">function</span> <span class="token function">distributeReward</span><span class="token punctuation">(</span><span class="token builtin">address</span> user<span class="token punctuation">,</span> <span class="token builtin">uint256</span> blocks<span class="token punctuation">)</span> <span class="token keyword keyword-external">external</span> <span class="token punctuation">{</span>
+    <span class="token builtin">uint256</span> reward <span class="token operator">=</span> blocks <span class="token operator">*</span> COMP_PER_BLOCK<span class="token punctuation">;</span>
+    COMP<span class="token punctuation">.</span><span class="token function">mint</span><span class="token punctuation">(</span>user<span class="token punctuation">,</span> reward<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 直接铸造新代币</span>
+<span class="token punctuation">}</span>
+</code></pre><p><strong>问题</strong>:</p>
+<ul>
+<li>❌ 持续通胀，稀释所有持币者</li>
+<li>❌ 代币价格长期下跌压力</li>
+</ul>
+<hr>
+<h4 id="3-pancakeswap-交易费分红">3. PancakeSwap (交易费分红) </h4>
+<p><strong>机制</strong>:</p>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token comment">// 从交易手续费中分配</span>
+<span class="token keyword keyword-function">function</span> <span class="token function">distributeReward</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword keyword-external">external</span> <span class="token punctuation">{</span>
+    <span class="token builtin">uint256</span> feeCollected <span class="token operator">=</span> pair<span class="token punctuation">.</span><span class="token function">feeTo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 例如: 1000 USDT</span>
+    <span class="token builtin">uint256</span> rewardPerShare <span class="token operator">=</span> feeCollected <span class="token operator">/</span> totalStaked<span class="token punctuation">;</span>
+    <span class="token comment">// 分配给质押者</span>
+<span class="token punctuation">}</span>
+</code></pre><p><strong>问题</strong>:</p>
+<ul>
+<li>❌ 依赖交易量，熊市时奖励极低</li>
+<li>❌ 不适合保证固定 APY</li>
+</ul>
+<hr>
+<h4 id="4-syi-recycle-机制">4. SYI (Recycle 机制) </h4>
+<p><strong>机制</strong>:</p>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token comment">// 1. 用储备的 SYI 换 USDT</span>
+<span class="token function">swapTokensForExactTokens</span><span class="token punctuation">(</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 2. 从池子回收 SYI</span>
+<span class="token function">recycle</span><span class="token punctuation">(</span>syiTokensUsed<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 3. 储备恢复，可以无限循环</span>
+</code></pre><p><strong>优势</strong>:</p>
+<ul>
+<li>✅ 代币储备不耗尽</li>
+<li>✅ 无需持续增发（无通胀）</li>
+<li>✅ 不依赖交易费</li>
+<li>✅ 可以保证固定 APY</li>
+</ul>
+<p><strong>劣势</strong>:</p>
+<ul>
+<li>⚠️ 依赖流动性池深度</li>
+<li>⚠️ 并发提现风险</li>
+<li>⚠️ 价格波动敏感</li>
+</ul>
+<hr>
+<h3 id="类似设计参考">类似设计参考 </h3>
+<p>虽然 Recycle 机制很罕见，但有几个项目有类似概念：</p>
+<h4 id="liquity---stability-pool">Liquity - Stability Pool </h4>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token comment">// 稳定池从清算中获利，但不直接从 DEX 回收</span>
+<span class="token keyword keyword-function">function</span> <span class="token function">liquidate</span><span class="token punctuation">(</span><span class="token builtin">address</span> borrower<span class="token punctuation">)</span> <span class="token keyword keyword-external">external</span> <span class="token punctuation">{</span>
+    <span class="token builtin">uint256</span> collateral <span class="token operator">=</span> vault<span class="token punctuation">[</span>borrower<span class="token punctuation">]</span><span class="token punctuation">.</span>collateral<span class="token punctuation">;</span>
+    stabilityPool<span class="token punctuation">.</span><span class="token function">addCollateral</span><span class="token punctuation">(</span>collateral<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 类似回收概念</span>
+<span class="token punctuation">}</span>
+</code></pre><p><strong>相似点</strong>: 从外部系统回收资产到奖励池<br>
+<strong>不同点</strong>: 不涉及 DEX 流动性操作</p>
+<hr>
+<h4 id="frax-finance---amo-algorithmic-market-operations">Frax Finance - AMO (Algorithmic Market Operations) </h4>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token comment">// AMO 可以从池子临时取出资产操作</span>
+<span class="token keyword keyword-function">function</span> <span class="token function">rebalance</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword keyword-external">external</span> onlyAMO <span class="token punctuation">{</span>
+    <span class="token builtin">uint256</span> excess <span class="token operator">=</span> pair<span class="token punctuation">.</span><span class="token function">reserve0</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span> targetReserve<span class="token punctuation">;</span>
+    pair<span class="token punctuation">.</span><span class="token function">skim</span><span class="token punctuation">(</span><span class="token builtin">address</span><span class="token punctuation">(</span><span class="token keyword keyword-this">this</span><span class="token punctuation">)</span><span class="token punctuation">,</span> excess<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 取出多余资产</span>
+    <span class="token comment">// ... 操作后再放回去</span>
+<span class="token punctuation">}</span>
+</code></pre><p><strong>相似点</strong>: 从流动性池取出资产后再放回<br>
+<strong>不同点</strong>: 用于稳定币锚定，非质押奖励</p>
+<hr>
+<h4 id="olympus-dao---bond-机制">Olympus DAO - Bond 机制 </h4>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token comment">// 通过 LP 操作支持奖励，但不是直接 recycle</span>
+<span class="token keyword keyword-function">function</span> <span class="token function">bond</span><span class="token punctuation">(</span><span class="token builtin">uint256</span> lpAmount<span class="token punctuation">)</span> <span class="token keyword keyword-external">external</span> <span class="token punctuation">{</span>
+    <span class="token builtin">uint256</span> ohmAmount <span class="token operator">=</span> <span class="token function">calculateBondReward</span><span class="token punctuation">(</span>lpAmount<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    OHM<span class="token punctuation">.</span><span class="token function">mint</span><span class="token punctuation">(</span>msg<span class="token punctuation">.</span>sender<span class="token punctuation">,</span> ohmAmount<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 仍然是增发</span>
+<span class="token punctuation">}</span>
+</code></pre><p><strong>相似点</strong>: 涉及流动性管理<br>
+<strong>不同点</strong>: 依然通过增发支付奖励</p>
+<hr>
+<h3 id="结论">结论 </h3>
+<p><strong>SYI 的 Recycle 机制是一个创新设计</strong>，在主流 DeFi 中很少见到完全相同的实现。它是一种：</p>
+<ul>
+<li><strong>高资金效率</strong> 的质押奖励方案</li>
+<li><strong>零通胀</strong> 的可持续模式</li>
+<li><strong>流动性友好</strong> 的循环系统</li>
+</ul>
+<p>但也需要注意：</p>
+<ul>
+<li>不是行业标准做法</li>
+<li>需要严格测试和监控</li>
+<li>需要充足的流动性支撑</li>
+</ul>
+<hr>
+<h2 id="安全性分析">安全性分析 </h2>
+<h3 id="安全机制">安全机制 </h3>
+<h4 id="1-权限控制">1. 权限控制 </h4>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token comment">// contracts/SYI/abstract/SYIBase.sol:410</span>
+<span class="token keyword keyword-require">require</span><span class="token punctuation">(</span>msg<span class="token punctuation">.</span>sender <span class="token operator">==</span> <span class="token builtin">address</span><span class="token punctuation">(</span>staking<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">"Only staking contract"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre><p>✅ <strong>防止</strong>: 任意地址调用 recycle 抽取流动性</p>
+<hr>
+<h4 id="2-数量上限">2. 数量上限 </h4>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token comment">// contracts/SYI/abstract/SYIBase.sol:459</span>
+<span class="token builtin">uint256</span> maxRecyclable <span class="token operator">=</span> pairBalance <span class="token operator">/</span> <span class="token number">3</span><span class="token punctuation">;</span>
+<span class="token builtin">uint256</span> recycleAmount <span class="token operator">=</span> amount <span class="token operator">&gt;=</span> maxRecyclable <span class="token operator">?</span> maxRecyclable <span class="token punctuation">:</span> amount<span class="token punctuation">;</span>
+</code></pre><p>✅ <strong>防止</strong>:</p>
+<ul>
+<li>一次性抽空流动性</li>
+<li>价格剧烈波动</li>
+<li>恶意攻击</li>
+</ul>
+<hr>
+<h4 id="3-储备量同步">3. 储备量同步 </h4>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token comment">// contracts/SYI/abstract/SYIBase.sol:497</span>
+uniswapV2Pair<span class="token punctuation">.</span><span class="token function">sync</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre><p>✅ <strong>防止</strong>:</p>
+<ul>
+<li>balance 和 reserve 不一致</li>
+<li>AMM 价格计算错误</li>
+<li>套利攻击</li>
+</ul>
+<hr>
+<h3 id="风险场景分析">风险场景分析 </h3>
+<h4 id="场景-1-流动性池被抽空">场景 1: 流动性池被抽空 </h4>
+<p><strong>攻击步骤</strong>:</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>1. 攻击者大量买入 SYI（池子 SYI 减少）
+2. 此时 Pair 中 SYI 余额很低
+3. 正常用户解质押，需要 recycle
+4. maxRecyclable = pairBalance / 3 ≈ 很少
+5. Staking 储备无法恢复
+</code></pre><p><strong>防护措施</strong>:</p>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token comment">// 1. 限制 1/3 上限</span>
+<span class="token builtin">uint256</span> maxRecyclable <span class="token operator">=</span> pairBalance <span class="token operator">/</span> <span class="token number">3</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 2. Staking 增加初始储备（例如 500k SYI）</span>
+<span class="token comment">// 3. 监控流动性深度，低于阈值时暂停解质押</span>
+<span class="token keyword keyword-require">require</span><span class="token punctuation">(</span>pairBalance <span class="token operator">&gt;</span> MIN_LIQUIDITY<span class="token punctuation">,</span> <span class="token string">"Insufficient liquidity"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre><hr>
+<h4 id="场景-2-价格操纵">场景 2: 价格操纵 </h4>
+<p><strong>攻击步骤</strong>:</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>1. 攻击者闪电贷借入大量 USDT
+2. 在 Pair 中买入 SYI（推高价格）
+3. 受害用户解质押，卖 SYI 时价格虚高
+4. recycle 时获得的 SYI 少于预期
+5. 攻击者归还闪电贷，价格回落
+</code></pre><p><strong>防护措施</strong>:</p>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token comment">// 1. 使用 TWAP (时间加权平均价格)</span>
+<span class="token comment">// 2. 限制单笔交易最大滑点</span>
+<span class="token builtin">uint256</span> slippageTolerance <span class="token operator">=</span> <span class="token number">15</span><span class="token operator">%</span><span class="token punctuation">;</span> <span class="token comment">// 最大 15% 滑点</span>
+
+<span class="token comment">// 3. 设置冷却期</span>
+<span class="token keyword keyword-require">require</span><span class="token punctuation">(</span>block<span class="token punctuation">.</span>timestamp <span class="token operator">-</span> lastBuyTime<span class="token punctuation">[</span>user<span class="token punctuation">]</span> <span class="token operator">&gt;</span> COOLDOWN<span class="token punctuation">,</span> <span class="token string">"Too frequent"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre><hr>
+<h4 id="场景-3-重入攻击">场景 3: 重入攻击 </h4>
+<p><strong>攻击场景</strong>:</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>1. 恶意合约调用 unstake()
+2. 在接收 USDT 时（fallback/receive）
+3. 再次调用 unstake()
+4. 可能在 recycle 前多次卖出 SYI
+</code></pre><p><strong>防护措施</strong>:</p>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token comment">// 1. 使用 Checks-Effects-Interactions 模式</span>
+user_record<span class="token punctuation">.</span>status <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>  <span class="token comment">// 先修改状态</span>
+<span class="token function">_update</span><span class="token punctuation">(</span>sender<span class="token punctuation">,</span> <span class="token builtin">address</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">,</span> amount<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 再销毁代币</span>
+<span class="token function">IERC20</span><span class="token punctuation">(</span>USDT<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">transfer</span><span class="token punctuation">(</span>msg<span class="token punctuation">.</span>sender<span class="token punctuation">,</span> userPayout<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 最后转账</span>
+
+<span class="token comment">// 2. 使用 ReentrancyGuard</span>
+<span class="token keyword keyword-import">import</span> <span class="token string">"@openzeppelin/contracts/security/ReentrancyGuard.sol"</span><span class="token punctuation">;</span>
+<span class="token keyword keyword-function">function</span> <span class="token function">unstake</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword keyword-external">external</span> nonReentrant <span class="token punctuation">{</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span> <span class="token punctuation">}</span>
+</code></pre><hr>
+<h3 id="建议的监控指标">建议的监控指标 </h3>
+<pre data-role="codeBlock" data-info="javascript" class="language-javascript javascript"><code><span class="token comment">// 链下监控脚本</span>
+<span class="token keyword keyword-async">async</span> <span class="token keyword keyword-function">function</span> <span class="token function">monitorSystem</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 1. Staking SYI 储备</span>
+    <span class="token keyword keyword-const">const</span> stakingBalance <span class="token operator">=</span> <span class="token keyword control-flow keyword-await">await</span> syi<span class="token punctuation">.</span><span class="token method function property-access">balanceOf</span><span class="token punctuation">(</span>staking<span class="token punctuation">.</span><span class="token property-access">address</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword control-flow keyword-if">if</span> <span class="token punctuation">(</span>stakingBalance <span class="token operator">&lt;</span> <span class="token constant">MIN_RESERVE</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">alert</span><span class="token punctuation">(</span><span class="token string">"⚠️ Staking reserve too low!"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">// 2. Pair 流动性深度</span>
+    <span class="token keyword keyword-const">const</span> <span class="token punctuation">[</span>reserve0<span class="token punctuation">,</span> reserve1<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token keyword control-flow keyword-await">await</span> pair<span class="token punctuation">.</span><span class="token method function property-access">getReserves</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-const">const</span> syiReserve <span class="token operator">=</span> reserve0<span class="token punctuation">;</span>  <span class="token comment">// 假设 token0 是 SYI</span>
+    <span class="token keyword control-flow keyword-if">if</span> <span class="token punctuation">(</span>syiReserve <span class="token operator">&lt;</span> <span class="token constant">MIN_LIQUIDITY</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">alert</span><span class="token punctuation">(</span><span class="token string">"⚠️ Pair liquidity too low!"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">// 3. 储备恢复率</span>
+    <span class="token keyword keyword-const">const</span> recycleSuccessRate <span class="token operator">=</span> stakingBalance <span class="token operator">/</span> <span class="token constant">INITIAL_RESERVE</span><span class="token punctuation">;</span>
+    <span class="token keyword control-flow keyword-if">if</span> <span class="token punctuation">(</span>recycleSuccessRate <span class="token operator">&lt;</span> <span class="token number">0.8</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">alert</span><span class="token punctuation">(</span><span class="token string">"⚠️ Recycle not working properly!"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">// 4. 价格偏离度</span>
+    <span class="token keyword keyword-const">const</span> currentPrice <span class="token operator">=</span> reserve1 <span class="token operator">/</span> reserve0<span class="token punctuation">;</span>
+    <span class="token keyword keyword-const">const</span> deviation <span class="token operator">=</span> <span class="token known-class-name class-name">Math</span><span class="token punctuation">.</span><span class="token method function property-access">abs</span><span class="token punctuation">(</span>currentPrice <span class="token operator">-</span> expectedPrice<span class="token punctuation">)</span> <span class="token operator">/</span> expectedPrice<span class="token punctuation">;</span>
+    <span class="token keyword control-flow keyword-if">if</span> <span class="token punctuation">(</span>deviation <span class="token operator">&gt;</span> <span class="token number">0.2</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">alert</span><span class="token punctuation">(</span><span class="token string">"⚠️ Price deviation too high!"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token function">setInterval</span><span class="token punctuation">(</span>monitorSystem<span class="token punctuation">,</span> <span class="token number">60000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 每分钟检查</span>
+</code></pre><hr>
+<h2 id="关键代码索引">关键代码索引 </h2>
+<h3 id="核心合约文件">核心合约文件 </h3>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>contracts/
+├── SYI/
+│   ├── abstract/
+│   │   └── SYIBase.sol                    # SYI 核心逻辑
+│   │       ├── recycle()                  # ⭐ Recycle 机制 (L405-505)
+│   │       └── _update()                  # 代币转账逻辑 (L656-687)
+│   └── mainnet/
+│       └── SYI.sol                        # 主网配置
+│
+└── SYI-Staking/
+    ├── abstract/
+    │   └── StakingBase.sol                # Staking 核心逻辑
+    │       ├── unstake()                  # ⭐ 解质押入口 (L200-264)
+    │       ├── _burn()                    # 计算奖励 (L897-920)
+    │       ├── _swapSYIForReward()        # ⭐ 卖 SYI 换 USDT (L922-950)
+    │       ├── _distributeFriendReward()  # Friend 奖励 (L999-1012)
+    │       ├── _distributeTeamReward()    # 团队奖励 (L1014-1078)
+    │       └── _recordWithdrawal()        # 记录提现 (L1343-1388)
+    └── mainnet/
+        └── Staking.sol                    # 主网配置
+</code></pre><h3 id="关键函数调用链">关键函数调用链 </h3>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>用户调用 unstake()
+  └─&gt; contracts/SYI-Staking/abstract/StakingBase.sol:200
+      │
+      ├─&gt; _burn(stakeIndex)
+      │   └─&gt; L897: 计算奖励，销毁 sSYI
+      │
+      ├─&gt; _swapSYIForReward(calculatedReward)
+      │   └─&gt; L922: 用 Staking 储备的 SYI 换 USDT
+      │       └─&gt; Router.swapTokensForExactTokens(...)
+      │
+      ├─&gt; _distributeFriendReward(...)
+      │   └─&gt; L999: 分配 5% 给 Friend
+      │
+      ├─&gt; _distributeTeamReward(...)
+      │   └─&gt; L1014: 分配 35% 给团队
+      │
+      ├─&gt; IERC20(USDT).transfer(msg.sender, userPayout)
+      │   └─&gt; L258: 转账 USDT 给用户
+      │
+      └─&gt; SYI.recycle(syiTokensUsed)
+          └─&gt; contracts/SYI/abstract/SYIBase.sol:405
+              │
+              ├─&gt; L410: 权限检查
+              ├─&gt; L448: 获取 Pair 的 SYI 余额
+              ├─&gt; L459: 计算安全上限 (1/3)
+              ├─&gt; L477: _update(Pair, Staking, recycleAmount)
+              └─&gt; L497: Pair.sync() 同步储备
+</code></pre><h3 id="关键变量位置">关键变量位置 </h3>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token comment">// Staking 合约</span>
+contracts<span class="token operator">/</span>SYI<span class="token operator">-</span>Staking<span class="token operator">/</span>abstract<span class="token operator">/</span>StakingBase<span class="token punctuation">.</span>sol
+├─ L90<span class="token punctuation">:</span>  USDT <span class="token punctuation">(</span>immutable<span class="token punctuation">)</span>
+├─ L91<span class="token punctuation">:</span>  ROUTER <span class="token punctuation">(</span>immutable<span class="token punctuation">)</span>
+├─ L98<span class="token punctuation">:</span>  SYI <span class="token punctuation">(</span>可设置<span class="token punctuation">)</span>
+├─ L105<span class="token punctuation">:</span> totalSupply <span class="token punctuation">(</span>sSYI 总量<span class="token punctuation">)</span>
+├─ L106<span class="token punctuation">:</span> balances <span class="token punctuation">(</span>用户 sSYI 余额<span class="token punctuation">)</span>
+└─ L116<span class="token punctuation">:</span> userStakeRecord <span class="token punctuation">(</span>质押记录<span class="token punctuation">)</span>
+
+<span class="token comment">// SYI 合约</span>
+contracts<span class="token operator">/</span>SYI<span class="token operator">/</span>abstract<span class="token operator">/</span>SYIBase<span class="token punctuation">.</span>sol
+├─ L213<span class="token punctuation">:</span> USDT <span class="token punctuation">(</span>immutable<span class="token punctuation">)</span>
+├─ L214<span class="token punctuation">:</span> uniswapV2Router <span class="token punctuation">(</span>immutable<span class="token punctuation">)</span>
+├─ L215<span class="token punctuation">:</span> staking <span class="token punctuation">(</span>immutable<span class="token punctuation">)</span>
+└─ L221<span class="token punctuation">:</span> uniswapV2Pair <span class="token punctuation">(</span>可设置<span class="token punctuation">)</span>
+</code></pre><hr>
+<h2 id="常见问题-faq">常见问题 FAQ </h2>
+<h3 id="q1-staking-合约需要多少-syi-储备">Q1: Staking 合约需要多少 SYI 储备？ </h3>
+<p><strong>答</strong>: 取决于以下因素：</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>最小储备计算公式:
+minReserve = maxStakeAmount × maxAPY × maxConcurrentUnstakes × safetyMargin
+
+示例:
+├─ maxStakeAmount: 1,000 USDT (单次最大质押)
+├─ maxAPY: 56.31% (30 天档最高收益)
+├─ maxConcurrentUnstakes: 5 (假设最多 5 人同时提现)
+├─ safetyMargin: 2x (考虑价格波动)
+└─ SYI 价格: 0.01 USDT/SYI
+
+计算:
+1. 单次最大奖励: 1,000 × 1.5631 = 1,563.1 USDT
+2. 需要 SYI: 1,563.1 / 0.01 = 156,310 SYI
+3. 并发 5 人: 156,310 × 5 = 781,550 SYI
+4. 安全边际: 781,550 × 2 = 1,563,100 SYI
+
+建议储备: 1,500,000 - 2,000,000 SYI
+</code></pre><p>但由于 <strong>recycle 机制</strong>，实际可以更少：</p>
+<ul>
+<li>最低: 500,000 SYI</li>
+<li>推荐: 1,000,000 SYI</li>
+<li>保守: 2,000,000 SYI</li>
+</ul>
+<hr>
+<h3 id="q2-如果-recycle-失败会怎样">Q2: 如果 recycle 失败会怎样？ </h3>
+<p><strong>失败场景</strong>:</p>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token comment">// Pair 中 SYI 太少</span>
+<span class="token builtin">uint256</span> pairBalance <span class="token operator">=</span> <span class="token number">50</span><span class="token punctuation">,</span><span class="token number">000</span> SYI<span class="token punctuation">;</span>
+<span class="token builtin">uint256</span> maxRecyclable <span class="token operator">=</span> <span class="token number">50</span><span class="token punctuation">,</span><span class="token number">000</span> <span class="token operator">/</span> <span class="token number">3</span> <span class="token operator">=</span> <span class="token number">16</span><span class="token punctuation">,</span><span class="token number">666</span> SYI<span class="token punctuation">;</span>
+
+<span class="token comment">// 但需要回收 162,981 SYI</span>
+<span class="token function">recycle</span><span class="token punctuation">(</span><span class="token number">162</span><span class="token punctuation">,</span><span class="token number">981</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 实际只回收 16,666 SYI</span>
+</code></pre><p><strong>后果</strong>:</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>Staking 余额:
+├─ 卖出前: 200,000 SYI
+├─ 卖出后: 37,019 SYI
+├─ recycle 后: 37,019 + 16,666 = 53,685 SYI ⚠️
+└─ 下次提现可能不够用
+
+解决方案:
+├─ 1. 增加 Staking 初始储备
+├─ 2. 确保 Pair 流动性充足
+├─ 3. 限制最大质押额度
+└─ 4. 实现提现队列机制
+</code></pre><hr>
+<h3 id="q3-recycle-会影响-syi-价格吗">Q3: Recycle 会影响 SYI 价格吗？ </h3>
+<p><strong>答</strong>: 会，但影响很小。</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>假设初始状态:
+├─ Pair: 4,000,000 SYI + 40,000 USDT
+└─ 价格: 40,000 / 4,000,000 = 0.01 USDT/SYI
+
+步骤 1: 卖出 SYI
+├─ Pair: 4,162,981 SYI + 38,436.9 USDT
+├─ 价格: 38,436.9 / 4,162,981 = 0.00923 USDT/SYI
+└─ 价格下跌: -7.7% ⚠️
+
+步骤 2: Recycle
+├─ Pair: 4,000,000 SYI + 38,436.9 USDT
+├─ 价格: 38,436.9 / 4,000,000 = 0.00961 USDT/SYI
+└─ 价格回升: +4.1%
+
+最终影响:
+├─ 初始价格: 0.01 USDT/SYI
+├─ 最终价格: 0.00961 USDT/SYI
+└─ 净下跌: -3.9% (仅 USDT 被取走的影响)
+</code></pre><p><strong>关键点</strong>:</p>
+<ul>
+<li>✅ Recycle 让 SYI 数量恢复，价格部分回升</li>
+<li>⚠️ 但 USDT 被取走了，所以价格仍会略微下跌</li>
+<li>✅ 下跌幅度远小于没有 recycle 的情况</li>
+</ul>
+<hr>
+<h3 id="q4-这个机制合法合规吗">Q4: 这个机制合法/合规吗？ </h3>
+<p><strong>技术角度</strong>: 完全合法，这是智能合约的正常逻辑。</p>
+<p><strong>风险提示</strong>:</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>✅ 优点:
+├─ 代码开源，逻辑透明
+├─ 没有后门或恶意代码
+└─ 符合 DeFi 去中心化原则
+
+⚠️ 注意:
+├─ 不是行业标准做法（创新但未经大规模验证）
+├─ 依赖流动性深度（需要充足的 LP）
+├─ 需要充分的审计和测试
+└─ 向用户清晰披露机制原理
+</code></pre><p><strong>建议</strong>:</p>
+<ol>
+<li>进行专业的智能合约审计</li>
+<li>在文档中清晰说明 recycle 机制</li>
+<li>进行充分的测试网测试</li>
+<li>逐步增加 TVL，避免一次性大量资金涌入</li>
+</ol>
+<hr>
+<h3 id="q5-可以取消-recycle-吗">Q5: 可以取消 recycle 吗？ </h3>
+<p><strong>可以，但不推荐</strong>:</p>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token comment">// 方案 A: 注释掉 recycle 调用</span>
+<span class="token keyword keyword-function">function</span> <span class="token function">unstake</span><span class="token punctuation">(</span><span class="token builtin">uint256</span> stakeIndex<span class="token punctuation">)</span> <span class="token keyword keyword-external">external</span> <span class="token keyword keyword-returns">returns</span> <span class="token punctuation">(</span><span class="token builtin">uint256</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// ... 卖 SYI 换 USDT</span>
+    <span class="token comment">// SYI.recycle(syiTokensUsed);  // ❌ 不调用 recycle</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// 后果:</span>
+<span class="token comment">// ├─ Staking 储备会逐渐耗尽</span>
+<span class="token comment">// └─ 需要定期手动补充 SYI</span>
+</code></pre><p><strong>替代方案</strong>:</p>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token comment">// 方案 B: 改为通胀模式</span>
+<span class="token keyword keyword-function">function</span> <span class="token function">unstake</span><span class="token punctuation">(</span><span class="token builtin">uint256</span> stakeIndex<span class="token punctuation">)</span> <span class="token keyword keyword-external">external</span> <span class="token keyword keyword-returns">returns</span> <span class="token punctuation">(</span><span class="token builtin">uint256</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// ... 计算奖励</span>
+
+    <span class="token comment">// 不卖 SYI，直接铸造 USDT（如果是稳定币项目）</span>
+    USDT<span class="token punctuation">.</span><span class="token function">mint</span><span class="token punctuation">(</span><span class="token builtin">address</span><span class="token punctuation">(</span><span class="token keyword keyword-this">this</span><span class="token punctuation">)</span><span class="token punctuation">,</span> calculatedReward<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// 或者从奖励池转账</span>
+    USDT<span class="token punctuation">.</span><span class="token function">transferFrom</span><span class="token punctuation">(</span>rewardPool<span class="token punctuation">,</span> <span class="token builtin">address</span><span class="token punctuation">(</span><span class="token keyword keyword-this">this</span><span class="token punctuation">)</span><span class="token punctuation">,</span> calculatedReward<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><p><strong>结论</strong>: Recycle 是这个系统的核心机制，取消后需要重新设计整个奖励分配逻辑。</p>
+<hr>
+<h2 id="总结">总结 </h2>
+<h3 id="核心要点">核心要点 </h3>
+<ol>
+<li><strong>Staking 合约有 SYI 储备</strong> (必须预充值)</li>
+<li><strong>解质押时用储备卖 SYI 换 USDT</strong> (支付奖励)</li>
+<li><strong>Recycle 从 Pair 回收 SYI</strong> (恢复储备)</li>
+<li><strong>储备循环使用，理论上永不耗尽</strong> ♾️</li>
+</ol>
+<h3 id="创新点">创新点 </h3>
+<ul>
+<li>✅ <strong>零通胀</strong>: 不需要增发代币</li>
+<li>✅ <strong>高效率</strong>: 资金循环利用</li>
+<li>✅ <strong>可持续</strong>: 不依赖交易费或外部收入</li>
+</ul>
+<h3 id="注意事项">注意事项 </h3>
+<ul>
+<li>⚠️ <strong>依赖流动性</strong>: 需要充足的 Pair 深度</li>
+<li>⚠️ <strong>并发风险</strong>: 大量同时提现可能导致储备不足</li>
+<li>⚠️ <strong>价格敏感</strong>: 价格暴跌会增加 SYI 消耗</li>
+</ul>
+<h3 id="推荐配置">推荐配置 </h3>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>最低配置:
+├─ Staking 储备: 500,000 SYI
+└─ Pair 流动性: 5,000,000 SYI + 50,000 USDT
+
+推荐配置:
+├─ Staking 储备: 1,000,000 SYI
+└─ Pair 流动性: 10,000,000 SYI + 100,000 USDT
+
+保守配置:
+├─ Staking 储备: 2,000,000 SYI
+└─ Pair 流动性: 20,000,000 SYI + 200,000 USDT
+</code></pre><hr>
+<h2 id="附录">附录 </h2>
+<h3 id="完整调用示例">完整调用示例 </h3>
+<pre data-role="codeBlock" data-info="javascript" class="language-javascript javascript"><code><span class="token comment">// JavaScript 测试脚本</span>
+<span class="token keyword keyword-const">const</span> <span class="token punctuation">{</span> ethers <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"hardhat"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-async">async</span> <span class="token keyword keyword-function">function</span> <span class="token function">testUnstakeWithRecycle</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword keyword-const">const</span> <span class="token punctuation">[</span>user<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token keyword control-flow keyword-await">await</span> ethers<span class="token punctuation">.</span><span class="token method function property-access">getSigners</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// 1. 查询初始状态</span>
+    <span class="token console class-name">console</span><span class="token punctuation">.</span><span class="token method function property-access">log</span><span class="token punctuation">(</span><span class="token string">"=== 初始状态 ==="</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-const">const</span> stakingBalance <span class="token operator">=</span> <span class="token keyword control-flow keyword-await">await</span> syi<span class="token punctuation">.</span><span class="token method function property-access">balanceOf</span><span class="token punctuation">(</span>staking<span class="token punctuation">.</span><span class="token property-access">address</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-const">const</span> <span class="token punctuation">[</span>reserve0<span class="token punctuation">,</span> reserve1<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token keyword control-flow keyword-await">await</span> pair<span class="token punctuation">.</span><span class="token method function property-access">getReserves</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token console class-name">console</span><span class="token punctuation">.</span><span class="token method function property-access">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">Staking SYI: </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>ethers<span class="token punctuation">.</span><span class="token property-access">utils</span><span class="token punctuation">.</span><span class="token method function property-access">formatEther</span><span class="token punctuation">(</span>stakingBalance<span class="token punctuation">)</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token console class-name">console</span><span class="token punctuation">.</span><span class="token method function property-access">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">Pair SYI: </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>ethers<span class="token punctuation">.</span><span class="token property-access">utils</span><span class="token punctuation">.</span><span class="token method function property-access">formatEther</span><span class="token punctuation">(</span>reserve0<span class="token punctuation">)</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token console class-name">console</span><span class="token punctuation">.</span><span class="token method function property-access">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">Pair USDT: </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>ethers<span class="token punctuation">.</span><span class="token property-access">utils</span><span class="token punctuation">.</span><span class="token method function property-access">formatEther</span><span class="token punctuation">(</span>reserve1<span class="token punctuation">)</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// 2. 执行解质押</span>
+    <span class="token console class-name">console</span><span class="token punctuation">.</span><span class="token method function property-access">log</span><span class="token punctuation">(</span><span class="token string">"\n=== 执行解质押 ==="</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-const">const</span> tx <span class="token operator">=</span> <span class="token keyword control-flow keyword-await">await</span> staking<span class="token punctuation">.</span><span class="token method function property-access">unstake</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-const">const</span> receipt <span class="token operator">=</span> <span class="token keyword control-flow keyword-await">await</span> tx<span class="token punctuation">.</span><span class="token method function property-access">wait</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// 3. 查询最终状态</span>
+    <span class="token console class-name">console</span><span class="token punctuation">.</span><span class="token method function property-access">log</span><span class="token punctuation">(</span><span class="token string">"\n=== 最终状态 ==="</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-const">const</span> stakingBalanceAfter <span class="token operator">=</span> <span class="token keyword control-flow keyword-await">await</span> syi<span class="token punctuation">.</span><span class="token method function property-access">balanceOf</span><span class="token punctuation">(</span>staking<span class="token punctuation">.</span><span class="token property-access">address</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-const">const</span> <span class="token punctuation">[</span>reserve0After<span class="token punctuation">,</span> reserve1After<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token keyword control-flow keyword-await">await</span> pair<span class="token punctuation">.</span><span class="token method function property-access">getReserves</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token console class-name">console</span><span class="token punctuation">.</span><span class="token method function property-access">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">Staking SYI: </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>ethers<span class="token punctuation">.</span><span class="token property-access">utils</span><span class="token punctuation">.</span><span class="token method function property-access">formatEther</span><span class="token punctuation">(</span>stakingBalanceAfter<span class="token punctuation">)</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token console class-name">console</span><span class="token punctuation">.</span><span class="token method function property-access">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">Pair SYI: </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>ethers<span class="token punctuation">.</span><span class="token property-access">utils</span><span class="token punctuation">.</span><span class="token method function property-access">formatEther</span><span class="token punctuation">(</span>reserve0After<span class="token punctuation">)</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token console class-name">console</span><span class="token punctuation">.</span><span class="token method function property-access">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">Pair USDT: </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>ethers<span class="token punctuation">.</span><span class="token property-access">utils</span><span class="token punctuation">.</span><span class="token method function property-access">formatEther</span><span class="token punctuation">(</span>reserve1After<span class="token punctuation">)</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// 4. 验证 recycle 效果</span>
+    <span class="token console class-name">console</span><span class="token punctuation">.</span><span class="token method function property-access">log</span><span class="token punctuation">(</span><span class="token string">"\n=== Recycle 效果 ==="</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token console class-name">console</span><span class="token punctuation">.</span><span class="token method function property-access">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">Staking 储备恢复: </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>stakingBalance<span class="token punctuation">.</span><span class="token method function property-access">eq</span><span class="token punctuation">(</span>stakingBalanceAfter<span class="token punctuation">)</span> <span class="token operator">?</span> <span class="token string">'✅'</span> <span class="token operator">:</span> <span class="token string">'❌'</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token console class-name">console</span><span class="token punctuation">.</span><span class="token method function property-access">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">Pair SYI 恢复: </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>reserve0<span class="token punctuation">.</span><span class="token method function property-access">eq</span><span class="token punctuation">(</span>reserve0After<span class="token punctuation">)</span> <span class="token operator">?</span> <span class="token string">'✅'</span> <span class="token operator">:</span> <span class="token string">'⚠️ 有差异'</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token function">testUnstakeWithRecycle</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre><h3 id="相关文档">相关文档 </h3>
+<ul>
+<li><a href="./SYI-Recycle%E6%9C%BA%E5%88%B6%E6%B5%81%E7%A8%8B%E5%9B%BE.md">SYI-Recycle机制流程图.md</a> - 图形化流程说明</li>
+<li><a href="./%E5%90%88%E7%BA%A6%E9%83%A8%E7%BD%B2%E6%8C%87%E5%8D%97.md">合约部署指南.md</a> - 部署和配置说明</li>
+<li><a href="./%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B%E6%96%87%E6%A1%A3.md">测试用例文档.md</a> - 完整测试场景</li>
+</ul>
+<hr>
+<p><strong>文档版本</strong>: v1.0<br>
+<strong>最后更新</strong>: 2025-01-XX<br>
+<strong>维护者</strong>: Development Team</p>
+
+      </div>
+      
+      
+    
+    
+    <script type="module">
+// TODO: If ZenUML gets integrated into mermaid in the future,
+//      we can remove the following lines.
+
+
+var MERMAID_CONFIG = ({"startOnLoad":false});
+if (typeof MERMAID_CONFIG !== 'undefined') {
+  MERMAID_CONFIG.startOnLoad = false
+  MERMAID_CONFIG.cloneCssStyles = false
+  MERMAID_CONFIG.theme = "default"
+}
+
+mermaid.initialize(MERMAID_CONFIG || {})
+if (typeof(window['Reveal']) !== 'undefined') {
+  function mermaidRevealHelper(event) {
+    var currentSlide = event.currentSlide
+    var diagrams = currentSlide.querySelectorAll('.mermaid')
+    for (var i = 0; i < diagrams.length; i++) {
+      var diagram = diagrams[i]
+      if (!diagram.hasAttribute('data-processed')) {
+        mermaid.init(null, diagram, ()=> {
+          Reveal.slide(event.indexh, event.indexv)
+        })
+      }
+    }
+  }
+  Reveal.addEventListener('slidetransitionend', mermaidRevealHelper)
+  Reveal.addEventListener('ready', mermaidRevealHelper)
+  await mermaid.run({
+    nodes: document.querySelectorAll('.mermaid')
+  })
+} else {
+  await mermaid.run({
+    nodes: document.querySelectorAll('.mermaid')
+  })
+}
+</script>
+    
+    
+    
+  
+    </body></html>

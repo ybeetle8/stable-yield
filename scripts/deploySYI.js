@@ -55,26 +55,13 @@ async function main() {
   // ========================================
   console.log("\n[3/4] 部署 SYI 代币合约...");
 
-  // 先部署临时 FundRelay
-  console.log("  - 部署临时 FundRelay...");
-  const FundRelay = await hre.ethers.getContractFactory("contracts/SYI/utils/FundRelay.sol:FundRelay");
-  const tempFundRelay = await FundRelay.deploy(
-    deployer.address, // 临时使用 deployer 地址
-    usdtAddress,
-    deployer.address  // emergency recipient
-  );
-  await tempFundRelay.waitForDeployment();
-  const tempFundRelayAddress = await tempFundRelay.getAddress();
-  console.log("  ✅ 临时 FundRelay 部署:", tempFundRelayAddress);
-
-  // 部署 SYI
+  // 部署 SYI（无需 FundRelay）
   console.log("  - 部署 SYI 代币...");
   const SYI = await hre.ethers.getContractFactory("contracts/SYI/mainnet/SYI.sol:SYI");
   const syi = await SYI.deploy(
     usdtAddress,
     routerAddress,
     stakingAddress
-    // marketingWallet.address 已移除 - 无交易税系统
   );
   await syi.waitForDeployment();
   const syiAddress = await syi.getAddress();
@@ -94,30 +81,13 @@ async function main() {
   console.log("✅ 白名单初始化完成");
 
   // 2. 配置 Staking 的 SYI 地址
-  console.log("\n[2/5] 配置 Staking.setSYI()...");
+  console.log("\n[2/3] 配置 Staking.setSYI()...");
   const setSYITx = await staking.setSYI(syiAddress);
   await setSYITx.wait();
   console.log("✅ Staking 配置完成");
 
-  // 3. 重新部署正确的 FundRelay
-  console.log("\n[3/5] 重新部署 FundRelay (使用正确的 SYI 地址)...");
-  const fundRelay = await FundRelay.deploy(
-    syiAddress,
-    usdtAddress,
-    deployer.address  // emergency recipient
-  );
-  await fundRelay.waitForDeployment();
-  const fundRelayAddress = await fundRelay.getAddress();
-  console.log("✅ FundRelay 部署成功:", fundRelayAddress);
-
-  // 4. 设置 SYI 的 FundRelay
-  console.log("\n[4/5] 设置 SYI.setFundRelay()...");
-  const setFundRelayTx = await syi.setFundRelay(fundRelayAddress);
-  await setFundRelayTx.wait();
-  console.log("✅ FundRelay 设置完成");
-
-  // 5. 创建并设置交易对
-  console.log("\n[5/5] 创建 SYI/USDT 交易对...");
+  // 3. 创建并设置交易对
+  console.log("\n[3/3] 创建 SYI/USDT 交易对...");
   const createPairTx = await factory.createPair(syiAddress, usdtAddress);
   await createPairTx.wait();
   const pairAddress = await factory.getPair(syiAddress, usdtAddress);
@@ -167,7 +137,6 @@ async function main() {
     contracts: {
       SYI: syiAddress,
       Staking: stakingAddress,
-      FundRelay: fundRelayAddress,
       USDT: usdtAddress,
       WBNB: wbnbAddress,
       PancakeFactory: factoryAddress,
@@ -184,8 +153,7 @@ async function main() {
     configuration: {
       presaleActive,
       delayedBuyEnabled,
-      coldTime: (await syi.coldTime()).toString(),
-      swapAtAmount: (await syi.swapAtAmount()).toString()
+      coldTime: (await syi.coldTime()).toString()
     },
     taxRates: {
       buyTax: "0%",

@@ -19,8 +19,7 @@ async function main() {
     Staking: stakingAddress,
     USDT: usdtAddress,
     PancakeRouter: routerAddress,
-    SYI_USDT_Pair: pairAddress,
-    FundRelay: fundRelayAddress
+    SYI_USDT_Pair: pairAddress
   } = deployment.contracts;
 
   console.log("合约地址:");
@@ -29,7 +28,6 @@ async function main() {
   console.log("- USDT:", usdtAddress);
   console.log("- Router:", routerAddress);
   console.log("- Pair:", pairAddress);
-  console.log("- FundRelay:", fundRelayAddress);
   console.log("");
 
   // 获取签名者
@@ -72,14 +70,13 @@ async function main() {
   const routerAddr = await syi.uniswapV2Router();
   const stakingAddr = await syi.staking();
   const pairAddr = await syi.getUniswapV2Pair();
-  const fundRelayAddr = await syi.getFundRelay();
 
   console.log("SYI 配置:");
   console.log("✅ USDT 地址:", usdtAddr);
   console.log("✅ Router 地址:", routerAddr);
   console.log("✅ Staking 地址:", stakingAddr);
   console.log("✅ Pair 地址:", pairAddr);
-  console.log("✅ FundRelay 地址:", fundRelayAddr);
+  console.log("ℹ️  FundRelay: 已移除（无税费系统无需中转）");
   console.log("ℹ️  Marketing 地址: 已移除（无交易税系统）");
 
   // 验证地址正确性
@@ -94,9 +91,6 @@ async function main() {
   }
   if (pairAddr.toLowerCase() !== pairAddress.toLowerCase()) {
     console.log("❌ Pair 地址不匹配！");
-  }
-  if (fundRelayAddr.toLowerCase() !== fundRelayAddress.toLowerCase()) {
-    console.log("❌ FundRelay 地址不匹配！");
   }
 
   // ========================================

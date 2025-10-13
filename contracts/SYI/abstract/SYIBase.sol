@@ -8,7 +8,6 @@ import {IUniswapV2Router02} from "../interfaces/IUniswapV2Router02.sol";
 import {IUniswapV2Pair} from "../interfaces/IUniswapV2Pair.sol";
 import {IUniswapV2Factory} from "../interfaces/IUniswapV2Factory.sol";
 import {IStaking} from "../interfaces/IStaking.sol";
-import {FundRelay} from "../utils/FundRelay.sol";
 import {Helper} from "../utils/Helper.sol";
 
 /**
@@ -220,14 +219,8 @@ abstract contract SYIBase is ERC20, Ownable {
     // =========================================================================
 
     IUniswapV2Pair public uniswapV2Pair;
-    FundRelay public fundRelay;
     address public rootAddress;
-    address public marketingAddress;
-    address public nodeDividendAddress;
     uint256 public coldTime = 10 seconds;
-    uint256 public amountMarketingFee;
-    uint256 public amountLPFee;
-    uint256 public swapAtAmount = 10000 ether;
 
     uint256 public presaleStartTime;
     uint256 public presaleDuration;
@@ -237,16 +230,10 @@ abstract contract SYIBase is ERC20, Ownable {
     uint256 public contractDeployTime;
     uint256 public delayedBuyEnabledTime;
 
-    bool private _inSwap;
-    bool private _inRouterSwap;
-    bool private _inLiquidityOperation;
-
-    mapping(address => uint256) public userInvestment;
     mapping(address => uint256) public lastBuyTime;
     mapping(address => bool) public feeWhitelisted;
     mapping(address => bool) public blacklisted;
 
-    uint256 public liquidityThreshold = 1 gwei;
     bool private _whitelistInitialized;
 
     // =========================================================================
@@ -256,12 +243,6 @@ abstract contract SYIBase is ERC20, Ownable {
     modifier notBlacklisted(address account) {
         if (blacklisted[account]) revert Blacklisted();
         _;
-    }
-
-    modifier lockSwap() {
-        _inSwap = true;
-        _;
-        _inSwap = false;
     }
 
     modifier delayedBuyCheck(address buyer) {
@@ -336,24 +317,6 @@ abstract contract SYIBase is ERC20, Ownable {
         _updatePresaleDurationFromStaking();
     }
 
-    function setFundRelay(address _fundRelay) external onlyOwner {
-        if (_fundRelay == address(0)) revert ZeroAddress();
-        fundRelay = FundRelay(_fundRelay);
-        feeWhitelisted[_fundRelay] = true;
-    }
-
-    function setMarketingAddress(address _newAddress) external onlyOwner {
-        if (_newAddress == address(0)) revert ZeroAddress();
-        address oldAddress = marketingAddress;
-        marketingAddress = _newAddress;
-        feeWhitelisted[_newAddress] = true;
-        emit MarketingAddressUpdated(oldAddress, _newAddress);
-    }
-
-    function setNodeDividendAddress(address _node) external onlyOwner {
-        if (_node == address(0)) revert ZeroAddress();
-        nodeDividendAddress = _node;
-    }
 
     function setFeeWhitelisted(
         address account,
@@ -387,16 +350,8 @@ abstract contract SYIBase is ERC20, Ownable {
         blacklisted[account] = _blacklisted;
     }
 
-    function setSwapAtAmount(uint256 _swapAtAmount) external onlyOwner {
-        swapAtAmount = _swapAtAmount;
-    }
-
     function setColdTime(uint256 _coldTime) external onlyOwner {
         coldTime = _coldTime;
-    }
-
-    function setLiquidityThreshold(uint256 newThreshold) external onlyOwner {
-        liquidityThreshold = newThreshold;
     }
 
     function setPresaleDuration() external onlyOwner {
@@ -422,131 +377,132 @@ abstract contract SYIBase is ERC20, Ownable {
     }
 
     /**
-     * @notice 从流动性池回收 SYI 代币到 Staking 合约，用于奖励分发
-     * @dev 这是一个关键的经济循环机制：
-     *      1. 用户交易产生的代币留在流动性池中
-     *      2. Staking 合约需要代币来支付质押奖励
-     *      3. 通过 recycle 从池子回收代币，形成闭环
+     * @notice Recycles SYI tokens from liquidity pool to Staking contract for reward distribution
+     * @dev This is a critical economic cycle mechanism:
+     *      1. Tokens from user transactions accumulate in the liquidity pool
+     *      2. Staking contract needs tokens to pay out staking rewards
+     *      3. Recycle retrieves tokens from pool to complete the cycle
      *
-     * @param amount Staking 合约请求回收的数量
+     * @param amount Amount of tokens requested by Staking contract for recycle
      *
-     * 工作流程：
-     * ┌─────────────┐  交易税/代币  ┌──────────────┐
-     * │ 流动性池    │ ──────────→  │  池子积累    │
-     * │ (Pair)      │              │  SYI 代币    │
-     * └─────────────┘              └──────────────┘
-     *       ↑                              ↓
-     *       │                         recycle()
-     *       │                              ↓
-     *       │                      ┌──────────────┐
-     *       │                      │   Staking    │
-     *       │                      │   合约       │
-     *       │                      └──────────────┘
-     *       │                              ↓
-     *       │                        分发质押奖励
-     *       │                              ↓
-     *       └────────── 用户卖出 ──────────┘
+     * Workflow:
+     * ┌─────────────┐  Trading Fees  ┌──────────────┐
+     * │ Liquidity   │ ────────────→  │  Pool        │
+     * │ Pool (Pair) │                │  Accumulates │
+     * └─────────────┘                │  SYI Tokens  │
+     *       ↑                         └──────────────┘
+     *       │                                ↓
+     *       │                           recycle()
+     *       │                                ↓
+     *       │                         ┌──────────────┐
+     *       │                         │   Staking    │
+     *       │                         │   Contract   │
+     *       │                         └──────────────┘
+     *       │                                ↓
+     *       │                        Distribute Rewards
+     *       │                                ↓
+     *       └────────── Users Sell ──────────┘
      */
     function recycle(uint256 amount) external {
         // ========================================
-        // 1. 权限检查：只允许 Staking 合约调用
+        // 1. Permission Check: Only Staking contract can call
         // ========================================
-        // 防止任意地址从流动性池抽取代币，避免价格操纵
+        // Prevents arbitrary addresses from extracting tokens from pool, avoiding price manipulation
         require(msg.sender == address(staking), "Only staking contract");
 
         // ========================================
-        // 2. 获取流动性池中的 SYI 代币余额
+        // 2. Get SYI token balance in liquidity pool
         // ========================================
-        // balanceOf(address(uniswapV2Pair)) 的含义：
-        // - balanceOf() 是 SYI 代币合约的函数
-        // - 查询的是：uniswapV2Pair 这个地址拥有多少 SYI 代币
-        // - 就像查询你的钱包余额，这里查的是"Pair 合约这个钱包"的余额
+        // balanceOf(address(uniswapV2Pair)) meaning:
+        // - balanceOf() is a function of the SYI token contract
+        // - Query: How many SYI tokens does the uniswapV2Pair address hold
+        // - Like checking your wallet balance, but here we're checking the "Pair contract's wallet" balance
         //
-        // 重要区别：balance（实际余额） vs reserve（账面储备量）
-        // ┌────────────────────────────────────────────────────────┐
-        // │ balance（实际余额）：                                  │
-        // │   - SYI 代币合约里记录的："Pair 地址拥有多少 SYI"     │
-        // │   - 这是真实的、即时的代币数量                         │
-        // │   - 每次转账都会立即更新                               │
-        // │                                                        │
-        // │ reserve（账面储备量）：                                │
-        // │   - Pair 合约自己记录的："我认为我有多少 SYI"         │
-        // │   - 只在 mint/burn/swap/sync 时更新                   │
-        // │   - 用于 AMM 价格计算（x * y = k）                    │
-        // └────────────────────────────────────────────────────────┘
+        // Important distinction: balance (actual balance) vs reserve (book reserve)
+        // ┌────────────────────────────────────────────────────────────────────┐
+        // │ balance (actual balance):                                          │
+        // │   - Recorded in SYI token contract: "How many SYI does Pair own"   │
+        // │   - This is the real, immediate token amount                       │
+        // │   - Updated instantly with every transfer                          │
+        // │                                                                    │
+        // │ reserve (book reserve):                                            │
+        // │   - Recorded in Pair contract itself: "I think I have this much"   │
+        // │   - Only updated during mint/burn/swap/sync                        │
+        // │   - Used for AMM price calculation (x * y = k)                     │
+        // └────────────────────────────────────────────────────────────────────┘
         //
-        // 为什么会不一致？举例：
-        // 1. 初始状态：
-        //    balance = 1000万，reserve = 1000万 ✅ 一致
+        // Why can they be inconsistent? Example:
+        // 1. Initial state:
+        //    balance = 10M, reserve = 10M ✅ Consistent
         //
-        // 2. 有人直接转账 100万 SYI 给 Pair（不通过 Router）：
-        //    balance = 1100万 ← SYI 合约立即更新
-        //    reserve = 1000万 ← Pair 合约不知道收到钱了
-        //    差额 100万 = 可以被 skim() 取走的"意外捐赠"
+        // 2. Someone directly transfers 1M SYI to Pair (not through Router):
+        //    balance = 11M ← SYI contract updates immediately
+        //    reserve = 10M ← Pair contract doesn't know about the transfer
+        //    Difference 1M = Can be skim()med as "unexpected donation"
         //
-        // 3. 或者：交易税留在了 Pair 里（如果 SYI 有税）：
-        //    balance = 1050万 ← 税费累积在 Pair 地址
-        //    reserve = 1000万 ← Pair 只知道交易的净额
-        //    差额 50万 = 可以回收的"多余代币"
+        // 3. Or: Trading fees accumulate in Pair (if SYI has fees):
+        //    balance = 10.5M ← Fees accumulate in Pair address
+        //    reserve = 10M ← Pair only knows the net trade amount
+        //    Difference 0.5M = "Excess tokens" that can be recycled
         //
-        // 所以这里获取的是"真实余额"，而不是"Pair 认为的余额"
+        // So here we get the "real balance", not "what Pair thinks it has"
         uint256 pairBalance = balanceOf(address(uniswapV2Pair));
 
         // ========================================
-        // 3. 计算最大可回收数量（安全上限：1/3）
+        // 3. Calculate maximum recyclable amount (safety cap: 1/3)
         // ========================================
-        // 为什么是 1/3？保护流动性不被过度抽取
-        // 示例：池子有 300 万 SYI，最多一次回收 100 万
-        // 这样可以：
-        // - 保证池子还有足够流动性供用户交易
-        // - 避免单次回收导致价格剧烈波动
-        // - 防止恶意耗尽流动性攻击
+        // Why 1/3? Protects liquidity from excessive extraction
+        // Example: Pool has 3M SYI, max recycle at once is 1M
+        // This ensures:
+        // - Pool retains enough liquidity for user trading
+        // - Avoids drastic price volatility from single recycle
+        // - Prevents malicious liquidity exhaustion attacks
         uint256 maxRecyclable = pairBalance / 3;
 
         // ========================================
-        // 4. 确定实际回收数量（取较小值）
+        // 4. Determine actual recycle amount (take minimum)
         // ========================================
-        // 如果 Staking 请求 150 万，但最多只能回收 100 万
-        // 那么实际回收 100 万（以安全上限为准）
+        // If Staking requests 1.5M, but max recyclable is 1M
+        // Then actually recycle 1M (capped by safety limit)
         uint256 recycleAmount = amount >= maxRecyclable
-            ? maxRecyclable  // 请求过多，回收上限
-            : amount;        // 请求合理，按需回收
+            ? maxRecyclable  // Request too high, use safety cap
+            : amount;        // Request reasonable, use requested amount
 
         // ========================================
-        // 5. 执行回收操作
+        // 5. Execute recycle operation
         // ========================================
         if (recycleAmount > 0) {
-            // 5.1 直接更新余额：从 Pair 转移到 Staking
-            // 注意：这里用 _update 而不是 transfer
-            // 因为这是特殊的内部操作，不触发交易税等逻辑
+            // 5.1 Update balance directly: Transfer from Pair to Staking
+            // Note: Using _update instead of transfer
+            // Because this is a special internal operation that shouldn't trigger trading fees etc.
             _update(address(uniswapV2Pair), address(staking), recycleAmount);
 
-            // 5.2 同步 Pair 合约的储备量
-            // 关键步骤！必须调用 sync() 的原因：
-            // ┌─────────────────────────────────────────────┐
-            // │ Uniswap V2 的储备量机制：                   │
-            // │ - reserve: Pair 合约记录的"账面"储备量     │
-            // │ - balance: Pair 合约的实际代币余额         │
-            // │                                             │
-            // │ 我们直接修改了 balance（通过 _update）     │
-            // │ 但 reserve 还是旧的，会导致：              │
-            // │   ❌ 价格计算错误                          │
-            // │   ❌ 交易滑点异常                          │
-            // │   ❌ K 值验证失败                          │
-            // │                                             │
-            // │ sync() 的作用：                             │
-            // │   reserve0 = balance0  ✅                  │
-            // │   reserve1 = balance1  ✅                  │
-            // │   强制同步账面和实际余额                    │
-            // └─────────────────────────────────────────────┘
+            // 5.2 Synchronize Pair contract reserves
+            // Critical step! Why sync() must be called:
+            // ┌────────────────────────────────────────────────────┐
+            // │ Uniswap V2 Reserve Mechanism:                      │
+            // │ - reserve: Pair contract's "book" reserve amount   │
+            // │ - balance: Pair contract's actual token balance    │
+            // │                                                    │
+            // │ We directly modified balance (via _update)         │
+            // │ But reserve is still old, causing:                 │
+            // │   ❌ Incorrect price calculation                   │
+            // │   ❌ Abnormal trading slippage                     │
+            // │   ❌ K value validation failure                    │
+            // │                                                    │
+            // │ sync() action:                                     │
+            // │   reserve0 = balance0  ✅                          │
+            // │   reserve1 = balance1  ✅                          │
+            // │   Force sync book and actual balance               │
+            // └────────────────────────────────────────────────────┘
             uniswapV2Pair.sync();
 
-            // 完成！现在：
-            // ✅ Staking 合约收到了代币，可以分发奖励
-            // ✅ Pair 合约的储备量已同步，价格正常
-            // ✅ 流动性池还保留了 2/3 的代币，交易正常
+            // Done! Now:
+            // ✅ Staking contract received tokens, can distribute rewards
+            // ✅ Pair contract reserves synced, price normalized
+            // ✅ Liquidity pool retains 2/3 of tokens, trading continues normally
         }
-        // 如果 recycleAmount == 0（比如池子余额为 0），则什么都不做
+        // If recycleAmount == 0 (e.g., pool balance is 0), do nothing
     }
 
     function setDelayedBuyEnabled(bool _enabled) external onlyOwner {
@@ -565,27 +521,8 @@ abstract contract SYIBase is ERC20, Ownable {
     // EXTERNAL VIEW FUNCTIONS
     // =========================================================================
 
-    function getAccumulatedFees()
-        external
-        view
-        returns (uint256 marketing, uint256 lp, uint256 threshold)
-    {
-        return (amountMarketingFee, amountLPFee, swapAtAmount);
-    }
-
-    function getUserInvestment(
-        address user
-    ) external view returns (uint256 investment, uint256 lastBuy) {
-        // Cost tracking removed - always returns 0 for investment
-        return (0, lastBuyTime[user]);
-    }
-
     function getUniswapV2Pair() external view returns (address) {
         return address(uniswapV2Pair);
-    }
-
-    function getFundRelay() external view returns (address) {
-        return address(fundRelay);
     }
 
     function getUSDTReserve() external view returns (uint112 usdtReserve) {
@@ -598,14 +535,6 @@ abstract contract SYIBase is ERC20, Ownable {
         } catch {
             return 0;
         }
-    }
-
-    function getDelayedSwapStatus()
-        external
-        view
-        returns (bool pending, uint256 totalFees)
-    {
-        return (false, amountMarketingFee + amountLPFee);
     }
 
     function getPresaleStatus()
@@ -755,31 +684,7 @@ abstract contract SYIBase is ERC20, Ownable {
             _handleSell(from, to, value);
         } else {
             super._update(from, to, value);
-            _tryTriggerFundRelayDistribution();
         }
-    }
-
-    function _handleLiquidityOperation(
-        address from,
-        address to,
-        uint256 amount,
-        string memory operationType
-    ) private {
-        uint256 liquidityFee = (amount * LP_HANDLE_FEE) / BASIS_POINTS;
-        uint256 netAmount = amount - liquidityFee;
-
-        if (liquidityFee > 0) {
-            super._update(from, marketingAddress, liquidityFee);
-            emit LiquidityHandleFeeCollected(
-                from,
-                to,
-                liquidityFee,
-                netAmount,
-                operationType
-            );
-        }
-
-        super._update(from, to, netAmount);
     }
 
     function _isBuyOperation(
@@ -910,577 +815,8 @@ abstract contract SYIBase is ERC20, Ownable {
         );
     }
 
-    // Continue with all other internal helper functions...
-    // The complete implementation would include all helper functions from original SYI.sol
-
     function _updatePresaleDurationFromStaking() private {
         presaleDuration = getPresaleDuration();
         emit PresaleDurationUpdated(presaleDuration);
-    }
-
-    function _swapTokensForUSDT(
-        uint256 tokenAmount
-    ) private lockSwap returns (uint256 usdtReceived) {
-        if (tokenAmount == 0 || balanceOf(address(this)) < tokenAmount)
-            return 0;
-
-        address[] memory path = new address[](2);
-        path[0] = address(this);
-        path[1] = USDT;
-
-        _approve(address(this), address(uniswapV2Router), tokenAmount);
-
-        address recipient = address(fundRelay) != address(0)
-            ? address(fundRelay)
-            : address(this);
-        uint256 initialBalance = IERC20(USDT).balanceOf(address(this));
-
-        try
-            uniswapV2Router
-                .swapExactTokensForTokensSupportingFeeOnTransferTokens(
-                    tokenAmount,
-                    0,
-                    path,
-                    recipient,
-                    block.timestamp + 300
-                )
-        {
-            if (address(fundRelay) != address(0)) {
-                uint256 received = fundRelay.receiveAndForward();
-                if (received == 0) {
-                    emit SwapFailed(
-                        "FundRelay transfer failed",
-                        tokenAmount,
-                        block.timestamp
-                    );
-                    emit FundRelayTransferFailed(0, 0, block.timestamp);
-                }
-                return received;
-            } else {
-                uint256 finalBalance = IERC20(USDT).balanceOf(address(this));
-                uint256 actualReceived = finalBalance > initialBalance
-                    ? finalBalance - initialBalance
-                    : 0;
-
-                if (actualReceived == 0) {
-                    emit SwapFailed(
-                        "Direct swap returned zero USDT",
-                        tokenAmount,
-                        block.timestamp
-                    );
-                }
-
-                return actualReceived;
-            }
-        } catch Error(string memory reason) {
-            emit SwapFailed(reason, tokenAmount, block.timestamp);
-            return 0;
-        } catch {
-            emit SwapFailed("Unknown swap error", tokenAmount, block.timestamp);
-            return 0;
-        }
-    }
-
-    // Helper functions with complete implementation
-    function _estimateSwapOutput(
-        uint256 xfAmount
-    ) private view returns (uint256 usdtAmount) {
-        try uniswapV2Pair.getReserves() returns (
-            uint112 reserve0,
-            uint112 reserve1,
-            uint32
-        ) {
-            (uint112 reserveUSDT, uint112 reserveXF) = uniswapV2Pair.token0() ==
-                USDT
-                ? (reserve0, reserve1)
-                : (reserve1, reserve0);
-
-            if (reserveXF > 0 && reserveUSDT > 0) {
-                return Helper.getAmountOut(xfAmount, reserveXF, reserveUSDT);
-            }
-        } catch {}
-        return 0;
-    }
-
-    function _getMinimumSwapOutput(
-        uint256 tokenAmount
-    ) private view returns (uint256) {
-        uint256 estimatedOutput = _estimateSwapOutput(tokenAmount);
-        return (estimatedOutput * 95) / 100; // 5% slippage protection
-    }
-
-    function _estimateBuyUSDTCost(
-        uint256 xfAmount
-    ) private view returns (uint256 usdtCost) {
-        try uniswapV2Pair.getReserves() returns (
-            uint112 reserve0,
-            uint112 reserve1,
-            uint32
-        ) {
-            (uint112 reserveUSDT, uint112 reserveXF) = uniswapV2Pair.token0() ==
-                USDT
-                ? (reserve0, reserve1)
-                : (reserve1, reserve0);
-
-            if (reserveXF > 0 && reserveUSDT > 0) {
-                uint256 grossXFAmount = (xfAmount * BASIS_POINTS) /
-                    (BASIS_POINTS - BUY_BURN_FEE - BUY_LIQUIDITY_FEE);
-                return
-                    Helper.getAmountIn(grossXFAmount, reserveUSDT, reserveXF);
-            }
-        } catch {}
-        return xfAmount;
-    }
-
-    function _updateBuyInvestmentAndEmitEvent(
-        address to,
-        uint256 amount,
-        uint256 netAmount,
-        uint256 burnFee,
-        uint256 liquidityFee
-    ) private {
-        uint256 estimatedUSDTCost = _estimateBuyUSDTCost(netAmount);
-        uint256 previousInvestment = userInvestment[to];
-
-        userInvestment[to] = previousInvestment + estimatedUSDTCost;
-        lastBuyTime[to] = block.timestamp;
-
-        emit InvestmentUpdated(
-            to,
-            block.timestamp,
-            previousInvestment,
-            userInvestment[to],
-            estimatedUSDTCost,
-            "BUY"
-        );
-
-        emit TransactionExecuted(
-            to,
-            block.timestamp,
-            "BUY",
-            amount,
-            estimatedUSDTCost,
-            netAmount,
-            previousInvestment,
-            userInvestment[to],
-            burnFee,
-            liquidityFee,
-            0,
-            0,
-            0,
-            address(0)
-        );
-
-        emit UserTransaction(
-            to,
-            block.timestamp,
-            "BUY",
-            amount,
-            estimatedUSDTCost,
-            netAmount
-        );
-    }
-
-    function _updateInvestmentAfterSell(
-        address user,
-        uint256 actualUSDTReceived
-    ) private {
-        uint256 previousInvestment = userInvestment[user];
-        userInvestment[user] = previousInvestment <= actualUSDTReceived
-            ? 0
-            : previousInvestment - actualUSDTReceived;
-
-        emit InvestmentUpdated(
-            user,
-            block.timestamp,
-            previousInvestment,
-            userInvestment[user],
-            actualUSDTReceived,
-            "SELL"
-        );
-    }
-
-    function _emitSellTransactionEvent(
-        address from,
-        uint256 amount,
-        uint256 marketingFee,
-        uint256 liquidityAccumFee,
-        uint256 netAmountAfterTradingFees,
-        uint256 estimatedUSDTFromSale,
-        uint256 userCurrentInvestment,
-        uint256 profitTaxUSDT,
-        uint256 noProfitFeeUSDT,
-        uint256 profitTaxToMarketing,
-        uint256 profitTaxToReferrer,
-        uint256 actualUSDTReceived
-    ) private {
-        uint256 totalProfitAmount = profitTaxUSDT > 0
-            ? (profitTaxUSDT * BASIS_POINTS) / PROFIT_TAX_RATE
-            : 0;
-
-        emit SellTransaction(
-            from,
-            block.timestamp,
-            amount,
-            marketingFee + liquidityAccumFee,
-            marketingFee,
-            liquidityAccumFee,
-            netAmountAfterTradingFees,
-            estimatedUSDTFromSale,
-            userCurrentInvestment,
-            totalProfitAmount,
-            profitTaxUSDT,
-            noProfitFeeUSDT,
-            profitTaxToMarketing,
-            profitTaxToReferrer,
-            actualUSDTReceived - profitTaxUSDT - noProfitFeeUSDT,
-            actualUSDTReceived,
-            address(0)
-        );
-
-        emit TransactionExecuted(
-            from,
-            block.timestamp,
-            "SELL",
-            amount,
-            estimatedUSDTFromSale,
-            actualUSDTReceived,
-            userCurrentInvestment,
-            userInvestment[from],
-            0,
-            0,
-            marketingFee + liquidityAccumFee,
-            totalProfitAmount,
-            profitTaxUSDT,
-            address(0)
-        );
-    }
-
-    function _tryTriggerFundRelayDistribution() private {
-        if (address(fundRelay) == address(0)) return;
-
-        try fundRelay.receiveAndForward() returns (uint256 received) {
-            if (received > 0) {
-                emit FeeCollected(
-                    address(this),
-                    received,
-                    "FUND_RELAY_DISTRIBUTION",
-                    address(this)
-                );
-            }
-        } catch {}
-    }
-
-    function triggerFundRelayDistribution() external {
-        require(
-            msg.sender == address(staking),
-            "Only staking contract"
-        );
-        _tryTriggerFundRelayDistribution();
-        _tryProcessAccumulatedFees();
-    }
-
-    function _tryProcessAccumulatedFees() private {
-        uint256 totalFees = amountMarketingFee;
-
-        if (totalFees >= swapAtAmount && !_inSwap) {
-            if (_canProcessFees()) {
-                emit FeeProcessingTriggered(
-                    totalFees,
-                    msg.sender,
-                    "AUTO_THRESHOLD",
-                    block.timestamp
-                );
-                _processFeeDistribution();
-            } else {
-                emit FeeProcessingSkipped(
-                    totalFees,
-                    "INSUFFICIENT_LIQUIDITY",
-                    block.timestamp
-                );
-            }
-        }
-    }
-
-    function _canProcessFees() private view returns (bool) {
-        uint256 totalFees = amountMarketingFee;
-        if (totalFees == 0) return false;
-        if (balanceOf(address(this)) < totalFees) return false;
-
-        try uniswapV2Pair.getReserves() returns (
-            uint112 reserve0,
-            uint112 reserve1,
-            uint32
-        ) {
-            (uint112 reserveUSDT, uint112 reserveXF) = uniswapV2Pair.token0() ==
-                USDT
-                ? (reserve0, reserve1)
-                : (reserve1, reserve0);
-
-            uint256 actualXFBalance = balanceOf(address(uniswapV2Pair));
-            uint256 actualUSDTBalance = IERC20(USDT).balanceOf(
-                address(uniswapV2Pair)
-            );
-
-            if (actualXFBalance < (uint256(reserveXF) * 95) / 100) {
-                return false;
-            }
-
-            if (actualUSDTBalance < (uint256(reserveUSDT) * 95) / 100) {
-                return false;
-            }
-
-            uint256 maxSwapAmount = (uint256(reserveXF) * 2) / 100;
-            if (totalFees > maxSwapAmount) {
-                return false;
-            }
-
-            return true;
-        } catch {
-            return false;
-        }
-    }
-
-    function _processFeeDistribution() private lockSwap {
-        uint256 totalMarketingFee = amountMarketingFee;
-
-        if (totalMarketingFee == 0) return;
-
-        amountMarketingFee = 0;
-
-        uint256 marketingUSDT = 0;
-
-        if (totalMarketingFee > 0) {
-            marketingUSDT = _swapTokensForUSDT(totalMarketingFee);
-            if (marketingUSDT > 0 && marketingAddress != address(0)) {
-                IERC20(USDT).transfer(marketingAddress, marketingUSDT);
-            }
-        }
-
-        emit FeesProcessed(
-            block.timestamp,
-            "ACCUMULATED_FEES",
-            totalMarketingFee,
-            marketingUSDT,
-            0,  // lpUSDT = 0
-            marketingUSDT,
-            0,
-            address(0),  // 不再有 liquidityStaking
-            marketingAddress
-        );
-    }
-
-    function _addLiquidity(uint256 tokenAmount, uint256 usdtAmount) private {
-        _approve(address(this), address(uniswapV2Router), tokenAmount);
-        IERC20(USDT).approve(address(uniswapV2Router), usdtAmount);
-
-        try
-            uniswapV2Router.addLiquidity(
-                address(this),
-                USDT,
-                tokenAmount,
-                usdtAmount,
-                0,
-                0,
-                DEAD_ADDRESS,
-                block.timestamp + 300
-            )
-        {
-            emit LiquidityAdded(tokenAmount, usdtAmount);
-        } catch {}
-    }
-
-    function _emitBuyTransactionEvent(
-        address to,
-        uint256 amount,
-        uint256 estimatedUSDTSpent,
-        uint256 burnFee,
-        uint256 liquidityFee
-    ) private {
-        address referrer = address(staking) != address(0)
-            ? IStaking(staking).getReferral(to)
-            : address(0);
-
-        emit FeesProcessed(
-            block.timestamp,
-            "BUY",
-            amount,
-            estimatedUSDTSpent,
-            liquidityFee,
-            0,
-            burnFee,
-            to,
-            referrer
-        );
-    }
-
-    function _estimateSwapInput(
-        uint256 usdtAmount
-    ) private view returns (uint256) {
-        if (usdtAmount == 0) return 0;
-
-        address[] memory path = new address[](2);
-        path[0] = USDT;
-        path[1] = address(this);
-
-        try uniswapV2Router.getAmountsOut(usdtAmount, path) returns (
-            uint256[] memory amounts
-        ) {
-            return amounts[1];
-        } catch {
-            return 0;
-        }
-    }
-
-    function _getUserReferrer(
-        address user
-    ) private view returns (address referrer) {
-        try staking.getReferral(user) returns (address _referrer) {
-            return _referrer;
-        } catch {
-            return address(0);
-        }
-    }
-
-    function _isReferrerEligible(address referrer) private view returns (bool) {
-        try staking.isPreacher(referrer) returns (bool isEligible) {
-            return isEligible;
-        } catch {
-            return false;
-        }
-    }
-
-    function _processFundRelayFees(uint256 xfAmount) private {
-        fundRelay.withdrawSYIToContract(xfAmount);
-
-        _approve(address(this), address(uniswapV2Router), xfAmount);
-
-        address[] memory path = new address[](2);
-        path[0] = address(this);
-        path[1] = USDT;
-
-        try
-            uniswapV2Router.swapExactTokensForTokens(
-                xfAmount,
-                0,
-                path,
-                address(fundRelay),
-                block.timestamp + 300
-            )
-        returns (uint256[] memory amounts) {
-            uint256 usdtAmount = amounts[1];
-            if (usdtAmount == 0) return;
-
-            fundRelay.withdrawToSYI(usdtAmount);
-
-            // 全部给营销地址，不再分给 LP
-            if (usdtAmount > 0) {
-                IERC20(USDT).transfer(marketingAddress, usdtAmount);
-            }
-
-            emit FeesProcessed(
-                block.timestamp,
-                "FUND_RELAY_FEES",
-                xfAmount,
-                usdtAmount,
-                0,  // lpShare = 0
-                usdtAmount,  // 全部给 marketing
-                0,
-                address(0),  // 不再有 liquidityStaking
-                marketingAddress
-            );
-        } catch {}
-    }
-
-    function _processImmediateLiquidity(uint256 liquidityFee) private {
-        if (liquidityFee == 0) return;
-
-        if (_inSwap) {
-            if (address(fundRelay) != address(0)) {
-                super._update(address(this), address(fundRelay), liquidityFee);
-            } else {
-                amountLPFee += liquidityFee;
-            }
-            return;
-        }
-
-        _processImmediateLiquidityInternal(liquidityFee);
-    }
-
-    function _processImmediateLiquidityInternal(
-        uint256 liquidityFee
-    ) private lockSwap {
-        uint256 half = liquidityFee / 2;
-        uint256 otherHalf = liquidityFee - half;
-        uint256 usdtAmount = _swapTokensForUSDT(half);
-
-        if (usdtAmount > 0) {
-            _addLiquidity(otherHalf, usdtAmount);
-
-            emit FeesProcessed(
-                block.timestamp,
-                "IMMEDIATE_LP",
-                liquidityFee,
-                usdtAmount,
-                usdtAmount,
-                0,
-                0,
-                address(0),
-                address(0)
-            );
-        }
-    }
-
-    function _processProfitTax(
-        address user,
-        uint256 taxAmount
-    )
-        private
-        returns (
-            address referrer,
-            uint256 marketingShare,
-            uint256 referrerShare
-        )
-    {
-        if (taxAmount == 0) return (address(0), 0, 0);
-
-        uint256 usdtAmount = _swapTokensForUSDT(taxAmount);
-        if (usdtAmount == 0) return (address(0), 0, 0);
-
-        referrer = _getUserReferrer(user);
-
-        if (referrer != address(0)) {
-            if (_isReferrerEligible(referrer)) {
-                marketingShare = usdtAmount / 2;
-                referrerShare = usdtAmount - marketingShare;
-            } else {
-                marketingShare = usdtAmount;
-                referrerShare = 0;
-                referrer = address(0);
-            }
-        } else {
-            marketingShare = usdtAmount;
-            referrerShare = 0;
-        }
-
-        if (marketingShare > 0) {
-            IERC20(USDT).transfer(marketingAddress, marketingShare);
-        }
-
-        if (referrerShare > 0) {
-            IERC20(USDT).transfer(referrer, referrerShare);
-        }
-
-        return (referrer, marketingShare, referrerShare);
-    }
-
-    function triggerFeeProcessing() external {
-        require(
-            msg.sender == owner() ||
-                msg.sender == address(staking),
-            "Unauthorized"
-        );
-
-        _tryProcessAccumulatedFees();
     }
 }

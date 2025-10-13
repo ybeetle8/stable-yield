@@ -1,19 +1,18 @@
 {
   "network": "localhost",
   "chainId": "31337",
-  "timestamp": "2025-10-13T12:30:29.179Z",
+  "timestamp": "2025-10-13T12:59:31.282Z",
   "deployer": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
   "marketingWallet": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
   "rootWallet": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
   "contracts": {
-    "SYI": "0x97E48911B4eEF8c507d30CF0134cD249fEFFACF5",
-    "Staking": "0xE846AFEE24c31cddD4F69761062428ED8600318F",
-    "FundRelay": "0x6050778B0846b4514538f5778652798cac357806",
+    "SYI": "0x078AfF999099C342E9540aB53A5593E9b4C63b3d",
+    "Staking": "0x4421192a331CdfAF545fa92fbB98F42e12D5530b",
     "USDT": "0x55d398326f99059fF775485246999027B3197955",
     "WBNB": "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
     "PancakeFactory": "0xcA143Ce32Fe78f1f7019d7d551a6402fC5350c73",
     "PancakeRouter": "0x10ED43C718714eb63d5aA57B78B54704E256024E",
-    "SYI_USDT_Pair": "0xd9E3B64bF9D250da339AAE224D1b8F25D8f141eC"
+    "SYI_USDT_Pair": "0xB1EA80457d93028bC2616cb1aFc0662D23D9CdA2"
   },
   "tokenInfo": {
     "name": "SYI Token",
@@ -25,8 +24,7 @@
   "configuration": {
     "presaleActive": true,
     "delayedBuyEnabled": false,
-    "coldTime": "10",
-    "swapAtAmount": "10000000000000000000000"
+    "coldTime": "10"
   },
   "taxRates": {
     "buyTax": "0%",
