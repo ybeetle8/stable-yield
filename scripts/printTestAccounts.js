@@ -9,11 +9,14 @@ async function main() {
   // 尝试读取部署信息
   const deploymentPath = path.join(__dirname, "..", "syi-deployment.json");
   let syi = null;
+  let usdt = null;
 
   if (fs.existsSync(deploymentPath)) {
     const deployment = JSON.parse(fs.readFileSync(deploymentPath, "utf8"));
     const syiAddress = deployment.contracts.SYI;
+    const usdtAddress = deployment.contracts.USDT;
     syi = await hre.ethers.getContractAt("contracts/SYI/mainnet/SYI.sol:SYI", syiAddress);
+    usdt = await hre.ethers.getContractAt("@openzeppelin/contracts/token/ERC20/IERC20.sol:IERC20", usdtAddress);
   }
 
   // 打印前10个账户
@@ -31,7 +34,14 @@ async function main() {
       syiBalance = parseFloat(hre.ethers.formatEther(bal)).toFixed(1);
     }
 
-    console.log(`账户 #${i} (${address}): BSC:${balanceFormatted} ${syiBalance} SYI`);
+    // 获取 USDT 余额
+    let usdtBalance = "0.00";
+    if (usdt) {
+      const bal = await usdt.balanceOf(address);
+      usdtBalance = parseFloat(hre.ethers.formatEther(bal)).toFixed(2);
+    }
+
+    console.log(`账户 #${i} (${address}): BSC:${balanceFormatted} ${syiBalance} SYI ${usdtBalance} USDT`);
   }
 }
 
