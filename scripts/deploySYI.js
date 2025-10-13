@@ -169,6 +169,160 @@ async function main() {
   fs.writeFileSync(outputPath, JSON.stringify(deployment, null, 2));
   console.log("\n✅ 部署信息已保存到:", outputPath);
 
+  // ========================================
+  // 5. 后续配置：转账和添加流动性
+  // ========================================
+  console.log("\n==========================================");
+  console.log("执行后续配置");
+  console.log("==========================================\n");
+
+  // 获取测试钱包9
+  const signers = await hre.ethers.getSigners();
+  const wallet9 = signers[9];
+  console.log("测试钱包9地址:", wallet9.address);
+
+  // 1. 转移 1500万 SYI 到 Staking 合约
+  console.log("\n[1/4] 转移 15,000,000 SYI 到 Staking 合约作为储备...");
+  const stakingReserve = hre.ethers.parseEther("15000000");
+  const transferToStakingTx = await syi.transfer(stakingAddress, stakingReserve);
+  await transferToStakingTx.wait();
+  console.log("✅ 已转移 15,000,000 SYI 到 Staking");
+
+  // 2. 检查 USDT 余额，必要时直接设置余额（fork模式）
+  console.log("\n[2/4] 检查 USDT 余额并准备流动性...");
+  const usdt = await hre.ethers.getContractAt("@openzeppelin/contracts/token/ERC20/IERC20.sol:IERC20", usdtAddress);
+  const router = await hre.ethers.getContractAt("contracts/SYI/interfaces/IUniswapV2Router02.sol:IUniswapV2Router02", routerAddress);
+
+  let usdtBalance = await usdt.balanceOf(deployer.address);
+  console.log("当前 USDT 余额:", hre.ethers.formatEther(usdtBalance));
+
+  const requiredUsdt = hre.ethers.parseEther("40100");
+
+  if (usdtBalance < requiredUsdt) {
+    console.log("USDT 不足，直接设置余额（fork模式）...");
+    console.log("需要:", hre.ethers.formatEther(requiredUsdt), "USDT");
+
+    // Bruteforce查找USDT的balance mapping slot
+    console.log("正在查找 USDT balance storage slot...");
+    let found = false;
+    let balanceSlot = -1;
+
+    for (let slot = 0; slot < 10 && !found; slot++) {
+      // 计算 deployer 地址在 mapping 中的 slot 位置
+      const paddedAddress = hre.ethers.zeroPadValue(deployer.address, 32);
+      const paddedSlot = hre.ethers.zeroPadValue(hre.ethers.toBeHex(slot), 32);
+      const index = hre.ethers.keccak256(hre.ethers.concat([paddedAddress, paddedSlot]));
+
+      // 将余额转换为 32 字节的十六进制
+      const value = hre.ethers.zeroPadValue(hre.ethers.toBeHex(requiredUsdt), 32);
+
+      // 设置 storage
+      await hre.network.provider.send("hardhat_setStorageAt", [
+        usdtAddress,
+        index,
+        value
+      ]);
+
+      // 检查余额是否改变
+      const newBalance = await usdt.balanceOf(deployer.address);
+      if (newBalance === requiredUsdt) {
+        found = true;
+        balanceSlot = slot;
+        console.log(`✅ 找到 balance slot: ${slot}`);
+        break;
+      }
+    }
+
+    if (!found) {
+      throw new Error("无法找到 USDT balance storage slot");
+    }
+
+    usdtBalance = await usdt.balanceOf(deployer.address);
+    console.log("✅ 余额设置完成，新 USDT 余额:", hre.ethers.formatEther(usdtBalance));
+  }
+
+  // 3. 添加流动性：40000 USDT + 40000000 SYI
+  console.log("\n[3/4] 添加流动性...");
+  const liquidityUsdt = hre.ethers.parseEther("40000");
+  const liquiditySyi = hre.ethers.parseEther("40000000");
+
+  console.log("准备添加流动性:");
+  console.log("- USDT:", hre.ethers.formatEther(liquidityUsdt));
+  console.log("- SYI:", hre.ethers.formatEther(liquiditySyi));
+
+  // 授权 Router
+  console.log("授权 USDT...");
+  const approveUsdtTx = await usdt.approve(routerAddress, liquidityUsdt);
+  await approveUsdtTx.wait();
+
+  console.log("授权 SYI...");
+  const approveSyiTx = await syi.approve(routerAddress, liquiditySyi);
+  await approveSyiTx.wait();
+
+  // 添加流动性
+  console.log("添加流动性到池子...");
+  const deadline = Math.floor(Date.now() / 1000) + 60 * 20;
+  const addLiquidityTx = await router.addLiquidity(
+    syiAddress,
+    usdtAddress,
+    liquiditySyi,
+    liquidityUsdt,
+    liquiditySyi * 95n / 100n, // 允许5%滑点
+    liquidityUsdt * 95n / 100n,
+    deployer.address,
+    deadline
+  );
+  await addLiquidityTx.wait();
+  console.log("✅ 流动性添加成功");
+
+  // 4. 转移剩余 SYI 到测试钱包9
+  console.log("\n[4/4] 转移剩余 SYI 到测试钱包9...");
+  const remainingSyi = await syi.balanceOf(deployer.address);
+  console.log("剩余 SYI:", hre.ethers.formatEther(remainingSyi));
+
+  if (remainingSyi > 0n) {
+    const transferToWallet9Tx = await syi.transfer(wallet9.address, remainingSyi);
+    await transferToWallet9Tx.wait();
+    console.log("✅ 已转移", hre.ethers.formatEther(remainingSyi), "SYI 到钱包9");
+  }
+
+  // ========================================
+  // 打印最终状态
+  // ========================================
+  console.log("\n==========================================");
+  console.log("最终状态统计");
+  console.log("==========================================\n");
+
+  // Staking 合约上的 SYI 数量
+  const stakingSyiBalance = await syi.balanceOf(stakingAddress);
+  console.log("Staking 合约 SYI 余额:", hre.ethers.formatEther(stakingSyiBalance), "SYI");
+
+  // 流动池余额和价格
+  const pair = await hre.ethers.getContractAt("contracts/SYI/interfaces/IUniswapV2Pair.sol:IUniswapV2Pair", pairAddress);
+  const reserves = await pair.getReserves();
+  const token0 = await pair.token0();
+
+  let syiReserve, usdtReserve;
+  if (token0.toLowerCase() === syiAddress.toLowerCase()) {
+    syiReserve = reserves[0];
+    usdtReserve = reserves[1];
+  } else {
+    syiReserve = reserves[1];
+    usdtReserve = reserves[0];
+  }
+
+  console.log("\n流动池状态:");
+  console.log("- USDT 储备:", hre.ethers.formatEther(usdtReserve), "USDT");
+  console.log("- SYI 储备:", hre.ethers.formatEther(syiReserve), "SYI");
+
+  // 计算价格 (USDT per SYI)
+  const price = Number(usdtReserve) / Number(syiReserve);
+  console.log("- SYI 价格:", price.toFixed(9), "USDT/SYI");
+
+  // 钱包9余额
+  const wallet9Balance = await syi.balanceOf(wallet9.address);
+  console.log("\n钱包9 SYI 余额:", hre.ethers.formatEther(wallet9Balance), "SYI");
+
   console.log("\n==========================================");
   console.log("✅ SYI 系统部署完成！");
   console.log("==========================================");
@@ -186,7 +340,6 @@ async function main() {
   console.log("- 说明: 已移除所有交易税机制，买卖无任何费用");
   console.log("\n下一步:");
   console.log("1. 运行测试脚本: npx hardhat run scripts/testSYI.js --network localhost");
-  console.log("2. 添加初始流动性（如需要）");
   console.log("\n");
 }
 
