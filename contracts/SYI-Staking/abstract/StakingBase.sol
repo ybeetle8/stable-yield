@@ -310,10 +310,38 @@ abstract contract StakingBase is Ownable, IStaking {
         emit BindFriend(user, _friend);
     }
 
+    /**
+     * @notice 将质押合约中累积的 USDT 同步到 SYI/USDT 流动性池
+     * @dev 这个函数用于增加流动性池的深度，提升交易体验
+     *
+     * 工作流程：
+     * 1. 查询当前合约持有的 USDT 余额（来自质押奖励累积）
+     * 2. 获取 SYI/USDT 交易对合约地址
+     * 3. 将所有 USDT 转入流动性池
+     * 4. 调用交易对的 sync() 更新储备量，使新增的 USDT 生效
+     *
+     * 注意：
+     * - 这会增加池子中的 USDT 数量，导致 SYI 价格上涨
+     * - 任何人都可以调用此函数（external）
+     * - 不会产生 LP 代币，相当于向池子"捐赠"流动性
+     */
     function sync() external {
+        // 步骤1: 获取本合约当前持有的 USDT 余额
+        // 这些 USDT 通常来自质押奖励的累积或其他收入
         uint256 w_bal = IERC20(USDT).balanceOf(address(this));
+
+        // 步骤2: 从 SYI 代币合约获取其对应的 Uniswap V2 交易对地址
+        // 该地址存储了 SYI/USDT 的流动性池合约
         address pair = SYI.getUniswapV2Pair();
+
+        // 步骤3: 将所有 USDT 转账到交易对合约
+        // 此时 USDT 已到达流动性池，但储备量（reserves）尚未更新
         IERC20(USDT).transfer(pair, w_bal);
+
+        // 步骤4: 调用交易对的 sync() 方法
+        // sync() 会重新读取合约的代币余额，更新内部储备量（reserves）
+        // 这样新增的 USDT 才会真正参与到 AMM 定价中
+        // 由于 USDT 增加而 SYI 不变，会导致 SYI 价格上涨（x*y=k 公式）
         IUniswapV2Pair(pair).sync();
     }
 

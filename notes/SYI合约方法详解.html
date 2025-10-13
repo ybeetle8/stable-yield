@@ -1,0 +1,2173 @@
+<!DOCTYPE html><html><head>
+      <title>SYI合约方法详解</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      
+      <link rel="stylesheet" href="file:////home/ybeetle/.vscode-server/extensions/shd101wyy.markdown-preview-enhanced-0.8.19/crossnote/dependencies/katex/katex.min.css">
+      
+      
+      
+      
+      
+      <style>
+      code[class*=language-],pre[class*=language-]{color:#333;background:0 0;font-family:Consolas,"Liberation Mono",Menlo,Courier,monospace;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.4;-moz-tab-size:8;-o-tab-size:8;tab-size:8;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:.8em;overflow:auto;border-radius:3px;background:#f5f5f5}:not(pre)>code[class*=language-]{padding:.1em;border-radius:.3em;white-space:normal;background:#f5f5f5}.token.blockquote,.token.comment{color:#969896}.token.cdata{color:#183691}.token.doctype,.token.macro.property,.token.punctuation,.token.variable{color:#333}.token.builtin,.token.important,.token.keyword,.token.operator,.token.rule{color:#a71d5d}.token.attr-value,.token.regex,.token.string,.token.url{color:#183691}.token.atrule,.token.boolean,.token.code,.token.command,.token.constant,.token.entity,.token.number,.token.property,.token.symbol{color:#0086b3}.token.prolog,.token.selector,.token.tag{color:#63a35c}.token.attr-name,.token.class,.token.class-name,.token.function,.token.id,.token.namespace,.token.pseudo-class,.token.pseudo-element,.token.url-reference .token.variable{color:#795da3}.token.entity{cursor:help}.token.title,.token.title .token.punctuation{font-weight:700;color:#1d3e81}.token.list{color:#ed6a43}.token.inserted{background-color:#eaffea;color:#55a532}.token.deleted{background-color:#ffecec;color:#bd2c00}.token.bold{font-weight:700}.token.italic{font-style:italic}.language-json .token.property{color:#183691}.language-markup .token.tag .token.punctuation{color:#333}.language-css .token.function,code.language-css{color:#0086b3}.language-yaml .token.atrule{color:#63a35c}code.language-yaml{color:#183691}.language-ruby .token.function{color:#333}.language-markdown .token.url{color:#795da3}.language-makefile .token.symbol{color:#795da3}.language-makefile .token.variable{color:#183691}.language-makefile .token.builtin{color:#0086b3}.language-bash .token.keyword{color:#0086b3}pre[data-line]{position:relative;padding:1em 0 1em 3em}pre[data-line] .line-highlight-wrapper{position:absolute;top:0;left:0;background-color:transparent;display:block;width:100%}pre[data-line] .line-highlight{position:absolute;left:0;right:0;padding:inherit 0;margin-top:1em;background:hsla(24,20%,50%,.08);background:linear-gradient(to right,hsla(24,20%,50%,.1) 70%,hsla(24,20%,50%,0));pointer-events:none;line-height:inherit;white-space:pre}pre[data-line] .line-highlight:before,pre[data-line] .line-highlight[data-end]:after{content:attr(data-start);position:absolute;top:.4em;left:.6em;min-width:1em;padding:0 .5em;background-color:hsla(24,20%,50%,.4);color:#f4f1ef;font:bold 65%/1.5 sans-serif;text-align:center;vertical-align:.3em;border-radius:999px;text-shadow:none;box-shadow:0 1px #fff}pre[data-line] .line-highlight[data-end]:after{content:attr(data-end);top:auto;bottom:.4em}html body{font-family:'Helvetica Neue',Helvetica,'Segoe UI',Arial,freesans,sans-serif;font-size:16px;line-height:1.6;color:#333;background-color:#fff;overflow:initial;box-sizing:border-box;word-wrap:break-word}html body>:first-child{margin-top:0}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{line-height:1.2;margin-top:1em;margin-bottom:16px;color:#000}html body h1{font-size:2.25em;font-weight:300;padding-bottom:.3em}html body h2{font-size:1.75em;font-weight:400;padding-bottom:.3em}html body h3{font-size:1.5em;font-weight:500}html body h4{font-size:1.25em;font-weight:600}html body h5{font-size:1.1em;font-weight:600}html body h6{font-size:1em;font-weight:600}html body h1,html body h2,html body h3,html body h4,html body h5{font-weight:600}html body h5{font-size:1em}html body h6{color:#5c5c5c}html body strong{color:#000}html body del{color:#5c5c5c}html body a:not([href]){color:inherit;text-decoration:none}html body a{color:#08c;text-decoration:none}html body a:hover{color:#00a3f5;text-decoration:none}html body img{max-width:100%}html body>p{margin-top:0;margin-bottom:16px;word-wrap:break-word}html body>ol,html body>ul{margin-bottom:16px}html body ol,html body ul{padding-left:2em}html body ol.no-list,html body ul.no-list{padding:0;list-style-type:none}html body ol ol,html body ol ul,html body ul ol,html body ul ul{margin-top:0;margin-bottom:0}html body li{margin-bottom:0}html body li.task-list-item{list-style:none}html body li>p{margin-top:0;margin-bottom:0}html body .task-list-item-checkbox{margin:0 .2em .25em -1.8em;vertical-align:middle}html body .task-list-item-checkbox:hover{cursor:pointer}html body blockquote{margin:16px 0;font-size:inherit;padding:0 15px;color:#5c5c5c;background-color:#f0f0f0;border-left:4px solid #d6d6d6}html body blockquote>:first-child{margin-top:0}html body blockquote>:last-child{margin-bottom:0}html body hr{height:4px;margin:32px 0;background-color:#d6d6d6;border:0 none}html body table{margin:10px 0 15px 0;border-collapse:collapse;border-spacing:0;display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}html body table th{font-weight:700;color:#000}html body table td,html body table th{border:1px solid #d6d6d6;padding:6px 13px}html body dl{padding:0}html body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:700}html body dl dd{padding:0 16px;margin-bottom:16px}html body code{font-family:Menlo,Monaco,Consolas,'Courier New',monospace;font-size:.85em;color:#000;background-color:#f0f0f0;border-radius:3px;padding:.2em 0}html body code::after,html body code::before{letter-spacing:-.2em;content:'\00a0'}html body pre>code{padding:0;margin:0;word-break:normal;white-space:pre;background:0 0;border:0}html body .highlight{margin-bottom:16px}html body .highlight pre,html body pre{padding:1em;overflow:auto;line-height:1.45;border:#d6d6d6;border-radius:3px}html body .highlight pre{margin-bottom:0;word-break:normal}html body pre code,html body pre tt{display:inline;max-width:initial;padding:0;margin:0;overflow:initial;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}html body pre code:after,html body pre code:before,html body pre tt:after,html body pre tt:before{content:normal}html body blockquote,html body dl,html body ol,html body p,html body pre,html body ul{margin-top:0;margin-bottom:16px}html body kbd{color:#000;border:1px solid #d6d6d6;border-bottom:2px solid #c7c7c7;padding:2px 4px;background-color:#f0f0f0;border-radius:3px}@media print{html body{background-color:#fff}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{color:#000;page-break-after:avoid}html body blockquote{color:#5c5c5c}html body pre{page-break-inside:avoid}html body table{display:table}html body img{display:block;max-width:100%;max-height:100%}html body code,html body pre{word-wrap:break-word;white-space:pre}}.markdown-preview{width:100%;height:100%;box-sizing:border-box}.markdown-preview ul{list-style:disc}.markdown-preview ul ul{list-style:circle}.markdown-preview ul ul ul{list-style:square}.markdown-preview ol{list-style:decimal}.markdown-preview ol ol,.markdown-preview ul ol{list-style-type:lower-roman}.markdown-preview ol ol ol,.markdown-preview ol ul ol,.markdown-preview ul ol ol,.markdown-preview ul ul ol{list-style-type:lower-alpha}.markdown-preview .newpage,.markdown-preview .pagebreak{page-break-before:always}.markdown-preview pre.line-numbers{position:relative;padding-left:3.8em;counter-reset:linenumber}.markdown-preview pre.line-numbers>code{position:relative}.markdown-preview pre.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:0;width:3em;letter-spacing:-1px;border-right:1px solid #999;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.markdown-preview pre.line-numbers .line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.markdown-preview pre.line-numbers .line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}.markdown-preview .mathjax-exps .MathJax_Display{text-align:center!important}.markdown-preview:not([data-for=preview]) .code-chunk .code-chunk-btn-group{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .status{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .output-div{margin-bottom:16px}.markdown-preview .md-toc{padding:0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link div,.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}.markdown-preview .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}.scrollbar-style::-webkit-scrollbar{width:8px}.scrollbar-style::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}.scrollbar-style::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode]){position:relative;width:100%;height:100%;top:0;left:0;margin:0;padding:0;overflow:auto}html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{position:relative;top:0;min-height:100vh}@media screen and (min-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em calc(50% - 457px + 2em)}}@media screen and (max-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{font-size:14px!important;padding:1em}}@media print{html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{display:none}}html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{position:fixed;bottom:8px;left:8px;font-size:28px;cursor:pointer;color:inherit;z-index:99;width:32px;text-align:center;opacity:.4}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] #sidebar-toc-btn{opacity:1}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc{position:fixed;top:0;left:0;width:300px;height:100%;padding:32px 0 48px 0;font-size:14px;box-shadow:0 0 4px rgba(150,150,150,.33);box-sizing:border-box;overflow:auto;background-color:inherit}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar{width:8px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc a{text-decoration:none}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc{padding:0 16px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link div,html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{left:300px;width:calc(100% - 300px);padding:2em calc(50% - 457px - 300px / 2);margin:0;box-sizing:border-box}@media screen and (max-width:1274px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{width:100%}}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .markdown-preview{left:50%;transform:translateX(-50%)}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .md-sidebar-toc{display:none}
+/* Please visit the URL below for more information: */
+/*   https://shd101wyy.github.io/markdown-preview-enhanced/#/customize-css */
+
+      </style>
+      <!-- The content below will be included at the end of the <head> element. --><script type="text/javascript">
+  document.addEventListener("DOMContentLoaded", function () {
+    // your code here
+  });
+</script></head><body for="html-export">
+    
+    
+      <div class="crossnote markdown-preview  ">
+      
+<h1 id="syi-合约方法详解">SYI 合约方法详解 </h1>
+<h2 id="目录">目录 </h2>
+<ul>
+<li><a href="#%E5%90%88%E7%BA%A6%E6%9E%B6%E6%9E%84">合约架构</a></li>
+<li><a href="#%E6%A0%B8%E5%BF%83%E5%B8%B8%E9%87%8F">核心常量</a></li>
+<li><a href="#%E7%8A%B6%E6%80%81%E5%8F%98%E9%87%8F">状态变量</a></li>
+<li><a href="#%E4%BF%AE%E9%A5%B0%E7%AC%A6">修饰符</a></li>
+<li><a href="#%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0">构造函数</a></li>
+<li><a href="#%E5%88%9D%E5%A7%8B%E5%8C%96%E5%87%BD%E6%95%B0">初始化函数</a></li>
+<li><a href="#%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86%E5%87%BD%E6%95%B0">配置管理函数</a></li>
+<li><a href="#%E6%A0%B8%E5%BF%83%E4%BA%A4%E6%98%93%E5%87%BD%E6%95%B0">核心交易函数</a></li>
+<li><a href="#%E5%A4%96%E9%83%A8%E6%8E%A5%E5%8F%A3%E5%87%BD%E6%95%B0">外部接口函数</a></li>
+<li><a href="#%E6%9F%A5%E8%AF%A2%E5%87%BD%E6%95%B0">查询函数</a></li>
+<li><a href="#%E5%86%85%E9%83%A8%E8%BE%85%E5%8A%A9%E5%87%BD%E6%95%B0">内部辅助函数</a></li>
+</ul>
+<hr>
+<h2 id="合约架构">合约架构 </h2>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>contracts/SYI/
+├── abstract/
+│   └── SYIBase.sol (1472行)      # 核心业务逻辑
+├── mainnet/
+│   └── SYI.sol (36行)             # 主网环境配置
+└── interfaces/
+    └── ISYI.sol                    # SYI 接口定义
+</code></pre><p><strong>继承关系</strong>:</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>SYI (mainnet)
+  └── SYIBase (abstract)
+       ├── ERC20 (OpenZeppelin)
+       └── Ownable (OpenZeppelin)
+</code></pre><p><strong>设计模式</strong>: 抽象基类模式</p>
+<ul>
+<li><code>SYIBase.sol</code>: 所有核心业务逻辑</li>
+<li><code>SYI.sol</code>: 仅配置环境参数（预售期 30 天，延迟购买期 30 天）</li>
+</ul>
+<hr>
+<h2 id="核心常量">核心常量 </h2>
+<h3 id="不可变常量">不可变常量 </h3>
+<table>
+<thead>
+<tr>
+<th>常量名</th>
+<th>值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>DEAD_ADDRESS</code></td>
+<td><code>0x000000000000000000000000000000000000dEaD</code></td>
+<td>销毁地址</td>
+</tr>
+<tr>
+<td><code>BASIS_POINTS</code></td>
+<td><code>10000</code></td>
+<td>基点（100% = 10000）</td>
+</tr>
+<tr>
+<td><code>BUY_BURN_FEE</code></td>
+<td><code>100</code> (1%)</td>
+<td>买入销毁费</td>
+</tr>
+<tr>
+<td><code>BUY_LIQUIDITY_FEE</code></td>
+<td><code>200</code> (2%)</td>
+<td>买入 LP 奖励费</td>
+</tr>
+<tr>
+<td><code>SELL_MARKETING_FEE</code></td>
+<td><code>150</code> (1.5%)</td>
+<td>卖出营销费</td>
+</tr>
+<tr>
+<td><code>SELL_LIQUIDITY_ACCUM_FEE</code></td>
+<td><code>150</code> (1.5%)</td>
+<td>卖出 LP 累积费</td>
+</tr>
+<tr>
+<td><code>PROFIT_TAX_RATE</code></td>
+<td><code>2500</code> (25%)</td>
+<td>利润税率</td>
+</tr>
+<tr>
+<td><code>NO_PROFIT_FEE</code></td>
+<td><code>2500</code> (25%)</td>
+<td>无利润费（未使用）</td>
+</tr>
+<tr>
+<td><code>LP_HANDLE_FEE</code></td>
+<td><code>250</code> (2.5%)</td>
+<td>LP 处理费（未使用）</td>
+</tr>
+</tbody>
+</table>
+<h3 id="不可变地址">不可变地址 </h3>
+<table>
+<thead>
+<tr>
+<th>变量名</th>
+<th>类型</th>
+<th>说明</th>
+<th>在构造函数中设置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>USDT</code></td>
+<td><code>address</code></td>
+<td>USDT 代币地址</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><code>uniswapV2Router</code></td>
+<td><code>IUniswapV2Router02</code></td>
+<td>PancakeRouter 地址</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><code>staking</code></td>
+<td><code>IStaking</code></td>
+<td>SYI-Staking 合约地址</td>
+<td>✅</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="状态变量">状态变量 </h2>
+<h3 id="核心合约地址">核心合约地址 </h3>
+<table>
+<thead>
+<tr>
+<th>变量名</th>
+<th>类型</th>
+<th>默认值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>uniswapV2Pair</code></td>
+<td><code>IUniswapV2Pair</code></td>
+<td><code>address(0)</code></td>
+<td>SYI/USDT 交易对地址</td>
+</tr>
+<tr>
+<td><code>liquidityStaking</code></td>
+<td><code>ILiquidityStaking</code></td>
+<td><code>address(0)</code></td>
+<td>LP 质押合约地址</td>
+</tr>
+<tr>
+<td><code>fundRelay</code></td>
+<td><code>FundRelay</code></td>
+<td><code>address(0)</code></td>
+<td>资金中继合约地址</td>
+</tr>
+<tr>
+<td><code>rootAddress</code></td>
+<td><code>address</code></td>
+<td><code>address(0)</code></td>
+<td>根地址（未使用）</td>
+</tr>
+<tr>
+<td><code>marketingAddress</code></td>
+<td><code>address</code></td>
+<td>构造函数传入</td>
+<td>营销地址</td>
+</tr>
+<tr>
+<td><code>nodeDividendAddress</code></td>
+<td><code>address</code></td>
+<td><code>address(0)</code></td>
+<td>节点分红地址</td>
+</tr>
+</tbody>
+</table>
+<h3 id="费用累积">费用累积 </h3>
+<table>
+<thead>
+<tr>
+<th>变量名</th>
+<th>类型</th>
+<th>默认值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>amountMarketingFee</code></td>
+<td><code>uint256</code></td>
+<td><code>0</code></td>
+<td>累积的营销费用（SYI）</td>
+</tr>
+<tr>
+<td><code>amountLPFee</code></td>
+<td><code>uint256</code></td>
+<td><code>0</code></td>
+<td>累积的 LP 费用（SYI）</td>
+</tr>
+<tr>
+<td><code>swapAtAmount</code></td>
+<td><code>uint256</code></td>
+<td><code>10000 ether</code></td>
+<td>自动兑换阈值</td>
+</tr>
+</tbody>
+</table>
+<h3 id="预售控制">预售控制 </h3>
+<table>
+<thead>
+<tr>
+<th>变量名</th>
+<th>类型</th>
+<th>默认值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>presaleStartTime</code></td>
+<td><code>uint256</code></td>
+<td>合约部署时间</td>
+<td>预售开始时间</td>
+</tr>
+<tr>
+<td><code>presaleDuration</code></td>
+<td><code>uint256</code></td>
+<td><code>30 days</code></td>
+<td>预售持续时间</td>
+</tr>
+<tr>
+<td><code>presaleActive</code></td>
+<td><code>bool</code></td>
+<td><code>true</code></td>
+<td>预售是否激活</td>
+</tr>
+</tbody>
+</table>
+<h3 id="延迟购买">延迟购买 </h3>
+<table>
+<thead>
+<tr>
+<th>变量名</th>
+<th>类型</th>
+<th>默认值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>delayedBuyEnabled</code></td>
+<td><code>bool</code></td>
+<td><code>false</code></td>
+<td>是否启用延迟购买</td>
+</tr>
+<tr>
+<td><code>contractDeployTime</code></td>
+<td><code>uint256</code></td>
+<td>合约部署时间</td>
+<td>合约部署时间戳</td>
+</tr>
+<tr>
+<td><code>delayedBuyEnabledTime</code></td>
+<td><code>uint256</code></td>
+<td><code>0</code></td>
+<td>延迟购买启用时间</td>
+</tr>
+</tbody>
+</table>
+<h3 id="用户数据">用户数据 </h3>
+<table>
+<thead>
+<tr>
+<th>变量名</th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>userInvestment</code></td>
+<td><code>mapping(address =&gt; uint256)</code></td>
+<td>用户累积投资成本（USDT）</td>
+</tr>
+<tr>
+<td><code>lastBuyTime</code></td>
+<td><code>mapping(address =&gt; uint256)</code></td>
+<td>用户最后购买时间</td>
+</tr>
+<tr>
+<td><code>feeWhitelisted</code></td>
+<td><code>mapping(address =&gt; bool)</code></td>
+<td>费用白名单</td>
+</tr>
+<tr>
+<td><code>blacklisted</code></td>
+<td><code>mapping(address =&gt; bool)</code></td>
+<td>黑名单</td>
+</tr>
+</tbody>
+</table>
+<h3 id="其他参数">其他参数 </h3>
+<table>
+<thead>
+<tr>
+<th>变量名</th>
+<th>类型</th>
+<th>默认值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>coldTime</code></td>
+<td><code>uint256</code></td>
+<td><code>10 seconds</code></td>
+<td>冷却时间（买卖间隔）</td>
+</tr>
+<tr>
+<td><code>liquidityThreshold</code></td>
+<td><code>uint256</code></td>
+<td><code>1 gwei</code></td>
+<td>流动性阈值（未使用）</td>
+</tr>
+<tr>
+<td><code>_whitelistInitialized</code></td>
+<td><code>bool</code></td>
+<td><code>false</code></td>
+<td>白名单是否已初始化</td>
+</tr>
+<tr>
+<td><code>_inSwap</code></td>
+<td><code>bool</code></td>
+<td><code>false</code></td>
+<td>是否正在兑换中</td>
+</tr>
+<tr>
+<td><code>_inRouterSwap</code></td>
+<td><code>bool</code></td>
+<td><code>false</code></td>
+<td>是否正在路由兑换中（未使用）</td>
+</tr>
+<tr>
+<td><code>_inLiquidityOperation</code></td>
+<td><code>bool</code></td>
+<td><code>false</code></td>
+<td>是否正在流动性操作中（未使用）</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="修饰符">修饰符 </h2>
+<h3 id="notblacklistedaddress-account"><code>notBlacklisted(address account)</code> </h3>
+<p><strong>功能</strong>: 检查地址是否在黑名单中<br>
+<strong>使用位置</strong>:</p>
+<ul>
+<li><code>_handleBuy()</code> - 买入时检查买家</li>
+<li><code>_handleSell()</code> - 卖出时检查卖家</li>
+</ul>
+<p><strong>逻辑</strong>:</p>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>blacklisted<span class="token punctuation">[</span>account<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token keyword keyword-revert">revert</span> <span class="token function">Blacklisted</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre><hr>
+<h3 id="lockswap"><code>lockSwap()</code> </h3>
+<p><strong>功能</strong>: 防止重入兑换<br>
+<strong>使用位置</strong>:</p>
+<ul>
+<li><code>_swapTokensForUSDT()</code> - 兑换代币为 USDT</li>
+<li><code>_processFeeDistribution()</code> - 处理费用分发</li>
+<li><code>_processImmediateLiquidityInternal()</code> - 处理即时流动性</li>
+</ul>
+<p><strong>逻辑</strong>:</p>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code>_inSwap <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+<span class="token keyword keyword-_">_</span><span class="token punctuation">;</span>
+_inSwap <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+</code></pre><hr>
+<h3 id="delayedbuycheckaddress-buyer"><code>delayedBuyCheck(address buyer)</code> </h3>
+<p><strong>功能</strong>: 检查是否满足延迟购买条件<br>
+<strong>使用位置</strong>:</p>
+<ul>
+<li><code>_handleBuy()</code> - 买入时检查</li>
+</ul>
+<p><strong>逻辑</strong>:</p>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>delayedBuyEnabled <span class="token operator">&amp;&amp;</span> <span class="token operator">!</span>feeWhitelisted<span class="token punctuation">[</span>buyer<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token builtin">uint256</span> requiredDelay <span class="token operator">=</span> <span class="token number">30</span> days<span class="token punctuation">;</span>  <span class="token comment">// 主网</span>
+    <span class="token builtin">uint256</span> baseTime <span class="token operator">=</span> delayedBuyEnabledTime <span class="token operator">&gt;</span> <span class="token number">0</span>
+        <span class="token operator">?</span> delayedBuyEnabledTime
+        <span class="token punctuation">:</span> contractDeployTime<span class="token punctuation">;</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>block<span class="token punctuation">.</span>timestamp <span class="token operator">&lt;</span> baseTime <span class="token operator">+</span> requiredDelay<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword keyword-revert">revert</span> <span class="token function">DelayedBuyPeriodNotMet</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><hr>
+<h2 id="构造函数">构造函数 </h2>
+<h3 id="constructoraddress-_usdt-address-_router-address-_staking-address-_marketingaddress"><code>constructor(address _usdt, address _router, address _staking, address _marketingAddress)</code> </h3>
+<p><strong>文件</strong>: <code>SYIBase.sol:285-309</code></p>
+<p><strong>参数</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>_usdt</code></td>
+<td><code>address</code></td>
+<td>USDT 代币地址 (BSC: <code>0x55d398326f99059fF775485246999027B3197955</code>)</td>
+</tr>
+<tr>
+<td><code>_router</code></td>
+<td><code>address</code></td>
+<td>PancakeRouter 地址 (BSC: <code>0x10ED43C718714eb63d5aA57B78B54704E256024E</code>)</td>
+</tr>
+<tr>
+<td><code>_staking</code></td>
+<td><code>address</code></td>
+<td>SYI-Staking 合约地址</td>
+</tr>
+<tr>
+<td><code>_marketingAddress</code></td>
+<td><code>address</code></td>
+<td>营销地址</td>
+</tr>
+</tbody>
+</table>
+<p><strong>功能</strong>:</p>
+<ol>
+<li>验证所有地址非零地址</li>
+<li>设置不可变变量 (<code>USDT</code>, <code>uniswapV2Router</code>, <code>staking</code>, <code>marketingAddress</code>)</li>
+<li>铸造 <strong>10,000,000 SYI</strong> (1000万，非1亿) 给 owner</li>
+<li>记录合约部署时间</li>
+<li>初始化预售参数（开始时间、持续时间、激活状态）</li>
+</ol>
+<p><strong>错误</strong>:</p>
+<ul>
+<li><code>ZeroAddress()</code> - 任何参数为零地址时抛出</li>
+</ul>
+<p><strong>与其他合约的交互</strong>:</p>
+<ul>
+<li>无（仅设置地址）</li>
+</ul>
+<p><strong>注意事项</strong>:</p>
+<ul>
+<li>⚠️ 实际铸造量为 <strong>1000万 SYI</strong>，与文档中的 1 亿不符</li>
+<li>预售期默认为 30 天（主网）或更短（测试网）</li>
+</ul>
+<hr>
+<h2 id="初始化函数">初始化函数 </h2>
+<h3 id="initializewhitelist"><code>initializeWhitelist()</code> </h3>
+<p><strong>文件</strong>: <code>SYIBase.sol:320-331</code><br>
+<strong>权限</strong>: <code>onlyOwner</code><br>
+<strong>状态修改</strong>: ✅</p>
+<p><strong>参数</strong>: 无</p>
+<p><strong>功能</strong>:</p>
+<ol>
+<li>检查白名单是否已初始化（只能初始化一次）</li>
+<li>将以下地址加入费用白名单:
+<ul>
+<li><code>owner()</code> - 合约拥有者</li>
+<li><code>address(this)</code> - SYI 合约自身</li>
+<li><code>address(staking)</code> - SYI-Staking 合约</li>
+<li><code>marketingAddress</code> - 营销地址</li>
+<li><code>address(uniswapV2Router)</code> - PancakeRouter</li>
+</ul>
+</li>
+</ol>
+<p><strong>错误</strong>:</p>
+<ul>
+<li><code>AlreadyInitialized()</code> - 已经初始化过时抛出</li>
+</ul>
+<p><strong>与其他合约的交互</strong>:</p>
+<ul>
+<li>无</li>
+</ul>
+<p><strong>使用时机</strong>:</p>
+<ul>
+<li>部署后立即调用（在 <code>setPair</code> 之前）</li>
+</ul>
+<hr>
+<h2 id="配置管理函数">配置管理函数 </h2>
+<h3 id="setpairaddress-_pair"><code>setPair(address _pair)</code> </h3>
+<p><strong>文件</strong>: <code>SYIBase.sol:337-342</code><br>
+<strong>权限</strong>: <code>onlyOwner</code><br>
+<strong>状态修改</strong>: ✅</p>
+<p><strong>参数</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>_pair</code></td>
+<td><code>address</code></td>
+<td>SYI/USDT 交易对地址</td>
+</tr>
+</tbody>
+</table>
+<p><strong>功能</strong>:</p>
+<ol>
+<li>验证地址非零</li>
+<li>验证交易对未设置（只能设置一次）</li>
+<li>设置 <code>uniswapV2Pair</code></li>
+<li>从 Staking 合约更新预售期</li>
+</ol>
+<p><strong>错误</strong>:</p>
+<ul>
+<li><code>ZeroAddress()</code> - 地址为零时抛出</li>
+<li><code>AlreadySet()</code> - 交易对已设置时抛出</li>
+</ul>
+<p><strong>与其他合约的交互</strong>:</p>
+<ul>
+<li>无（仅设置地址）</li>
+</ul>
+<p><strong>部署顺序</strong>:</p>
+<ul>
+<li>在 PancakeFactory 创建 Pair 后调用</li>
+</ul>
+<hr>
+<h3 id="setliquiditystakingaddress-_liquiditystaking"><code>setLiquidityStaking(address _liquidityStaking)</code> </h3>
+<p><strong>文件</strong>: <code>SYIBase.sol:344-348</code><br>
+<strong>权限</strong>: <code>onlyOwner</code><br>
+<strong>状态修改</strong>: ✅</p>
+<p><strong>参数</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>_liquidityStaking</code></td>
+<td><code>address</code></td>
+<td>LiquidityStaking 合约地址</td>
+</tr>
+</tbody>
+</table>
+<p><strong>功能</strong>:</p>
+<ol>
+<li>验证地址非零</li>
+<li>设置 <code>liquidityStaking</code> 合约</li>
+<li>将 LiquidityStaking 加入费用白名单</li>
+</ol>
+<p><strong>错误</strong>:</p>
+<ul>
+<li><code>ZeroAddress()</code> - 地址为零时抛出</li>
+</ul>
+<p><strong>与其他合约的交互</strong>:</p>
+<ul>
+<li>无（仅设置地址）</li>
+</ul>
+<p><strong>部署顺序</strong>:</p>
+<ul>
+<li>在 LiquidityStaking 部署后调用</li>
+</ul>
+<hr>
+<h3 id="setfundrelayaddress-_fundrelay"><code>setFundRelay(address _fundRelay)</code> </h3>
+<p><strong>文件</strong>: <code>SYIBase.sol:350-354</code><br>
+<strong>权限</strong>: <code>onlyOwner</code><br>
+<strong>状态修改</strong>: ✅</p>
+<p><strong>参数</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>_fundRelay</code></td>
+<td><code>address</code></td>
+<td>FundRelay 合约地址</td>
+</tr>
+</tbody>
+</table>
+<p><strong>功能</strong>:</p>
+<ol>
+<li>验证地址非零</li>
+<li>设置 <code>fundRelay</code> 合约</li>
+<li>将 FundRelay 加入费用白名单</li>
+</ol>
+<p><strong>错误</strong>:</p>
+<ul>
+<li><code>ZeroAddress()</code> - 地址为零时抛出</li>
+</ul>
+<p><strong>与其他合约的交互</strong>:</p>
+<ul>
+<li>无（仅设置地址）</li>
+</ul>
+<hr>
+<h3 id="setmarketingaddressaddress-_newaddress"><code>setMarketingAddress(address _newAddress)</code> </h3>
+<p><strong>文件</strong>: <code>SYIBase.sol:356-362</code><br>
+<strong>权限</strong>: <code>onlyOwner</code><br>
+<strong>状态修改</strong>: ✅</p>
+<p><strong>参数</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>_newAddress</code></td>
+<td><code>address</code></td>
+<td>新的营销地址</td>
+</tr>
+</tbody>
+</table>
+<p><strong>功能</strong>:</p>
+<ol>
+<li>验证地址非零</li>
+<li>记录旧地址</li>
+<li>设置新的 <code>marketingAddress</code></li>
+<li>将新地址加入费用白名单</li>
+<li>触发 <code>MarketingAddressUpdated</code> 事件</li>
+</ol>
+<p><strong>错误</strong>:</p>
+<ul>
+<li><code>ZeroAddress()</code> - 地址为零时抛出</li>
+</ul>
+<p><strong>事件</strong>:</p>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token keyword keyword-event">event</span> <span class="token function">MarketingAddressUpdated</span><span class="token punctuation">(</span><span class="token builtin">address</span> <span class="token keyword keyword-indexed">indexed</span> oldAddress<span class="token punctuation">,</span> <span class="token builtin">address</span> <span class="token keyword keyword-indexed">indexed</span> newAddress<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre><p><strong>与其他合约的交互</strong>:</p>
+<ul>
+<li>无</li>
+</ul>
+<hr>
+<h3 id="setnodedividendaddressaddress-_node"><code>setNodeDividendAddress(address _node)</code> </h3>
+<p><strong>文件</strong>: <code>SYIBase.sol:364-367</code><br>
+<strong>权限</strong>: <code>onlyOwner</code><br>
+<strong>状态修改</strong>: ✅</p>
+<p><strong>参数</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>_node</code></td>
+<td><code>address</code></td>
+<td>节点分红地址</td>
+</tr>
+</tbody>
+</table>
+<p><strong>功能</strong>:</p>
+<ol>
+<li>验证地址非零</li>
+<li>设置 <code>nodeDividendAddress</code>（接收利润税的 60%）</li>
+</ol>
+<p><strong>错误</strong>:</p>
+<ul>
+<li><code>ZeroAddress()</code> - 地址为零时抛出</li>
+</ul>
+<p><strong>与其他合约的交互</strong>:</p>
+<ul>
+<li>无</li>
+</ul>
+<p><strong>说明</strong>:</p>
+<ul>
+<li>如果未设置，利润税的 60% 将发送给 <code>marketingAddress</code></li>
+</ul>
+<hr>
+<h3 id="setfeewhitelistedaddress-account-bool-whitelisted"><code>setFeeWhitelisted(address account, bool whitelisted)</code> </h3>
+<p><strong>文件</strong>: <code>SYIBase.sol:369-374</code><br>
+<strong>权限</strong>: <code>onlyOwner</code><br>
+<strong>状态修改</strong>: ✅</p>
+<p><strong>参数</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>account</code></td>
+<td><code>address</code></td>
+<td>要设置的地址</td>
+</tr>
+<tr>
+<td><code>whitelisted</code></td>
+<td><code>bool</code></td>
+<td>是否加入白名单</td>
+</tr>
+</tbody>
+</table>
+<p><strong>功能</strong>:</p>
+<ul>
+<li>设置单个地址的费用白名单状态</li>
+</ul>
+<p><strong>与其他合约的交互</strong>:</p>
+<ul>
+<li>无</li>
+</ul>
+<p><strong>白名单效果</strong>:</p>
+<ul>
+<li>免除所有交易费用（买入税、卖出税、利润税）</li>
+<li>跳过延迟购买检查</li>
+<li>跳过黑名单检查</li>
+</ul>
+<hr>
+<h3 id="setbatchfeewhitelistedaddress-memory-accounts-bool-_whitelisted"><code>setBatchFeeWhitelisted(address[] memory accounts, bool _whitelisted)</code> </h3>
+<p><strong>文件</strong>: <code>SYIBase.sol:376-383</code><br>
+<strong>权限</strong>: <code>onlyOwner</code><br>
+<strong>状态修改</strong>: ✅</p>
+<p><strong>参数</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>accounts</code></td>
+<td><code>address[]</code></td>
+<td>地址数组</td>
+</tr>
+<tr>
+<td><code>_whitelisted</code></td>
+<td><code>bool</code></td>
+<td>是否加入白名单</td>
+</tr>
+</tbody>
+</table>
+<p><strong>功能</strong>:</p>
+<ul>
+<li>批量设置地址的费用白名单状态</li>
+</ul>
+<p><strong>与其他合约的交互</strong>:</p>
+<ul>
+<li>无</li>
+</ul>
+<hr>
+<h3 id="setbatchblacklistedaddress-memory-accounts-bool-_blacklisted"><code>setBatchBlacklisted(address[] memory accounts, bool _blacklisted)</code> </h3>
+<p><strong>文件</strong>: <code>SYIBase.sol:385-392</code><br>
+<strong>权限</strong>: <code>onlyOwner</code><br>
+<strong>状态修改</strong>: ✅</p>
+<p><strong>参数</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>accounts</code></td>
+<td><code>address[]</code></td>
+<td>地址数组</td>
+</tr>
+<tr>
+<td><code>_blacklisted</code></td>
+<td><code>bool</code></td>
+<td>是否加入黑名单</td>
+</tr>
+</tbody>
+</table>
+<p><strong>功能</strong>:</p>
+<ul>
+<li>批量设置地址的黑名单状态</li>
+</ul>
+<p><strong>与其他合约的交互</strong>:</p>
+<ul>
+<li>无</li>
+</ul>
+<p><strong>黑名单效果</strong>:</p>
+<ul>
+<li>禁止买入 SYI</li>
+<li>禁止卖出 SYI</li>
+</ul>
+<hr>
+<h3 id="setblacklistedaddress-account-bool-_blacklisted"><code>setBlacklisted(address account, bool _blacklisted)</code> </h3>
+<p><strong>文件</strong>: <code>SYIBase.sol:394-399</code><br>
+<strong>权限</strong>: <code>onlyOwner</code><br>
+<strong>状态修改</strong>: ✅</p>
+<p><strong>参数</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>account</code></td>
+<td><code>address</code></td>
+<td>要设置的地址</td>
+</tr>
+<tr>
+<td><code>_blacklisted</code></td>
+<td><code>bool</code></td>
+<td>是否加入黑名单</td>
+</tr>
+</tbody>
+</table>
+<p><strong>功能</strong>:</p>
+<ul>
+<li>设置单个地址的黑名单状态</li>
+</ul>
+<p><strong>与其他合约的交互</strong>:</p>
+<ul>
+<li>无</li>
+</ul>
+<hr>
+<h3 id="setswapatamountuint256-_swapatamount"><code>setSwapAtAmount(uint256 _swapAtAmount)</code> </h3>
+<p><strong>文件</strong>: <code>SYIBase.sol:401-403</code><br>
+<strong>权限</strong>: <code>onlyOwner</code><br>
+<strong>状态修改</strong>: ✅</p>
+<p><strong>参数</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>_swapAtAmount</code></td>
+<td><code>uint256</code></td>
+<td>新的自动兑换阈值（单位: wei）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>功能</strong>:</p>
+<ul>
+<li>设置累积费用达到多少时自动触发兑换和分发</li>
+</ul>
+<p><strong>与其他合约的交互</strong>:</p>
+<ul>
+<li>无</li>
+</ul>
+<p><strong>默认值</strong>: <code>10000 ether</code> (10000 SYI)</p>
+<hr>
+<h3 id="setcoldtimeuint256-_coldtime"><code>setColdTime(uint256 _coldTime)</code> </h3>
+<p><strong>文件</strong>: <code>SYIBase.sol:405-407</code><br>
+<strong>权限</strong>: <code>onlyOwner</code><br>
+<strong>状态修改</strong>: ✅</p>
+<p><strong>参数</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>_coldTime</code></td>
+<td><code>uint256</code></td>
+<td>新的冷却时间（单位: 秒）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>功能</strong>:</p>
+<ul>
+<li>设置买入后多久才能卖出</li>
+</ul>
+<p><strong>与其他合约的交互</strong>:</p>
+<ul>
+<li>无</li>
+</ul>
+<p><strong>默认值</strong>: <code>10 seconds</code></p>
+<hr>
+<h3 id="setliquiditythresholduint256-newthreshold"><code>setLiquidityThreshold(uint256 newThreshold)</code> </h3>
+<p><strong>文件</strong>: <code>SYIBase.sol:409-411</code><br>
+<strong>权限</strong>: <code>onlyOwner</code><br>
+<strong>状态修改</strong>: ✅</p>
+<p><strong>参数</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>newThreshold</code></td>
+<td><code>uint256</code></td>
+<td>新的流动性阈值</td>
+</tr>
+</tbody>
+</table>
+<p><strong>功能</strong>:</p>
+<ul>
+<li>设置流动性阈值（当前代码中未实际使用）</li>
+</ul>
+<p><strong>与其他合约的交互</strong>:</p>
+<ul>
+<li>无</li>
+</ul>
+<hr>
+<h3 id="setpresaleduration"><code>setPresaleDuration()</code> </h3>
+<p><strong>文件</strong>: <code>SYIBase.sol:413-415</code><br>
+<strong>权限</strong>: <code>onlyOwner</code><br>
+<strong>状态修改</strong>: ✅</p>
+<p><strong>参数</strong>: 无</p>
+<p><strong>功能</strong>:</p>
+<ul>
+<li>从 Staking 合约更新预售期（当前实现中实际是使用固定值）</li>
+</ul>
+<p><strong>与其他合约的交互</strong>:</p>
+<ul>
+<li>无（当前实现中未实际查询 Staking 合约）</li>
+</ul>
+<hr>
+<h3 id="setpresaleactivebool-_active"><code>setPresaleActive(bool _active)</code> </h3>
+<p><strong>文件</strong>: <code>SYIBase.sol:417-425</code><br>
+<strong>权限</strong>: <code>onlyOwner</code><br>
+<strong>状态修改</strong>: ✅</p>
+<p><strong>参数</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>_active</code></td>
+<td><code>bool</code></td>
+<td>是否激活预售</td>
+</tr>
+</tbody>
+</table>
+<p><strong>功能</strong>:</p>
+<ol>
+<li>设置预售激活状态</li>
+<li>如果激活，重置预售开始时间为当前时间</li>
+<li>如果激活，重置预售持续时间为默认值（30天）</li>
+<li>触发事件</li>
+</ol>
+<p><strong>事件</strong>:</p>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token keyword keyword-event">event</span> <span class="token function">PresaleDurationUpdated</span><span class="token punctuation">(</span><span class="token builtin">uint256</span> newDuration<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword keyword-event">event</span> <span class="token function">PresaleStatusUpdated</span><span class="token punctuation">(</span><span class="token builtin">bool</span> active<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre><p><strong>与其他合约的交互</strong>:</p>
+<ul>
+<li>无</li>
+</ul>
+<p><strong>预售效果</strong>:</p>
+<ul>
+<li>预售期内，所有地址（除白名单外）<strong>禁止</strong>在 PancakeSwap 买入 SYI</li>
+</ul>
+<hr>
+<h3 id="recoverstucktokensaddress-token-uint256-amount"><code>recoverStuckTokens(address token, uint256 amount)</code> </h3>
+<p><strong>文件</strong>: <code>SYIBase.sol:427-433</code><br>
+<strong>权限</strong>: <code>onlyOwner</code><br>
+<strong>状态修改</strong>: ✅</p>
+<p><strong>参数</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>token</code></td>
+<td><code>address</code></td>
+<td>代币地址</td>
+</tr>
+<tr>
+<td><code>amount</code></td>
+<td><code>uint256</code></td>
+<td>提取数量</td>
+</tr>
+</tbody>
+</table>
+<p><strong>功能</strong>:</p>
+<ul>
+<li>提取合约中误转入的代币（不包括 SYI 自身）</li>
+</ul>
+<p><strong>与其他合约的交互</strong>:</p>
+<ul>
+<li>调用 <code>IERC20(token).transfer(owner(), amount)</code></li>
+</ul>
+<hr>
+<h3 id="setdelayedbuyenabledbool-_enabled"><code>setDelayedBuyEnabled(bool _enabled)</code> </h3>
+<p><strong>文件</strong>: <code>SYIBase.sol:450-460</code><br>
+<strong>权限</strong>: <code>onlyOwner</code><br>
+<strong>状态修改</strong>: ✅</p>
+<p><strong>参数</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>_enabled</code></td>
+<td><code>bool</code></td>
+<td>是否启用延迟购买</td>
+</tr>
+</tbody>
+</table>
+<p><strong>功能</strong>:</p>
+<ol>
+<li>设置延迟购买启用状态</li>
+<li>如果启用，记录启用时间</li>
+<li>如果禁用，清零启用时间</li>
+<li>触发事件</li>
+</ol>
+<p><strong>事件</strong>:</p>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token keyword keyword-event">event</span> <span class="token function">DelayedBuyEnabled</span><span class="token punctuation">(</span><span class="token builtin">bool</span> enabled<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre><p><strong>与其他合约的交互</strong>:</p>
+<ul>
+<li>无</li>
+</ul>
+<p><strong>延迟购买效果</strong>:</p>
+<ul>
+<li>启用后，非白名单地址需要等待 30 天（主网）才能购买 SYI</li>
+</ul>
+<hr>
+<h2 id="核心交易函数">核心交易函数 </h2>
+<h3 id="transferaddress-to-uint256-value"><code>transfer(address to, uint256 value)</code> </h3>
+<p><strong>文件</strong>: <code>SYIBase.sol:605-612</code><br>
+<strong>权限</strong>: 公开<br>
+<strong>状态修改</strong>: ✅<br>
+<strong>ERC20 标准</strong>: ✅</p>
+<p><strong>参数</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>to</code></td>
+<td><code>address</code></td>
+<td>接收地址</td>
+</tr>
+<tr>
+<td><code>value</code></td>
+<td><code>uint256</code></td>
+<td>转账数量</td>
+</tr>
+</tbody>
+</table>
+<p><strong>返回值</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>bool</code></td>
+<td>始终返回 <code>true</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>功能</strong>:</p>
+<ul>
+<li>标准 ERC20 转账函数</li>
+<li>内部调用 <code>_update()</code> 处理实际转账逻辑</li>
+</ul>
+<p><strong>与其他合约的交互</strong>:</p>
+<ul>
+<li>通过 <code>_update()</code> 间接调用其他函数</li>
+</ul>
+<hr>
+<h3 id="transferfromaddress-from-address-to-uint256-value"><code>transferFrom(address from, address to, uint256 value)</code> </h3>
+<p><strong>文件</strong>: <code>SYIBase.sol:614-623</code><br>
+<strong>权限</strong>: 公开<br>
+<strong>状态修改</strong>: ✅<br>
+<strong>ERC20 标准</strong>: ✅</p>
+<p><strong>参数</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>from</code></td>
+<td><code>address</code></td>
+<td>发送地址</td>
+</tr>
+<tr>
+<td><code>to</code></td>
+<td><code>address</code></td>
+<td>接收地址</td>
+</tr>
+<tr>
+<td><code>value</code></td>
+<td><code>uint256</code></td>
+<td>转账数量</td>
+</tr>
+</tbody>
+</table>
+<p><strong>返回值</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>bool</code></td>
+<td>始终返回 <code>true</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>功能</strong>:</p>
+<ul>
+<li>标准 ERC20 授权转账函数</li>
+<li>检查并扣除授权额度</li>
+<li>内部调用 <code>_update()</code> 处理实际转账逻辑</li>
+</ul>
+<p><strong>与其他合约的交互</strong>:</p>
+<ul>
+<li>通过 <code>_update()</code> 间接调用其他函数</li>
+</ul>
+<hr>
+<h3 id="_updateaddress-from-address-to-uint256-value-"><code>_update(address from, address to, uint256 value)</code> ⭐ </h3>
+<p><strong>文件</strong>: <code>SYIBase.sol:629-661</code><br>
+<strong>权限</strong>: 内部函数（<code>internal override</code>）<br>
+<strong>状态修改</strong>: ✅</p>
+<p><strong>参数</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>from</code></td>
+<td><code>address</code></td>
+<td>发送地址</td>
+</tr>
+<tr>
+<td><code>to</code></td>
+<td><code>address</code></td>
+<td>接收地址</td>
+</tr>
+<tr>
+<td><code>value</code></td>
+<td><code>uint256</code></td>
+<td>转账数量</td>
+</tr>
+</tbody>
+</table>
+<p><strong>功能</strong>:<br>
+<strong>这是 SYI 合约的核心逻辑，所有转账都会经过这个函数</strong></p>
+<ol>
+<li><strong>检查零地址</strong>: 如果是铸造或销毁操作，直接执行</li>
+<li><strong>检查白名单</strong>: 如果发送方或接收方在白名单中，免税执行</li>
+<li><strong>判断操作类型</strong>:
+<ul>
+<li><strong>买入</strong>: <code>_isBuyOperation()</code> - 从 Pair 转出到用户</li>
+<li><strong>卖出</strong>: <code>_isSellOperation()</code> - 从用户转入到 Pair</li>
+<li><strong>普通转账</strong>: 其他情况</li>
+</ul>
+</li>
+<li><strong>路由处理</strong>:
+<ul>
+<li>买入 → <code>_handleBuy()</code></li>
+<li>卖出 → <code>_handleSell()</code></li>
+<li>普通转账 → 直接执行 + 尝试触发 FundRelay 分发</li>
+</ul>
+</li>
+</ol>
+<p><strong>与其他合约的交互</strong>:</p>
+<ul>
+<li>通过 <code>_handleBuy()</code> 和 <code>_handleSell()</code> 间接调用</li>
+<li>调用 <code>_tryTriggerFundRelayDistribution()</code></li>
+</ul>
+<hr>
+<h2 id="外部接口函数">外部接口函数 </h2>
+<h3 id="recycleuint256-amount-"><code>recycle(uint256 amount)</code> ⭐ </h3>
+<p><strong>文件</strong>: <code>SYIBase.sol:435-448</code><br>
+<strong>权限</strong>: <strong>仅 Staking 合约可调用</strong><br>
+<strong>状态修改</strong>: ✅</p>
+<p><strong>参数</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>amount</code></td>
+<td><code>uint256</code></td>
+<td>请求回收的 SYI 数量</td>
+</tr>
+</tbody>
+</table>
+<p><strong>功能</strong>:</p>
+<ol>
+<li>验证调用者为 Staking 合约</li>
+<li>计算 Pair 中 SYI 余额</li>
+<li>计算最大可回收量（Pair 余额的 1/3）</li>
+<li>取 <code>amount</code> 和最大可回收量的较小值</li>
+<li>从 Pair 转移 SYI 到 Staking 合约</li>
+<li>调用 <code>Pair.sync()</code> 同步储备量</li>
+</ol>
+<p><strong>与其他合约的交互</strong>:</p>
+<ul>
+<li>✅ <strong>被调用者</strong>: Staking 合约</li>
+<li>✅ <strong>调用</strong>: <code>uniswapV2Pair.sync()</code> - 同步 Pair 储备量</li>
+<li>✅ <strong>调用</strong>: <code>super._update()</code> - 转移代币</li>
+</ul>
+<p><strong>使用场景</strong>:</p>
+<ul>
+<li>Staking 合约需要额外的 SYI 用于奖励分发</li>
+<li>从 Pair 中"回收"代币而不影响价格（通过 sync 调整）</li>
+</ul>
+<p><strong>安全机制</strong>:</p>
+<ul>
+<li>限制每次最多回收 Pair 余额的 1/3，防止价格剧烈波动</li>
+</ul>
+<hr>
+<h3 id="triggerfundrelaydistribution-"><code>triggerFundRelayDistribution()</code> ⭐ </h3>
+<p><strong>文件</strong>: <code>SYIBase.sol:1134-1142</code><br>
+<strong>权限</strong>: <strong>仅 Staking 或 LiquidityStaking 可调用</strong><br>
+<strong>状态修改</strong>: ✅</p>
+<p><strong>参数</strong>: 无</p>
+<p><strong>功能</strong>:</p>
+<ol>
+<li>验证调用者为 Staking 或 LiquidityStaking 合约</li>
+<li>尝试触发 FundRelay 分发</li>
+<li>尝试处理累积的费用</li>
+</ol>
+<p><strong>与其他合约的交互</strong>:</p>
+<ul>
+<li>✅ <strong>被调用者</strong>: Staking 或 LiquidityStaking 合约</li>
+<li>✅ <strong>调用</strong>: <code>fundRelay.receiveAndForward()</code> - 转移 USDT</li>
+<li>✅ <strong>调用</strong>: <code>_tryProcessAccumulatedFees()</code> - 处理费用</li>
+</ul>
+<p><strong>使用场景</strong>:</p>
+<ul>
+<li>Staking 或 LiquidityStaking 合约需要 USDT 用于奖励分发</li>
+<li>手动触发累积费用的兑换和分发</li>
+</ul>
+<hr>
+<h3 id="triggerfeeprocessing"><code>triggerFeeProcessing()</code> </h3>
+<p><strong>文件</strong>: <code>SYIBase.sol:1462-1471</code><br>
+<strong>权限</strong>: <strong>Owner、Staking 或 LiquidityStaking 可调用</strong><br>
+<strong>状态修改</strong>: ✅</p>
+<p><strong>参数</strong>: 无</p>
+<p><strong>功能</strong>:</p>
+<ol>
+<li>验证调用者权限</li>
+<li>尝试处理累积的费用（兑换 + 分发）</li>
+</ol>
+<p><strong>与其他合约的交互</strong>:</p>
+<ul>
+<li>✅ <strong>被调用者</strong>: Owner、Staking 或 LiquidityStaking 合约</li>
+<li>✅ <strong>调用</strong>: <code>_tryProcessAccumulatedFees()</code> - 处理费用</li>
+</ul>
+<p><strong>使用场景</strong>:</p>
+<ul>
+<li>手动触发累积费用的兑换和分发</li>
+<li>当累积费用接近阈值但未达到时强制触发</li>
+</ul>
+<hr>
+<h2 id="查询函数">查询函数 </h2>
+<h3 id="getaccumulatedfees"><code>getAccumulatedFees()</code> </h3>
+<p><strong>文件</strong>: <code>SYIBase.sol:466-472</code><br>
+<strong>权限</strong>: 公开（<code>external view</code>）<br>
+<strong>状态修改</strong>: ❌</p>
+<p><strong>参数</strong>: 无</p>
+<p><strong>返回值</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>marketing</code></td>
+<td><code>uint256</code></td>
+<td>累积的营销费用（SYI）</td>
+</tr>
+<tr>
+<td><code>lp</code></td>
+<td><code>uint256</code></td>
+<td>累积的 LP 费用（SYI）</td>
+</tr>
+<tr>
+<td><code>threshold</code></td>
+<td><code>uint256</code></td>
+<td>自动兑换阈值</td>
+</tr>
+</tbody>
+</table>
+<p><strong>功能</strong>:</p>
+<ul>
+<li>查询当前累积的费用和阈值</li>
+</ul>
+<hr>
+<h3 id="getuserinvestmentaddress-user"><code>getUserInvestment(address user)</code> </h3>
+<p><strong>文件</strong>: <code>SYIBase.sol:474-478</code><br>
+<strong>权限</strong>: 公开（<code>external view</code>）<br>
+<strong>状态修改</strong>: ❌</p>
+<p><strong>参数</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>user</code></td>
+<td><code>address</code></td>
+<td>用户地址</td>
+</tr>
+</tbody>
+</table>
+<p><strong>返回值</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>investment</code></td>
+<td><code>uint256</code></td>
+<td>用户累积投资成本（USDT）</td>
+</tr>
+<tr>
+<td><code>lastBuy</code></td>
+<td><code>uint256</code></td>
+<td>最后购买时间戳</td>
+</tr>
+</tbody>
+</table>
+<p><strong>功能</strong>:</p>
+<ul>
+<li>查询用户的投资成本和最后购买时间</li>
+<li>用于计算利润税</li>
+</ul>
+<hr>
+<h3 id="getuniswapv2pair"><code>getUniswapV2Pair()</code> </h3>
+<p><strong>文件</strong>: <code>SYIBase.sol:480-482</code><br>
+<strong>权限</strong>: 公开（<code>external view</code>）<br>
+<strong>状态修改</strong>: ❌</p>
+<p><strong>返回值</strong>: <code>address</code> - Pair 地址</p>
+<hr>
+<h3 id="getliquiditystaking"><code>getLiquidityStaking()</code> </h3>
+<p><strong>文件</strong>: <code>SYIBase.sol:484-486</code><br>
+<strong>权限</strong>: 公开（<code>external view</code>）<br>
+<strong>状态修改</strong>: ❌</p>
+<p><strong>返回值</strong>: <code>address</code> - LiquidityStaking 地址</p>
+<hr>
+<h3 id="getfundrelay"><code>getFundRelay()</code> </h3>
+<p><strong>文件</strong>: <code>SYIBase.sol:488-490</code><br>
+<strong>权限</strong>: 公开（<code>external view</code>）<br>
+<strong>状态修改</strong>: ❌</p>
+<p><strong>返回值</strong>: <code>address</code> - FundRelay 地址</p>
+<hr>
+<h3 id="getusdtreserve"><code>getUSDTReserve()</code> </h3>
+<p><strong>文件</strong>: <code>SYIBase.sol:492-502</code><br>
+<strong>权限</strong>: 公开（<code>external view</code>）<br>
+<strong>状态修改</strong>: ❌</p>
+<p><strong>返回值</strong>: <code>uint112 usdtReserve</code> - Pair 中的 USDT 储备量</p>
+<p><strong>功能</strong>:</p>
+<ul>
+<li>查询 Pair 中 USDT 的储备量</li>
+<li>如果查询失败返回 0</li>
+</ul>
+<p><strong>与其他合约的交互</strong>:</p>
+<ul>
+<li>✅ <strong>调用</strong>: <code>uniswapV2Pair.getReserves()</code> - 获取储备量</li>
+<li>✅ <strong>调用</strong>: <code>uniswapV2Pair.token0()</code> - 判断 token 顺序</li>
+</ul>
+<hr>
+<h3 id="getdelayedswapstatus"><code>getDelayedSwapStatus()</code> </h3>
+<p><strong>文件</strong>: <code>SYIBase.sol:504-510</code><br>
+<strong>权限</strong>: 公开（<code>external view</code>）<br>
+<strong>状态修改</strong>: ❌</p>
+<p><strong>返回值</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>pending</code></td>
+<td><code>bool</code></td>
+<td>始终为 <code>false</code>（已弃用）</td>
+</tr>
+<tr>
+<td><code>totalFees</code></td>
+<td><code>uint256</code></td>
+<td>累积的总费用</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3 id="getpresalestatus"><code>getPresaleStatus()</code> </h3>
+<p><strong>文件</strong>: <code>SYIBase.sol:512-536</code><br>
+<strong>权限</strong>: 公开（<code>external view</code>）<br>
+<strong>状态修改</strong>: ❌</p>
+<p><strong>返回值</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>active</code></td>
+<td><code>bool</code></td>
+<td>预售是否激活</td>
+</tr>
+<tr>
+<td><code>startTime</code></td>
+<td><code>uint256</code></td>
+<td>预售开始时间</td>
+</tr>
+<tr>
+<td><code>duration</code></td>
+<td><code>uint256</code></td>
+<td>预售持续时间</td>
+</tr>
+<tr>
+<td><code>remainingTime</code></td>
+<td><code>uint256</code></td>
+<td>剩余时间</td>
+</tr>
+<tr>
+<td><code>isInPresale</code></td>
+<td><code>bool</code></td>
+<td>当前是否在预售期</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3 id="getamountoutuint256-amountin-uint256-reservein-uint256-reserveout"><code>getAmountOut(uint256 amountIn, uint256 reserveIn, uint256 reserveOut)</code> </h3>
+<p><strong>文件</strong>: <code>SYIBase.sol:538-544</code><br>
+<strong>权限</strong>: 公开（<code>external pure</code>）<br>
+<strong>状态修改</strong>: ❌</p>
+<p><strong>功能</strong>:</p>
+<ul>
+<li>Uniswap V2 AMM 公式：计算输出数量</li>
+<li>使用 <code>Helper.getAmountOut()</code> 实现</li>
+</ul>
+<hr>
+<h3 id="getamountinuint256-amountout-uint256-reservein-uint256-reserveout"><code>getAmountIn(uint256 amountOut, uint256 reserveIn, uint256 reserveOut)</code> </h3>
+<p><strong>文件</strong>: <code>SYIBase.sol:546-552</code><br>
+<strong>权限</strong>: 公开（<code>external pure</code>）<br>
+<strong>状态修改</strong>: ❌</p>
+<p><strong>功能</strong>:</p>
+<ul>
+<li>Uniswap V2 AMM 公式：计算输入数量</li>
+<li>使用 <code>Helper.getAmountIn()</code> 实现</li>
+</ul>
+<hr>
+<h3 id="iscontractaddress-account"><code>isContract(address account)</code> </h3>
+<p><strong>文件</strong>: <code>SYIBase.sol:554-556</code><br>
+<strong>权限</strong>: 公开（<code>external view</code>）<br>
+<strong>状态修改</strong>: ❌</p>
+<p><strong>功能</strong>:</p>
+<ul>
+<li>检查地址是否为合约</li>
+</ul>
+<hr>
+<h3 id="getdelayedbuyinfo"><code>getDelayedBuyInfo()</code> </h3>
+<p><strong>文件</strong>: <code>SYIBase.sol:558-587</code><br>
+<strong>权限</strong>: 公开（<code>external view</code>）<br>
+<strong>状态修改</strong>: ❌</p>
+<p><strong>返回值</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>enabled</code></td>
+<td><code>bool</code></td>
+<td>是否启用延迟购买</td>
+</tr>
+<tr>
+<td><code>testModeActive</code></td>
+<td><code>bool</code></td>
+<td>始终为 <code>false</code>（已弃用）</td>
+</tr>
+<tr>
+<td><code>enabledTime</code></td>
+<td><code>uint256</code></td>
+<td>启用时间</td>
+</tr>
+<tr>
+<td><code>requiredDelay</code></td>
+<td><code>uint256</code></td>
+<td>所需延迟时间</td>
+</tr>
+<tr>
+<td><code>remainingDelay</code></td>
+<td><code>uint256</code></td>
+<td>剩余延迟时间</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3 id="isdelayedbuyperiodmetaddress-buyer"><code>isDelayedBuyPeriodMet(address buyer)</code> </h3>
+<p><strong>文件</strong>: <code>SYIBase.sol:589-599</code><br>
+<strong>权限</strong>: 公开（<code>external view</code>）<br>
+<strong>状态修改</strong>: ❌</p>
+<p><strong>参数</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>buyer</code></td>
+<td><code>address</code></td>
+<td>买家地址</td>
+</tr>
+</tbody>
+</table>
+<p><strong>返回值</strong>: <code>bool</code> - 是否满足延迟购买条件</p>
+<p><strong>功能</strong>:</p>
+<ul>
+<li>如果未启用延迟购买，返回 <code>true</code></li>
+<li>如果买家在白名单中，返回 <code>true</code></li>
+<li>否则检查是否已等待足够时间</li>
+</ul>
+<hr>
+<h2 id="内部辅助函数">内部辅助函数 </h2>
+<h3 id="_handlebuyaddress-from-address-to-uint256-amount-"><code>_handleBuy(address from, address to, uint256 amount)</code> ⭐ </h3>
+<p><strong>文件</strong>: <code>SYIBase.sol:716-764</code><br>
+<strong>权限</strong>: 私有（<code>private</code>）<br>
+<strong>状态修改</strong>: ✅<br>
+<strong>修饰符</strong>: <code>notBlacklisted(to)</code>, <code>delayedBuyCheck(to)</code></p>
+<p><strong>参数</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>from</code></td>
+<td><code>address</code></td>
+<td>Pair 地址</td>
+</tr>
+<tr>
+<td><code>to</code></td>
+<td><code>address</code></td>
+<td>买家地址</td>
+</tr>
+<tr>
+<td><code>amount</code></td>
+<td><code>uint256</code></td>
+<td>买入数量</td>
+</tr>
+</tbody>
+</table>
+<p><strong>功能</strong>:<br>
+<strong>处理用户从 PancakeSwap 买入 SYI 的所有逻辑</strong></p>
+<ol>
+<li><strong>预售检查</strong>: 如果在预售期内，禁止买入（抛出 <code>NotAllowedBuy()</code>）</li>
+<li><strong>计算费用</strong>:
+<ul>
+<li>销毁费: 1%</li>
+<li>LP 奖励费: 2%</li>
+</ul>
+</li>
+<li><strong>执行转账</strong>:
+<ul>
+<li>销毁费 → <code>DEAD_ADDRESS</code></li>
+<li>LP 奖励费 → 直接存入 LiquidityStaking（SYI 代币）</li>
+<li>净数量 → 买家</li>
+</ul>
+</li>
+<li><strong>更新用户数据</strong>:
+<ul>
+<li>估算买入成本（USDT）</li>
+<li>累加到 <code>userInvestment[to]</code></li>
+<li>更新 <code>lastBuyTime[to]</code></li>
+</ul>
+</li>
+<li><strong>触发事件</strong></li>
+</ol>
+<p><strong>与其他合约的交互</strong>:</p>
+<ul>
+<li>✅ <strong>调用</strong>: <code>super._update()</code> - 转移代币</li>
+<li>✅ <strong>调用</strong>: <code>liquidityStaking.depositSYIRewards()</code> - 存入 LP 奖励</li>
+</ul>
+<p><strong>税费流向</strong>:</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>买入 1000 SYI
+├─ 销毁费 10 SYI (1%) → DEAD_ADDRESS
+├─ LP 奖励费 20 SYI (2%) → LiquidityStaking (SYI)
+└─ 净收到 970 SYI → 买家
+</code></pre><hr>
+<h3 id="_handleselladdress-from-address-to-uint256-amount-"><code>_handleSell(address from, address to, uint256 amount)</code> ⭐ </h3>
+<p><strong>文件</strong>: <code>SYIBase.sol:766-871</code><br>
+<strong>权限</strong>: 私有（<code>private</code>）<br>
+<strong>状态修改</strong>: ✅<br>
+<strong>修饰符</strong>: <code>notBlacklisted(from)</code></p>
+<p><strong>参数</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>from</code></td>
+<td><code>address</code></td>
+<td>卖家地址</td>
+</tr>
+<tr>
+<td><code>to</code></td>
+<td><code>address</code></td>
+<td>Pair 地址</td>
+</tr>
+<tr>
+<td><code>amount</code></td>
+<td><code>uint256</code></td>
+<td>卖出数量</td>
+</tr>
+</tbody>
+</table>
+<p><strong>功能</strong>:<br>
+<strong>处理用户在 PancakeSwap 卖出 SYI 的所有逻辑</strong></p>
+<ol>
+<li>
+<p><strong>冷却检查</strong>: 如果距离上次买入不足冷却时间，禁止卖出（抛出 <code>InColdPeriod()</code>）</p>
+</li>
+<li>
+<p><strong>计算基础交易费用</strong>:</p>
+<ul>
+<li>营销费: 1.5%</li>
+<li>LP 累积费: 1.5%</li>
+<li>净数量 = 原始数量 - 交易费</li>
+</ul>
+</li>
+<li>
+<p><strong>估算 USDT 收入</strong>: 根据净数量估算能换到的 USDT</p>
+</li>
+<li>
+<p><strong>计算利润税</strong>:</p>
+<ul>
+<li>如果 <code>userInvestment[from] &gt; 0</code> 且有利润</li>
+<li>利润 = 估算 USDT - 用户成本</li>
+<li>利润税 = 利润 × 25%</li>
+<li>转换为 SYI 数量</li>
+</ul>
+</li>
+<li>
+<p><strong>执行转账</strong>:</p>
+<ul>
+<li>营销费 → 合约（累积）</li>
+<li>LP 累积费 → 合约（累积）</li>
+<li>利润税（SYI）→ 兑换为 USDT:
+<ul>
+<li>40% → LiquidityStaking</li>
+<li>60% → nodeDividendAddress 或 marketingAddress</li>
+</ul>
+</li>
+<li>净数量 → Pair</li>
+</ul>
+</li>
+<li>
+<p><strong>更新用户成本</strong>: <code>userInvestment[from]</code> 减去实际收入</p>
+</li>
+<li>
+<p><strong>触发事件</strong></p>
+</li>
+</ol>
+<p><strong>与其他合约的交互</strong>:</p>
+<ul>
+<li>✅ <strong>调用</strong>: <code>super._update()</code> - 转移代币</li>
+<li>✅ <strong>调用</strong>: <code>_swapTokensForUSDT()</code> - 兑换利润税</li>
+<li>✅ <strong>调用</strong>: <code>liquidityStaking.depositRewards()</code> - 存入 USDT 奖励</li>
+<li>✅ <strong>调用</strong>: <code>IERC20(USDT).transfer()</code> - 转移 USDT</li>
+</ul>
+<p><strong>税费流向（假设有利润）</strong>:</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>卖出 1000 SYI (假设能换 200 USDT，成本 100 USDT)
+├─ 营销费 15 SYI (1.5%) → 合约累积
+├─ LP 累积费 15 SYI (1.5%) → 合约累积
+├─ 净数量 970 SYI → 估算 194 USDT
+│
+利润: 194 - 100 = 94 USDT
+利润税: 94 × 25% = 23.5 USDT (约 121 SYI)
+├─ 40% (9.4 USDT) → LiquidityStaking
+└─ 60% (14.1 USDT) → nodeDividendAddress
+
+最终净数量: 970 - 121 = 849 SYI → Pair
+实际收到 USDT: 194 - 23.5 = 170.5 USDT
+</code></pre><hr>
+<h3 id="_swaptokensforusdtuint256-tokenamount-"><code>_swapTokensForUSDT(uint256 tokenAmount)</code> ⭐ </h3>
+<p><strong>文件</strong>: <code>SYIBase.sol:881-942</code><br>
+<strong>权限</strong>: 私有（<code>private</code>）<br>
+<strong>状态修改</strong>: ✅<br>
+<strong>修饰符</strong>: <code>lockSwap</code></p>
+<p><strong>参数</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>tokenAmount</code></td>
+<td><code>uint256</code></td>
+<td>要兑换的 SYI 数量</td>
+</tr>
+</tbody>
+</table>
+<p><strong>返回值</strong>: <code>uint256 usdtReceived</code> - 实际收到的 USDT</p>
+<p><strong>功能</strong>:<br>
+<strong>将 SYI 代币兑换为 USDT</strong></p>
+<ol>
+<li><strong>检查余额</strong>: 如果合约余额不足，返回 0</li>
+<li><strong>构建交易路径</strong>: SYI → USDT</li>
+<li><strong>授权 Router</strong>: 授权 Router 使用 SYI</li>
+<li><strong>确定接收者</strong>:
+<ul>
+<li>如果 FundRelay 存在 → FundRelay</li>
+<li>否则 → 合约自身</li>
+</ul>
+</li>
+<li><strong>执行兑换</strong>: 调用 <code>Router.swapExactTokensForTokensSupportingFeeOnTransferTokens()</code></li>
+<li><strong>处理接收</strong>:
+<ul>
+<li>如果使用 FundRelay → 调用 <code>fundRelay.receiveAndForward()</code> 转移回合约</li>
+<li>否则 → 直接计算余额变化</li>
+</ul>
+</li>
+<li><strong>错误处理</strong>: 如果兑换失败，触发 <code>SwapFailed</code> 事件并返回 0</li>
+</ol>
+<p><strong>与其他合约的交互</strong>:</p>
+<ul>
+<li>✅ <strong>调用</strong>: <code>_approve()</code> - 授权 Router</li>
+<li>✅ <strong>调用</strong>: <code>uniswapV2Router.swapExactTokensForTokensSupportingFeeOnTransferTokens()</code> - 兑换</li>
+<li>✅ <strong>调用</strong>: <code>fundRelay.receiveAndForward()</code> - 转移 USDT</li>
+</ul>
+<p><strong>为什么使用 FundRelay?</strong></p>
+<ul>
+<li>避免在 swap 过程中触发 Pair → SYI 的转账逻辑</li>
+<li>隔离 USDT 的接收和转移</li>
+</ul>
+<hr>
+<h3 id="_tryprocessaccumulatedfees"><code>_tryProcessAccumulatedFees()</code> </h3>
+<p><strong>文件</strong>: <code>SYIBase.sol:1144-1164</code><br>
+<strong>权限</strong>: 私有（<code>private</code>）<br>
+<strong>状态修改</strong>: ✅</p>
+<p><strong>功能</strong>:<br>
+<strong>自动检查并处理累积费用</strong></p>
+<ol>
+<li><strong>计算总费用</strong>: <code>amountMarketingFee + amountLPFee</code></li>
+<li><strong>检查阈值</strong>: 如果总费用 &gt;= <code>swapAtAmount</code> 且不在 swap 中</li>
+<li><strong>检查流动性</strong>: 调用 <code>_canProcessFees()</code> 验证流动性充足</li>
+<li><strong>处理费用</strong>: 调用 <code>_processFeeDistribution()</code></li>
+<li><strong>触发事件</strong></li>
+</ol>
+<p><strong>与其他合约的交互</strong>:</p>
+<ul>
+<li>通过 <code>_processFeeDistribution()</code> 间接调用</li>
+</ul>
+<hr>
+<h3 id="_processfeedistribution-"><code>_processFeeDistribution()</code> ⭐ </h3>
+<p><strong>文件</strong>: <code>SYIBase.sol:1205-1248</code><br>
+<strong>权限</strong>: 私有（<code>private</code>）<br>
+<strong>状态修改</strong>: ✅<br>
+<strong>修饰符</strong>: <code>lockSwap</code></p>
+<p><strong>功能</strong>:<br>
+<strong>处理累积费用的兑换和分发</strong></p>
+<ol>
+<li>
+<p><strong>读取累积费用</strong>:</p>
+<ul>
+<li><code>totalMarketingFee</code> (来自卖出税 1.5%)</li>
+<li><code>totalLPFee</code> (来自卖出税 1.5%)</li>
+</ul>
+</li>
+<li>
+<p><strong>清零累积</strong>:</p>
+<ul>
+<li><code>amountMarketingFee = 0</code></li>
+<li><code>amountLPFee = 0</code></li>
+</ul>
+</li>
+<li>
+<p><strong>处理营销费</strong>:</p>
+<ul>
+<li>兑换 SYI → USDT</li>
+<li>转移 USDT → marketingAddress</li>
+</ul>
+</li>
+<li>
+<p><strong>处理 LP 费</strong>:</p>
+<ul>
+<li><strong>直接存入 SYI 代币</strong>到 LiquidityStaking</li>
+<li>调用 <code>liquidityStaking.depositSYIRewards(totalLPFee)</code></li>
+</ul>
+</li>
+<li>
+<p><strong>触发事件</strong></p>
+</li>
+</ol>
+<p><strong>与其他合约的交互</strong>:</p>
+<ul>
+<li>✅ <strong>调用</strong>: <code>_swapTokensForUSDT()</code> - 兑换营销费</li>
+<li>✅ <strong>调用</strong>: <code>IERC20(USDT).transfer()</code> - 转移 USDT</li>
+<li>✅ <strong>调用</strong>: <code>liquidityStaking.depositSYIRewards()</code> - 存入 SYI 奖励</li>
+</ul>
+<p><strong>费用流向</strong>:</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>累积的营销费（SYI）→ 兑换为 USDT → marketingAddress
+累积的 LP 费（SYI）→ 直接存入 → LiquidityStaking (SYI)
+</code></pre><hr>
+<h3 id="_isbuyoperationaddress-from-address-to"><code>_isBuyOperation(address from, address to)</code> </h3>
+<p><strong>文件</strong>: <code>SYIBase.sol:686-699</code><br>
+<strong>权限</strong>: 私有（<code>private view</code>）</p>
+<p><strong>功能</strong>:<br>
+<strong>判断是否为买入操作</strong></p>
+<p>条件（全部满足）:</p>
+<ul>
+<li><code>from == Pair</code> - 从 Pair 转出</li>
+<li><code>to != Pair</code> - 不是转入 Pair</li>
+<li><code>to != Router</code> - 不是转入 Router</li>
+<li><code>msg.sender == Pair</code> - 调用者是 Pair</li>
+</ul>
+<hr>
+<h3 id="_isselloperationaddress-from-address-to"><code>_isSellOperation(address from, address to)</code> </h3>
+<p><strong>文件</strong>: <code>SYIBase.sol:701-714</code><br>
+<strong>权限</strong>: 私有（<code>private view</code>）</p>
+<p><strong>功能</strong>:<br>
+<strong>判断是否为卖出操作</strong></p>
+<p>条件（全部满足）:</p>
+<ul>
+<li><code>to == Pair</code> - 转入 Pair</li>
+<li><code>from != Pair</code> - 不是从 Pair 转出</li>
+<li><code>from != Router</code> - 不是从 Router 转出</li>
+<li><code>msg.sender != Pair</code> - 调用者不是 Pair</li>
+</ul>
+<hr>
+<h3 id="_canprocessfees"><code>_canProcessFees()</code> </h3>
+<p><strong>文件</strong>: <code>SYIBase.sol:1166-1203</code><br>
+<strong>权限</strong>: 私有（<code>private view</code>）</p>
+<p><strong>功能</strong>:<br>
+<strong>检查是否可以安全处理费用</strong></p>
+<p>检查项:</p>
+<ol>
+<li>总费用 &gt; 0</li>
+<li>合约余额 &gt;= 总费用</li>
+<li>Pair 储备量与实际余额一致（95% 阈值）</li>
+<li>兑换数量不超过 Pair 储备量的 2%</li>
+</ol>
+<p><strong>目的</strong>: 防止在流动性不足或储备量不同步时进行 swap</p>
+<hr>
+<h3 id="_estimateswapoutputuint256-xfamount"><code>_estimateSwapOutput(uint256 xfAmount)</code> </h3>
+<p><strong>文件</strong>: <code>SYIBase.sol:945-963</code><br>
+<strong>权限</strong>: 私有（<code>private view</code>）</p>
+<p><strong>功能</strong>:</p>
+<ul>
+<li>估算卖出指定数量 SYI 能换到的 USDT</li>
+<li>使用 AMM 公式 <code>getAmountOut()</code></li>
+</ul>
+<hr>
+<h3 id="_estimatebuyusdtcostuint256-xfamount"><code>_estimateBuyUSDTCost(uint256 xfAmount)</code> </h3>
+<p><strong>文件</strong>: <code>SYIBase.sol:972-993</code><br>
+<strong>权限</strong>: 私有（<code>private view</code>）</p>
+<p><strong>功能</strong>:</p>
+<ul>
+<li>估算买入指定数量 SYI 需要花费的 USDT</li>
+<li>考虑买入税费（3%）</li>
+<li>使用 AMM 公式 <code>getAmountIn()</code></li>
+</ul>
+<hr>
+<h3 id="_updatebuyinvestmentandemitevent"><code>_updateBuyInvestmentAndEmitEvent()</code> </h3>
+<p><strong>文件</strong>: <code>SYIBase.sol:995-1042</code><br>
+<strong>权限</strong>: 私有（<code>private</code>）</p>
+<p><strong>功能</strong>:</p>
+<ol>
+<li>估算买入成本（USDT）</li>
+<li>累加到 <code>userInvestment[to]</code></li>
+<li>更新 <code>lastBuyTime[to]</code></li>
+<li>触发事件</li>
+</ol>
+<hr>
+<h3 id="_updateinvestmentaftersell"><code>_updateInvestmentAfterSell()</code> </h3>
+<p><strong>文件</strong>: <code>SYIBase.sol:1044-1061</code><br>
+<strong>权限</strong>: 私有（<code>private</code>）</p>
+<p><strong>功能</strong>:</p>
+<ol>
+<li>从 <code>userInvestment[user]</code> 减去卖出收入</li>
+<li>如果成本不足，清零</li>
+<li>触发事件</li>
+</ol>
+<hr>
+<h3 id="_emitselltransactionevent"><code>_emitSellTransactionEvent()</code> </h3>
+<p><strong>文件</strong>: <code>SYIBase.sol:1063-1117</code><br>
+<strong>权限</strong>: 私有（<code>private</code>）</p>
+<p><strong>功能</strong>:</p>
+<ul>
+<li>触发详细的卖出交易事件</li>
+</ul>
+<hr>
+<h3 id="_trytriggerfundrelaydistribution"><code>_tryTriggerFundRelayDistribution()</code> </h3>
+<p><strong>文件</strong>: <code>SYIBase.sol:1119-1132</code><br>
+<strong>权限</strong>: 私有（<code>private</code>）</p>
+<p><strong>功能</strong>:</p>
+<ul>
+<li>尝试从 FundRelay 转移 USDT 回合约</li>
+<li>如果失败不影响主流程</li>
+</ul>
+<hr>
+<h3 id="_addliquidityuint256-tokenamount-uint256-usdtamount"><code>_addLiquidity(uint256 tokenAmount, uint256 usdtAmount)</code> </h3>
+<p><strong>文件</strong>: <code>SYIBase.sol:1250-1268</code><br>
+<strong>权限</strong>: 私有（<code>private</code>）</p>
+<p><strong>功能</strong>:</p>
+<ul>
+<li>添加流动性到 Pair</li>
+<li>LP 代币发送到 <code>DEAD_ADDRESS</code>（销毁）</li>
+</ul>
+<p><strong>与其他合约的交互</strong>:</p>
+<ul>
+<li>✅ <strong>调用</strong>: <code>uniswapV2Router.addLiquidity()</code> - 添加流动性</li>
+</ul>
+<hr>
+<h2 id="事件说明">事件说明 </h2>
+<h3 id="核心事件">核心事件 </h3>
+<h4 id="transactionexecuted"><code>TransactionExecuted</code> </h4>
+<p><strong>触发位置</strong>: 买入、卖出时<br>
+<strong>参数</strong>: 完整的交易信息（用户、时间、类型、数量、费用、利润等）</p>
+<h4 id="feesprocessed"><code>FeesProcessed</code> </h4>
+<p><strong>触发位置</strong>: 费用兑换和分发时<br>
+<strong>参数</strong>: 费用类型、数量、接收者等</p>
+<h4 id="marketingaddressupdated"><code>MarketingAddressUpdated</code> </h4>
+<p><strong>触发位置</strong>: 更新营销地址时</p>
+<h4 id="tokensburned"><code>TokensBurned</code> </h4>
+<p><strong>触发位置</strong>: 销毁代币时（买入税 1%）</p>
+<h4 id="lprewarddeposited"><code>LPRewardDeposited</code> </h4>
+<p><strong>触发位置</strong>: 存入 LP 奖励到 LiquidityStaking 时</p>
+<h4 id="investmentupdated"><code>InvestmentUpdated</code> </h4>
+<p><strong>触发位置</strong>: 更新用户投资成本时（买入、卖出）</p>
+<hr>
+<h2 id="合约交互流程图">合约交互流程图 </h2>
+<h3 id="买入流程">买入流程 </h3>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>用户在 PancakeSwap 买入 SYI
+         ↓
+PancakeSwap Router 调用 SYI.transfer()
+         ↓
+SYI._update() 判断为买入操作
+         ↓
+SYI._handleBuy()
+         ↓
+    ┌────┴────┐
+    ↓         ↓
+销毁 1%    LP 奖励 2%
+    ↓         ↓
+DEAD    LiquidityStaking.depositSYIRewards()
+         ↓
+     净数量 97% → 用户
+</code></pre><h3 id="卖出流程">卖出流程 </h3>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>用户在 PancakeSwap 卖出 SYI
+         ↓
+PancakeSwap Router 调用 SYI.transferFrom()
+         ↓
+SYI._update() 判断为卖出操作
+         ↓
+SYI._handleSell()
+         ↓
+    ┌────┴────┬────────────┐
+    ↓         ↓            ↓
+营销费 1.5%  LP费 1.5%   利润税 25%
+    ↓         ↓            ↓
+  累积      累积      兑换为 USDT
+                    ┌─────┴─────┐
+                    ↓           ↓
+                  40%         60%
+                    ↓           ↓
+            LiquidityStaking  nodeDividendAddress
+              .depositRewards()
+</code></pre><h3 id="费用处理流程">费用处理流程 </h3>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>累积费用达到阈值 (10000 SYI)
+         ↓
+SYI._tryProcessAccumulatedFees()
+         ↓
+SYI._processFeeDistribution()
+         ↓
+    ┌────┴────┐
+    ↓         ↓
+营销费    LP 费
+    ↓         ↓
+兑换 USDT   直接存入 SYI
+    ↓         ↓
+marketing  LiquidityStaking
+  Address   .depositSYIRewards()
+</code></pre><hr>
+<h2 id="重要注意事项">重要注意事项 </h2>
+<h3 id="1-总供应量">1. 总供应量 </h3>
+<p>⚠️ <strong>实际铸造量为 10,000,000 SYI (1000万)</strong>，而不是文档中提到的 1 亿</p>
+<h3 id="2-lp-奖励机制">2. LP 奖励机制 </h3>
+<ul>
+<li><strong>买入税 2%</strong>: 直接存入 <strong>SYI 代币</strong>到 LiquidityStaking</li>
+<li><strong>卖出税 1.5%</strong>: 累积后直接存入 <strong>SYI 代币</strong>到 LiquidityStaking</li>
+<li><strong>利润税 40%</strong>: 兑换为 <strong>USDT</strong> 后存入 LiquidityStaking</li>
+</ul>
+<h3 id="3-白名单效果">3. 白名单效果 </h3>
+<p>白名单地址免除:</p>
+<ul>
+<li>✅ 所有交易税（买入税、卖出税、利润税）</li>
+<li>✅ 预售期限制</li>
+<li>✅ 延迟购买限制</li>
+<li>✅ 黑名单检查</li>
+<li>✅ 冷却时间限制</li>
+</ul>
+<h3 id="4-预售期效果">4. 预售期效果 </h3>
+<p>预售期内（默认 30 天）:</p>
+<ul>
+<li>❌ <strong>禁止所有非白名单地址买入 SYI</strong></li>
+<li>✅ 允许卖出</li>
+<li>✅ 允许普通转账</li>
+</ul>
+<h3 id="5-利润税计算">5. 利润税计算 </h3>
+<p>利润税基于<strong>估算 USDT 收入</strong>和<strong>用户历史成本</strong>:</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>利润 = 本次卖出估算 USDT - userInvestment[seller]
+利润税 = 利润 × 25%
+</code></pre><h3 id="6-fundrelay-的作用">6. FundRelay 的作用 </h3>
+<ul>
+<li>在 swap 过程中接收 USDT</li>
+<li>避免触发 Pair → SYI 的转账逻辑</li>
+<li>隔离资金流动</li>
+</ul>
+<h3 id="7-回收机制">7. 回收机制 </h3>
+<p>Staking 合约可以从 Pair "回收" SYI:</p>
+<ul>
+<li>每次最多回收 Pair 余额的 1/3</li>
+<li>通过 <code>Pair.sync()</code> 调整储备量</li>
+<li>不会直接影响价格</li>
+</ul>
+<hr>
+<h2 id="版本信息">版本信息 </h2>
+<ul>
+<li><strong>Solidity 版本</strong>: 0.8.20+</li>
+<li><strong>依赖库</strong>:
+<ul>
+<li>OpenZeppelin Contracts 5.4.0</li>
+<li>Uniswap V2 接口</li>
+</ul>
+</li>
+<li><strong>合约地址</strong> (BSC 主网):
+<ul>
+<li>SYI Token: <code>0x9e267C0a277e52180D2CCE40C11FcE61135dDdC6</code></li>
+<li>SYI-Staking: <code>0xc91Ee7aC88fBfe34ffb5E1b22E611d39DBC8704D</code></li>
+</ul>
+</li>
+</ul>
+<hr>
+<p><strong>文档版本</strong>: v1.0<br>
+<strong>更新时间</strong>: 2025-10-13<br>
+<strong>状态</strong>: SYI Token 已部署并测试通过</p>
+
+      </div>
+      
+      
+    
+    
+    
+    
+    
+    
+  
+    </body></html>
