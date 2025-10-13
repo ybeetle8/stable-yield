@@ -1716,8 +1716,8 @@
       ]
     },
     "/home/ybeetle/code/stable-yield/contracts/SYI-Staking/mainnet/Staking.sol": {
-      "lastModificationDate": 1760368186725,
-      "contentHash": "2f61269e95c0e79707e0a3e8cb5f7d02",
+      "lastModificationDate": 1760369168352,
+      "contentHash": "1a6d815ad43822d6c5f45a1652b4b21d",
       "sourceName": "contracts/SYI-Staking/mainnet/Staking.sol",
       "solcConfig": {
         "version": "0.8.28",
