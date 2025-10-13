@@ -1,16 +1,19 @@
 {
-  "network": "BSC Fork (localhost)",
-  "timestamp": "2025-10-12T10:55:50.355Z",
+  "network": "localhost",
+  "chainId": "31337",
+  "timestamp": "2025-10-13T08:15:01.616Z",
   "deployer": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
   "marketingWallet": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+  "rootWallet": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
   "contracts": {
-    "SYI": "0x23D4dA0FEe7C17C4DC55C0A10A545565797daB5f",
-    "FundRelay": "0x666a0b381F20337f8A3bE2fb015EC41BCa67ADB6",
-    "Staking": "0xc91Ee7aC88fBfe34ffb5E1b22E611d39DBC8704D",
+    "SYI": "0x656EA2333F4b05E57133140a285BADAa988d1426",
+    "Staking": "0x9Ee80CC307cC18B3AB715a25c5c417067c148ed9",
+    "FundRelay": "0xc293778Ce2aFb550b0d4EA6e76BaaD88A691f44d",
     "USDT": "0x55d398326f99059fF775485246999027B3197955",
-    "PancakeRouter": "0x10ED43C718714eb63d5aA57B78B54704E256024E",
+    "WBNB": "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
     "PancakeFactory": "0xcA143Ce32Fe78f1f7019d7d551a6402fC5350c73",
-    "SYI_USDT_Pair": "0xE08F6A3Bb14634480712b3dC1eDDD7b638682587"
+    "PancakeRouter": "0x10ED43C718714eb63d5aA57B78B54704E256024E",
+    "SYI_USDT_Pair": "0x3e2b1d6108243B78685fD7F8Bf95CB0d6BD98459"
   },
   "tokenInfo": {
     "name": "SYI Token",
@@ -22,7 +25,15 @@
   "configuration": {
     "presaleActive": true,
     "delayedBuyEnabled": false,
-    "swapAtAmount": "10000000000000000000000",
-    "coldTime": "10"
+    "coldTime": "10",
+    "swapAtAmount": "10000000000000000000000"
+  },
+  "taxRates": {
+    "buyTax": "1%",
+    "buyBurn": "1%",
+    "sellTax": "1.5%",
+    "sellMarketing": "1.5%",
+    "profitTax": "25%",
+    "note": "已移除 LP 质押相关费用"
   }
 }

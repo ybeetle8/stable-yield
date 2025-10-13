@@ -1,0 +1,962 @@
+<!DOCTYPE html><html><head>
+      <title>SYI系统资金流向分析</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      
+      <link rel="stylesheet" href="file:////home/ybeetle/.vscode-server/extensions/shd101wyy.markdown-preview-enhanced-0.8.19/crossnote/dependencies/katex/katex.min.css">
+      
+      
+      <script type="text/javascript" src="file:////home/ybeetle/.vscode-server/extensions/shd101wyy.markdown-preview-enhanced-0.8.19/crossnote/dependencies/mermaid/mermaid.min.js" charset="UTF-8"></script>
+      
+      
+      <style>
+      code[class*=language-],pre[class*=language-]{color:#333;background:0 0;font-family:Consolas,"Liberation Mono",Menlo,Courier,monospace;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.4;-moz-tab-size:8;-o-tab-size:8;tab-size:8;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:.8em;overflow:auto;border-radius:3px;background:#f5f5f5}:not(pre)>code[class*=language-]{padding:.1em;border-radius:.3em;white-space:normal;background:#f5f5f5}.token.blockquote,.token.comment{color:#969896}.token.cdata{color:#183691}.token.doctype,.token.macro.property,.token.punctuation,.token.variable{color:#333}.token.builtin,.token.important,.token.keyword,.token.operator,.token.rule{color:#a71d5d}.token.attr-value,.token.regex,.token.string,.token.url{color:#183691}.token.atrule,.token.boolean,.token.code,.token.command,.token.constant,.token.entity,.token.number,.token.property,.token.symbol{color:#0086b3}.token.prolog,.token.selector,.token.tag{color:#63a35c}.token.attr-name,.token.class,.token.class-name,.token.function,.token.id,.token.namespace,.token.pseudo-class,.token.pseudo-element,.token.url-reference .token.variable{color:#795da3}.token.entity{cursor:help}.token.title,.token.title .token.punctuation{font-weight:700;color:#1d3e81}.token.list{color:#ed6a43}.token.inserted{background-color:#eaffea;color:#55a532}.token.deleted{background-color:#ffecec;color:#bd2c00}.token.bold{font-weight:700}.token.italic{font-style:italic}.language-json .token.property{color:#183691}.language-markup .token.tag .token.punctuation{color:#333}.language-css .token.function,code.language-css{color:#0086b3}.language-yaml .token.atrule{color:#63a35c}code.language-yaml{color:#183691}.language-ruby .token.function{color:#333}.language-markdown .token.url{color:#795da3}.language-makefile .token.symbol{color:#795da3}.language-makefile .token.variable{color:#183691}.language-makefile .token.builtin{color:#0086b3}.language-bash .token.keyword{color:#0086b3}pre[data-line]{position:relative;padding:1em 0 1em 3em}pre[data-line] .line-highlight-wrapper{position:absolute;top:0;left:0;background-color:transparent;display:block;width:100%}pre[data-line] .line-highlight{position:absolute;left:0;right:0;padding:inherit 0;margin-top:1em;background:hsla(24,20%,50%,.08);background:linear-gradient(to right,hsla(24,20%,50%,.1) 70%,hsla(24,20%,50%,0));pointer-events:none;line-height:inherit;white-space:pre}pre[data-line] .line-highlight:before,pre[data-line] .line-highlight[data-end]:after{content:attr(data-start);position:absolute;top:.4em;left:.6em;min-width:1em;padding:0 .5em;background-color:hsla(24,20%,50%,.4);color:#f4f1ef;font:bold 65%/1.5 sans-serif;text-align:center;vertical-align:.3em;border-radius:999px;text-shadow:none;box-shadow:0 1px #fff}pre[data-line] .line-highlight[data-end]:after{content:attr(data-end);top:auto;bottom:.4em}html body{font-family:'Helvetica Neue',Helvetica,'Segoe UI',Arial,freesans,sans-serif;font-size:16px;line-height:1.6;color:#333;background-color:#fff;overflow:initial;box-sizing:border-box;word-wrap:break-word}html body>:first-child{margin-top:0}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{line-height:1.2;margin-top:1em;margin-bottom:16px;color:#000}html body h1{font-size:2.25em;font-weight:300;padding-bottom:.3em}html body h2{font-size:1.75em;font-weight:400;padding-bottom:.3em}html body h3{font-size:1.5em;font-weight:500}html body h4{font-size:1.25em;font-weight:600}html body h5{font-size:1.1em;font-weight:600}html body h6{font-size:1em;font-weight:600}html body h1,html body h2,html body h3,html body h4,html body h5{font-weight:600}html body h5{font-size:1em}html body h6{color:#5c5c5c}html body strong{color:#000}html body del{color:#5c5c5c}html body a:not([href]){color:inherit;text-decoration:none}html body a{color:#08c;text-decoration:none}html body a:hover{color:#00a3f5;text-decoration:none}html body img{max-width:100%}html body>p{margin-top:0;margin-bottom:16px;word-wrap:break-word}html body>ol,html body>ul{margin-bottom:16px}html body ol,html body ul{padding-left:2em}html body ol.no-list,html body ul.no-list{padding:0;list-style-type:none}html body ol ol,html body ol ul,html body ul ol,html body ul ul{margin-top:0;margin-bottom:0}html body li{margin-bottom:0}html body li.task-list-item{list-style:none}html body li>p{margin-top:0;margin-bottom:0}html body .task-list-item-checkbox{margin:0 .2em .25em -1.8em;vertical-align:middle}html body .task-list-item-checkbox:hover{cursor:pointer}html body blockquote{margin:16px 0;font-size:inherit;padding:0 15px;color:#5c5c5c;background-color:#f0f0f0;border-left:4px solid #d6d6d6}html body blockquote>:first-child{margin-top:0}html body blockquote>:last-child{margin-bottom:0}html body hr{height:4px;margin:32px 0;background-color:#d6d6d6;border:0 none}html body table{margin:10px 0 15px 0;border-collapse:collapse;border-spacing:0;display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}html body table th{font-weight:700;color:#000}html body table td,html body table th{border:1px solid #d6d6d6;padding:6px 13px}html body dl{padding:0}html body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:700}html body dl dd{padding:0 16px;margin-bottom:16px}html body code{font-family:Menlo,Monaco,Consolas,'Courier New',monospace;font-size:.85em;color:#000;background-color:#f0f0f0;border-radius:3px;padding:.2em 0}html body code::after,html body code::before{letter-spacing:-.2em;content:'\00a0'}html body pre>code{padding:0;margin:0;word-break:normal;white-space:pre;background:0 0;border:0}html body .highlight{margin-bottom:16px}html body .highlight pre,html body pre{padding:1em;overflow:auto;line-height:1.45;border:#d6d6d6;border-radius:3px}html body .highlight pre{margin-bottom:0;word-break:normal}html body pre code,html body pre tt{display:inline;max-width:initial;padding:0;margin:0;overflow:initial;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}html body pre code:after,html body pre code:before,html body pre tt:after,html body pre tt:before{content:normal}html body blockquote,html body dl,html body ol,html body p,html body pre,html body ul{margin-top:0;margin-bottom:16px}html body kbd{color:#000;border:1px solid #d6d6d6;border-bottom:2px solid #c7c7c7;padding:2px 4px;background-color:#f0f0f0;border-radius:3px}@media print{html body{background-color:#fff}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{color:#000;page-break-after:avoid}html body blockquote{color:#5c5c5c}html body pre{page-break-inside:avoid}html body table{display:table}html body img{display:block;max-width:100%;max-height:100%}html body code,html body pre{word-wrap:break-word;white-space:pre}}.markdown-preview{width:100%;height:100%;box-sizing:border-box}.markdown-preview ul{list-style:disc}.markdown-preview ul ul{list-style:circle}.markdown-preview ul ul ul{list-style:square}.markdown-preview ol{list-style:decimal}.markdown-preview ol ol,.markdown-preview ul ol{list-style-type:lower-roman}.markdown-preview ol ol ol,.markdown-preview ol ul ol,.markdown-preview ul ol ol,.markdown-preview ul ul ol{list-style-type:lower-alpha}.markdown-preview .newpage,.markdown-preview .pagebreak{page-break-before:always}.markdown-preview pre.line-numbers{position:relative;padding-left:3.8em;counter-reset:linenumber}.markdown-preview pre.line-numbers>code{position:relative}.markdown-preview pre.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:0;width:3em;letter-spacing:-1px;border-right:1px solid #999;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.markdown-preview pre.line-numbers .line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.markdown-preview pre.line-numbers .line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}.markdown-preview .mathjax-exps .MathJax_Display{text-align:center!important}.markdown-preview:not([data-for=preview]) .code-chunk .code-chunk-btn-group{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .status{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .output-div{margin-bottom:16px}.markdown-preview .md-toc{padding:0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link div,.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}.markdown-preview .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}.scrollbar-style::-webkit-scrollbar{width:8px}.scrollbar-style::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}.scrollbar-style::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode]){position:relative;width:100%;height:100%;top:0;left:0;margin:0;padding:0;overflow:auto}html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{position:relative;top:0;min-height:100vh}@media screen and (min-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em calc(50% - 457px + 2em)}}@media screen and (max-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{font-size:14px!important;padding:1em}}@media print{html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{display:none}}html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{position:fixed;bottom:8px;left:8px;font-size:28px;cursor:pointer;color:inherit;z-index:99;width:32px;text-align:center;opacity:.4}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] #sidebar-toc-btn{opacity:1}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc{position:fixed;top:0;left:0;width:300px;height:100%;padding:32px 0 48px 0;font-size:14px;box-shadow:0 0 4px rgba(150,150,150,.33);box-sizing:border-box;overflow:auto;background-color:inherit}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar{width:8px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc a{text-decoration:none}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc{padding:0 16px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link div,html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{left:300px;width:calc(100% - 300px);padding:2em calc(50% - 457px - 300px / 2);margin:0;box-sizing:border-box}@media screen and (max-width:1274px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{width:100%}}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .markdown-preview{left:50%;transform:translateX(-50%)}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .md-sidebar-toc{display:none}
+/* Please visit the URL below for more information: */
+/*   https://shd101wyy.github.io/markdown-preview-enhanced/#/customize-css */
+
+      </style>
+      <!-- The content below will be included at the end of the <head> element. --><script type="text/javascript">
+  document.addEventListener("DOMContentLoaded", function () {
+    // your code here
+  });
+</script></head><body for="html-export">
+    
+    
+      <div class="crossnote markdown-preview  ">
+      
+<h1 id="syi-系统资金流向分析">SYI 系统资金流向分析 </h1>
+<h2 id="目录">目录 </h2>
+<ol>
+<li><a href="#1-%E4%BA%A4%E6%98%93%E5%9C%BA%E6%99%AF%E8%B5%84%E9%87%91%E6%B5%81%E5%90%91">交易场景资金流向</a></li>
+<li><a href="#2-%E8%B4%A8%E6%8A%BC%E5%9C%BA%E6%99%AF%E8%B5%84%E9%87%91%E6%B5%81%E5%90%91">质押场景资金流向</a></li>
+<li><a href="#3-%E8%A7%A3%E8%B4%A8%E6%8A%BC%E5%9C%BA%E6%99%AF%E8%B5%84%E9%87%91%E6%B5%81%E5%90%91">解质押场景资金流向</a></li>
+<li><a href="#4-recycle-%E6%9C%BA%E5%88%B6">Recycle 机制</a></li>
+<li><a href="#5-%E5%8E%BB%E6%8E%89-swap-%E4%BA%A4%E6%98%93%E8%B4%B9%E5%BD%B1%E5%93%8D%E5%88%86%E6%9E%90">去掉 Swap 交易费影响分析</a></li>
+</ol>
+<hr>
+<h2 id="1-交易场景资金流向">1. 交易场景资金流向 </h2>
+<h3 id="11-买入交易-buy">1.1 买入交易 (Buy) </h3>
+<div class="mermaid">graph LR
+    A[用户钱包&lt;br/&gt;USDT] --&gt;|通过 DEX| B[流动性池&lt;br/&gt;USDT/SYI]
+    B --&gt;|扣除 1% burn| C[销毁地址&lt;br/&gt;0xdead]
+    B --&gt;|99% 净额| D[用户钱包&lt;br/&gt;SYI]
+
+    style A fill:#e1f5ff
+    style B fill:#fff3cd
+    style C fill:#f8d7da
+    style D fill:#d4edda
+</div><p><strong>代码位置</strong>: <code>SYIBase.sol:817-848</code></p>
+<p><strong>资金流向详细</strong>:</p>
+<ol>
+<li>用户在 DEX 用 USDT 购买 SYI</li>
+<li><strong>扣除费用</strong>: 1% burn (销毁到 0xdead)</li>
+<li><strong>用户实得</strong>: 99% SYI</li>
+<li><strong>成本追踪</strong>: 更新 <code>userInvestment[user]</code> 记录购买成本（用于盈利税计算）</li>
+</ol>
+<p><strong>关键参数</strong>:</p>
+<ul>
+<li><code>BUY_BURN_FEE = 100</code> (1%)</li>
+<li>已移除: <code>BUY_LIQUIDITY_FEE = 200</code> (2%)，现设为 0</li>
+</ul>
+<p><strong>示例</strong>:</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>用户用 1000 USDT 购买 SYI:
+├─ 买到 SYI 总额: 假设 10,000 SYI (按当前价格)
+├─ 扣除 1% burn: 100 SYI → 销毁
+└─ 用户实得: 9,900 SYI
+</code></pre><hr>
+<h3 id="12-卖出交易-sell">1.2 卖出交易 (Sell) </h3>
+<div class="mermaid">graph TD
+    A[用户钱包&lt;br/&gt;SYI] --&gt;|通过 DEX| B{检查是否盈利}
+    B --&gt;|有盈利| C[扣除 1.5% marketing&lt;br/&gt;+ 25% 盈利税]
+    B --&gt;|无盈利| D[扣除 1.5% marketing]
+
+    C --&gt; E[1.5% marketing → 营销地址]
+    C --&gt; F[25% 盈利税 → 节点/营销地址]
+    C --&gt; G[剩余 USDT → 用户]
+
+    D --&gt; E
+    D --&gt; H[剩余 USDT → 用户]
+
+    I[成本追踪] -.-&gt;|查询 userInvestment| B
+
+    style A fill:#e1f5ff
+    style B fill:#fff3cd
+    style E fill:#d4edda
+    style F fill:#d4edda
+    style G fill:#cfe2ff
+    style H fill:#cfe2ff
+</div><p><strong>代码位置</strong>: <code>SYIBase.sol:850-935</code></p>
+<p><strong>资金流向详细</strong>:</p>
+<h4 id="情况1-无盈利卖出">情况1: 无盈利卖出 </h4>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>用户卖出 1000 SYI:
+├─ 扣除 1.5% marketing: 15 SYI → SYI 合约累积
+├─ 净额: 985 SYI
+├─ Swap 成 USDT: 假设 950 USDT
+└─ 用户实得: 950 USDT
+</code></pre><h4 id="情况2-有盈利卖出">情况2: 有盈利卖出 </h4>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>用户卖出 1000 SYI:
+├─ 历史成本: 500 USDT
+├─ 当前价值: 1000 USDT
+├─ 盈利: 500 USDT
+├─ 扣除 1.5% marketing: 15 SYI → SYI 合约
+├─ 净额: 985 SYI → swap 成 1000 USDT
+├─ 扣除 25% 盈利税: 125 USDT → 节点/营销地址
+├─ 更新成本: 500 - (1000 - 125) = 0 (清零)
+└─ 用户实得: 875 USDT
+</code></pre><p><strong>关键参数</strong>:</p>
+<ul>
+<li><code>SELL_MARKETING_FEE = 150</code> (1.5%)</li>
+<li><code>PROFIT_TAX_RATE = 2500</code> (25%)</li>
+<li>已移除: <code>SELL_LIQUIDITY_ACCUM_FEE = 150</code> (1.5%)，现设为 0</li>
+</ul>
+<p><strong>冷却时间</strong>: 买入后 10 秒内不能卖出（<code>coldTime = 10 seconds</code>）</p>
+<hr>
+<h2 id="2-质押场景资金流向">2. 质押场景资金流向 </h2>
+<h3 id="21-质押流程图">2.1 质押流程图 </h3>
+<div class="mermaid">graph TD
+    A[用户钱包&lt;br/&gt;1000 USDT] --&gt;|调用 stake| B[Staking 合约]
+    B --&gt;|1. 转账| C[Staking 持有&lt;br/&gt;1000 USDT]
+    C --&gt;|2. 分成两半| D[500 USDT 用于购买 SYI]
+    C --&gt;|2. 分成两半| E[500 USDT 保留]
+
+    D --&gt;|3a. swap| F[通过 Router]
+    F --&gt;|扣除 1% burn| G[获得约 4,950 SYI]
+
+    E --&gt; H[500 USDT]
+    G --&gt; H
+
+    H --&gt;|4. addLiquidity| I[PancakeSwap&lt;br/&gt;流动性池]
+    I --&gt;|5. 铸造| J[用户获得&lt;br/&gt;1000 sSYI]
+
+    K[更新推荐链] -.-&gt;|teamTotalInvestValue += 1000| L[上级节点]
+
+    style A fill:#e1f5ff
+    style B fill:#fff3cd
+    style I fill:#d4edda
+    style J fill:#cfe2ff
+</div><p><strong>代码位置</strong>: <code>StakingBase.sol:193-198, 1211-1245</code></p>
+<p><strong>详细步骤</strong>:</p>
+<ol>
+<li>
+<p><strong>用户授权并质押</strong> (第1212行)</p>
+<ul>
+<li>用户调用 <code>stake(1000 USDT, stakeIndex)</code></li>
+<li>Staking 合约从用户转入 1000 USDT</li>
+</ul>
+</li>
+<li>
+<p><strong>购买 SYI</strong> (第1219-1229行)</p>
+<ul>
+<li>将 50% (500 USDT) 用于购买 SYI</li>
+<li>通过 Router 调用 <code>swapExactTokensForTokensSupportingFeeOnTransferTokens</code></li>
+<li>扣除 SYI 买入税 1% burn</li>
+<li>实际获得约 4,950 SYI (假设 1 USDT = 10 SYI，扣除1%税)</li>
+</ul>
+</li>
+<li>
+<p><strong>添加流动性</strong> (第1234-1244行)</p>
+<ul>
+<li>将剩余 500 USDT + 购买的 4,950 SYI</li>
+<li>调用 <code>addLiquidity</code> 添加到 SYI/USDT 池</li>
+<li>LP 代币发送到 <code>address(0)</code>（销毁）</li>
+</ul>
+</li>
+<li>
+<p><strong>铸造 sSYI</strong> (第863-895行)</p>
+<ul>
+<li>铸造 1000 sSYI 给用户（等额本金）</li>
+<li>sSYI 不可转账，仅作为质押凭证</li>
+<li>更新 <code>balances[user]</code> 和 <code>totalSupply</code></li>
+</ul>
+</li>
+<li>
+<p><strong>更新推荐链</strong> (第885行)</p>
+<ul>
+<li>将 1000 USDT 累加到所有上级的 <code>teamTotalInvestValue</code></li>
+<li>用于计算团队层级 (V1-V7)</li>
+</ul>
+</li>
+</ol>
+<p><strong>质押档位</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>档位</th>
+<th>周期</th>
+<th>年化收益</th>
+<th>日利率</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>1天</td>
+<td>0.3%</td>
+<td>1.003</td>
+</tr>
+<tr>
+<td>1</td>
+<td>7天</td>
+<td>4.28%</td>
+<td>1.006</td>
+</tr>
+<tr>
+<td>2</td>
+<td>15天</td>
+<td>16.1%</td>
+<td>1.010</td>
+</tr>
+<tr>
+<td>3</td>
+<td>30天</td>
+<td>56.31%</td>
+<td>1.015</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="3-解质押场景资金流向">3. 解质押场景资金流向 </h2>
+<h3 id="31-解质押流程图">3.1 解质押流程图 </h3>
+<div class="mermaid">graph TD
+    A[用户调用 unstake] --&gt; B[计算复利奖励]
+    B --&gt; C[1200 USDT&lt;br/&gt;1000本金+200收益]
+
+    C --&gt; D[从池子回收 SYI]
+    D --&gt;|recycle| E[流动性池]
+    E --&gt;|回收最多 1/3 余额| F[Staking 获得&lt;br/&gt;12,000 SYI]
+
+    F --&gt; G[Swap SYI → USDT]
+    G --&gt;|swapTokensForExactTokens| H[换得 1200 USDT]
+
+    H --&gt; I{分配收益}
+    I --&gt;|5% 直推奖励| J[Friend 地址&lt;br/&gt;60 USDT]
+    I --&gt;|最高 35% 团队奖励| K[推荐链上级&lt;br/&gt;280 USDT]
+    I --&gt;|1% 赎回费| L[feeRecipient&lt;br/&gt;12 USDT]
+    I --&gt;|剩余| M[用户钱包&lt;br/&gt;848 USDT]
+
+    N[销毁 sSYI] -.-&gt;|_update sender → 0| O[totalSupply -= 1000]
+    P[更新推荐链] -.-&gt;|teamTotalInvestValue -= 1000| Q[上级节点]
+
+    style A fill:#e1f5ff
+    style C fill:#fff3cd
+    style E fill:#f8d7da
+    style J fill:#d4edda
+    style K fill:#d4edda
+    style L fill:#d4edda
+    style M fill:#cfe2ff
+</div><p><strong>代码位置</strong>: <code>StakingBase.sol:200-264</code></p>
+<p><strong>详细步骤</strong>:</p>
+<h3 id="第一步计算奖励-第203行-1167-1196行">第一步：计算奖励 (第203行, 1167-1196行) </h3>
+<p><strong>复利公式</strong>:</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>奖励 = 本金 × (日利率 ^ 已过天数)
+</code></pre><p><strong>示例</strong> (30天档，1000 USDT):</p>
+<pre data-role="codeBlock" data-info="javascript" class="language-javascript javascript"><code><span class="token literal-property property">本金</span><span class="token operator">:</span> <span class="token number">1000</span> <span class="token constant">USDT</span>
+<span class="token literal-property property">日利率</span><span class="token operator">:</span> <span class="token number">1.015</span> <span class="token punctuation">(</span><span class="token number">1.5</span><span class="token operator">%</span> per day<span class="token punctuation">)</span>
+<span class="token literal-property property">已过天数</span><span class="token operator">:</span> <span class="token number">30</span> 天
+奖励 <span class="token operator">=</span> <span class="token number">1000</span> <span class="token function">×</span> <span class="token punctuation">(</span><span class="token number">1.015</span> <span class="token operator">^</span> <span class="token number">30</span><span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token number">1000</span> × <span class="token number">1.5631</span> <span class="token operator">=</span> <span class="token number">1563.1</span> <span class="token constant">USDT</span>
+</code></pre><h3 id="第二步从池子回收-syi-第261行">第二步：从池子回收 SYI (第261行) </h3>
+<p><strong>Recycle 机制</strong> (SYIBase.sol:453-553):</p>
+<pre data-role="codeBlock" data-info="javascript" class="language-javascript javascript"><code><span class="token comment">// 假设池子有 100,000 SYI</span>
+maxRecyclable <span class="token operator">=</span> <span class="token number">100</span><span class="token punctuation">,</span><span class="token number">000</span> <span class="token operator">/</span> <span class="token number">3</span> <span class="token operator">=</span> <span class="token number">33</span><span class="token punctuation">,</span><span class="token number">333</span> <span class="token constant">SYI</span>  <span class="token comment">// 最多回收 1/3</span>
+<span class="token literal-property property">需要</span><span class="token operator">:</span> 约 <span class="token number">15</span><span class="token punctuation">,</span><span class="token number">631</span> <span class="token constant">SYI</span> <span class="token punctuation">(</span>用于换 <span class="token number">1563</span> <span class="token constant">USDT</span><span class="token punctuation">)</span>
+<span class="token literal-property property">实际回收</span><span class="token operator">:</span> <span class="token number">15</span><span class="token punctuation">,</span><span class="token number">631</span> <span class="token constant">SYI</span> <span class="token punctuation">(</span>小于上限，按需回收<span class="token punctuation">)</span>
+
+<span class="token comment">// 操作流程:</span>
+<span class="token number">1.</span> <span class="token method function property-access">_update</span><span class="token punctuation">(</span><span class="token maybe-class-name">Pair地址</span><span class="token punctuation">,</span> <span class="token maybe-class-name">Staking地址</span><span class="token punctuation">,</span> <span class="token number">15631</span> <span class="token constant">SYI</span><span class="token punctuation">)</span>
+<span class="token number">2.</span> uniswapV2Pair<span class="token punctuation">.</span><span class="token method function property-access">sync</span><span class="token punctuation">(</span><span class="token punctuation">)</span>  <span class="token comment">// 同步储备量</span>
+</code></pre><h3 id="第三步swap-syi-为-usdt-第204-206行">第三步：Swap SYI 为 USDT (第204-206行) </h3>
+<p><strong>Swap 机制</strong> (第922-950行):</p>
+<pre data-role="codeBlock" data-info="javascript" class="language-javascript javascript"><code><span class="token comment">// 使用 swapTokensForExactTokens（精确输出）</span>
+<span class="token literal-property property">输入</span><span class="token operator">:</span> 最多 <span class="token number">15</span><span class="token punctuation">,</span><span class="token number">631</span> <span class="token constant">SYI</span>
+<span class="token literal-property property">输出</span><span class="token operator">:</span> 精确 <span class="token number">1563</span> <span class="token constant">USDT</span>
+<span class="token literal-property property">实际消耗</span><span class="token operator">:</span> 约 <span class="token number">15</span><span class="token punctuation">,</span><span class="token number">631</span> <span class="token constant">SYI</span> <span class="token punctuation">(</span>含滑点<span class="token punctuation">)</span>
+</code></pre><h3 id="第四步分配收益-第212-221行">第四步：分配收益 (第212-221行) </h3>
+<p>假设收益是 563 USDT (1563 - 1000本金):</p>
+<table>
+<thead>
+<tr>
+<th>接收方</th>
+<th>比例</th>
+<th>金额</th>
+<th>代码位置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Friend 直推</td>
+<td>5%</td>
+<td>28.15 USDT</td>
+<td>999-1012行</td>
+</tr>
+<tr>
+<td>团队奖励</td>
+<td>最高35%</td>
+<td>196.05 USDT</td>
+<td>1014-1078行</td>
+</tr>
+<tr>
+<td>赎回费</td>
+<td>1%</td>
+<td>15.63 USDT</td>
+<td>224-242行</td>
+</tr>
+<tr>
+<td>用户</td>
+<td>剩余</td>
+<td>1323.17 USDT</td>
+<td>258行</td>
+</tr>
+</tbody>
+</table>
+<p><strong>团队奖励分配详解</strong> (最高35%):</p>
+<div class="mermaid">graph TD
+    A[团队收益池&lt;br/&gt;35% = 196.05 USDT] --&gt; B{推荐链层级}
+
+    B --&gt; C[V1: 5%&lt;br/&gt;28.15 USDT]
+    B --&gt; D[V2: 5% 差额&lt;br/&gt;28.15 USDT]
+    B --&gt; E[V3: 5% 差额&lt;br/&gt;28.15 USDT]
+    B --&gt; F[V4: 5% 差额&lt;br/&gt;28.15 USDT]
+    B --&gt; G[V5: 5% 差额&lt;br/&gt;28.15 USDT]
+    B --&gt; H[V6: 5% 差额&lt;br/&gt;28.15 USDT]
+    B --&gt; I[V7: 5% 差额&lt;br/&gt;28.15 USDT]
+
+    J[条件] -.-&gt;|必须是 Preacher&lt;br/&gt;质押≥200 SYI| B
+    K[未分配] -.-&gt;|没有上级达标| L[→ rootAddress]
+</div><p><strong>V1-V7 层级要求</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>层级</th>
+<th>团队KPI门槛</th>
+<th>奖励比例</th>
+<th>差额奖励</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>V1</td>
+<td>10,000 SYI</td>
+<td>5%</td>
+<td>5%</td>
+</tr>
+<tr>
+<td>V2</td>
+<td>50,000 SYI</td>
+<td>10%</td>
+<td>5%</td>
+</tr>
+<tr>
+<td>V3</td>
+<td>200,000 SYI</td>
+<td>15%</td>
+<td>5%</td>
+</tr>
+<tr>
+<td>V4</td>
+<td>500,000 SYI</td>
+<td>20%</td>
+<td>5%</td>
+</tr>
+<tr>
+<td>V5</td>
+<td>1M SYI</td>
+<td>25%</td>
+<td>5%</td>
+</tr>
+<tr>
+<td>V6</td>
+<td>2.5M SYI</td>
+<td>30%</td>
+<td>5%</td>
+</tr>
+<tr>
+<td>V7</td>
+<td>5M SYI</td>
+<td>35%</td>
+<td>5%</td>
+</tr>
+</tbody>
+</table>
+<p><strong>差额奖励示例</strong>:</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>假设推荐链: User → A(V2) → B(V4) → C(V7)
+收益: 563 USDT，团队总池: 196.05 USDT
+
+分配:
+- C (V7): 35% - 0% = 35% → 196.05 USDT (全部)
+- B (V4): 已被 C 拿走，无差额
+- A (V2): 已被 C 拿走，无差额
+
+如果推荐链: User → A(V2) → B(V4)
+- B (V4): 20% - 0% = 20% → 112.6 USDT
+- A (V2): 10% - 0% = 10% → 56.3 USDT
+- 剩余 15%: 27.15 USDT → rootAddress
+</code></pre><h3 id="第五步销毁-ssyi-第915行">第五步：销毁 sSYI (第915行) </h3>
+<pre data-role="codeBlock" data-info="javascript" class="language-javascript javascript"><code><span class="token function">_update</span><span class="token punctuation">(</span>user<span class="token punctuation">,</span> <span class="token function">address</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token number">1000</span> sSYI<span class="token punctuation">)</span>
+<span class="token comment">// balances[user] -= 1000</span>
+<span class="token comment">// totalSupply -= 1000</span>
+</code></pre><h3 id="第六步更新团队投资-第219行">第六步：更新团队投资 (第219行) </h3>
+<pre data-role="codeBlock" data-info="javascript" class="language-javascript javascript"><code><span class="token function">_updateTeamInvestmentValues</span><span class="token punctuation">(</span>user<span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">)</span>
+<span class="token comment">// 遍历推荐链，所有上级的 teamTotalInvestValue -= 1000</span>
+</code></pre><hr>
+<h2 id="4-recycle-机制">4. Recycle 机制 </h2>
+<h3 id="41-recycle-流程图">4.1 Recycle 流程图 </h3>
+<div class="mermaid">graph TD
+    A[Staking 需要 SYI&lt;br/&gt;支付质押奖励] --&gt;|调用 recycle| B[SYI 合约]
+    B --&gt; C{检查池子余额}
+    C --&gt;|查询 balanceOf Pair| D[流动性池&lt;br/&gt;100,000 SYI]
+
+    D --&gt; E[计算最大回收量&lt;br/&gt;100,000 / 3 = 33,333]
+    E --&gt; F{比较需求}
+    F --&gt;|需求 15,000 &lt; 上限| G[回收 15,000 SYI]
+    F --&gt;|需求 50,000 &gt; 上限| H[回收 33,333 SYI]
+
+    G --&gt; I[_update Pair → Staking]
+    H --&gt; I
+
+    I --&gt; J[uniswapV2Pair.sync]
+    J --&gt; K[同步储备量&lt;br/&gt;更新 K 值]
+
+    style A fill:#e1f5ff
+    style D fill:#fff3cd
+    style K fill:#d4edda
+</div><p><strong>代码位置</strong>: <code>SYIBase.sol:453-553</code></p>
+<p><strong>关键逻辑</strong>:</p>
+<ol>
+<li>
+<p><strong>权限控制</strong> (第458行):</p>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token keyword keyword-require">require</span><span class="token punctuation">(</span>msg<span class="token punctuation">.</span>sender <span class="token operator">==</span> <span class="token builtin">address</span><span class="token punctuation">(</span>staking<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">"Only staking contract"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></li>
+<li>
+<p><strong>获取实际余额</strong> (第496行):</p>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token builtin">uint256</span> pairBalance <span class="token operator">=</span> <span class="token function">balanceOf</span><span class="token punctuation">(</span><span class="token builtin">address</span><span class="token punctuation">(</span>uniswapV2Pair<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// 这是 SYI 代币合约记录的"Pair 地址拥有的 SYI 数量"</span>
+</code></pre></li>
+<li>
+<p><strong>Balance vs Reserve 的区别</strong>:</p>
+<div class="mermaid">graph LR
+    A[SYI Token 合约] --&gt;|balanceOf Pair| B[Balance&lt;br/&gt;实际余额&lt;br/&gt;100,000 SYI]
+    C[Pair 合约] --&gt;|getReserves| D[Reserve&lt;br/&gt;账面储备&lt;br/&gt;95,000 SYI]
+
+    E[差额 5,000 SYI] -.-&gt;|可被 skim 取走&lt;br/&gt;或 recycle 回收| F[多余代币]
+</div><p><strong>为什么会有差额？</strong></p>
+<ul>
+<li>有人直接转账 SYI 给 Pair（不通过 Router）</li>
+<li>交易税留在 Pair 里（如果 SYI 有税）</li>
+<li>价格波动导致的积累</li>
+</ul>
+</li>
+<li>
+<p><strong>安全上限</strong> (第507行):</p>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token builtin">uint256</span> maxRecyclable <span class="token operator">=</span> pairBalance <span class="token operator">/</span> <span class="token number">3</span><span class="token punctuation">;</span>  <span class="token comment">// 最多 1/3</span>
+</code></pre><p><strong>为什么限制 1/3？</strong></p>
+<ul>
+<li>保护流动性不被过度抽取</li>
+<li>避免单次回收导致价格剧烈波动</li>
+<li>防止恶意耗尽流动性</li>
+</ul>
+</li>
+<li>
+<p><strong>执行回收</strong> (第525-526行):</p>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token function">_update</span><span class="token punctuation">(</span><span class="token builtin">address</span><span class="token punctuation">(</span>uniswapV2Pair<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token builtin">address</span><span class="token punctuation">(</span>staking<span class="token punctuation">)</span><span class="token punctuation">,</span> recycleAmount<span class="token punctuation">)</span><span class="token punctuation">;</span>
+uniswapV2Pair<span class="token punctuation">.</span><span class="token function">sync</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 关键！必须同步</span>
+</code></pre></li>
+<li>
+<p><strong>为什么必须 sync()？</strong></p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>回收前:
+├─ balance (实际): 100,000 SYI
+└─ reserve (账面): 100,000 SYI
+✅ K 值: reserve0 * reserve1 = k
+
+回收 15,000 SYI 后 (如果不 sync):
+├─ balance (实际): 85,000 SYI  ← _update 修改了
+└─ reserve (账面): 100,000 SYI ← Pair 不知道
+❌ 价格计算错误！ (reserve 还是 100,000)
+❌ 交易滑点异常
+❌ K 值验证失败
+
+执行 sync() 后:
+├─ balance (实际): 85,000 SYI
+└─ reserve (账面): 85,000 SYI  ← 强制同步
+✅ K 值: reserve0 * reserve1 = k (更新)
+✅ 价格正常
+</code></pre></li>
+</ol>
+<p><strong>Recycle 对价格的影响</strong>:</p>
+<p>假设池子: 100,000 SYI / 10,000 USDT (1 SYI = 0.1 USDT)</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>回收前:
+├─ SYI reserve: 100,000
+├─ USDT reserve: 10,000
+├─ K = 100,000 × 10,000 = 1,000,000,000
+└─ 价格: 1 SYI = 0.1 USDT
+
+回收 15,000 SYI 后:
+├─ SYI reserve: 85,000 (减少)
+├─ USDT reserve: 10,000 (不变)
+├─ K = 85,000 × 10,000 = 850,000,000 (减少)
+└─ 价格: 1 SYI = 10,000/85,000 = 0.1176 USDT (上涨17.6%)
+
+注意: Recycle 导致 SYI 价格上涨！
+</code></pre><hr>
+<h2 id="5-去掉-swap-交易费影响分析">5. 去掉 Swap 交易费影响分析 </h2>
+<h3 id="51-当前状态代码中已部分移除">5.1 当前状态（代码中已部分移除） </h3>
+<table>
+<thead>
+<tr>
+<th>费用项目</th>
+<th>原设计</th>
+<th>当前状态</th>
+<th>代码位置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>买入 burn</td>
+<td>1%</td>
+<td>✅ 保留 1%</td>
+<td>第830行</td>
+</tr>
+<tr>
+<td>买入 LP</td>
+<td>2%</td>
+<td>❌ 已移除</td>
+<td>第846行 (设为0)</td>
+</tr>
+<tr>
+<td>卖出 marketing</td>
+<td>1.5%</td>
+<td>✅ 保留 1.5%</td>
+<td>第859行</td>
+</tr>
+<tr>
+<td>卖出 LP</td>
+<td>1.5%</td>
+<td>❌ 已移除</td>
+<td>第925行 (设为0)</td>
+</tr>
+<tr>
+<td>盈利税</td>
+<td>25%</td>
+<td>✅ 保留 25%</td>
+<td>第877行</td>
+</tr>
+</tbody>
+</table>
+<h3 id="52-如果完全去掉所有-swap-交易费">5.2 如果完全去掉所有 Swap 交易费 </h3>
+<h4 id="方案a-仅去掉-swap-费用保留盈利税">方案A: 仅去掉 Swap 费用，保留盈利税 </h4>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token comment">// 修改后的买入逻辑</span>
+<span class="token keyword keyword-function">function</span> <span class="token function">_handleBuy</span><span class="token punctuation">(</span><span class="token builtin">address</span> <span class="token keyword keyword-from">from</span><span class="token punctuation">,</span> <span class="token builtin">address</span> to<span class="token punctuation">,</span> <span class="token builtin">uint256</span> amount<span class="token punctuation">)</span> <span class="token keyword keyword-private">private</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 完全无税</span>
+    super<span class="token punctuation">.</span><span class="token function">_update</span><span class="token punctuation">(</span><span class="token keyword keyword-from">from</span><span class="token punctuation">,</span> to<span class="token punctuation">,</span> amount<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// 仍然追踪成本（用于盈利税）</span>
+    <span class="token builtin">uint256</span> estimatedUSDTCost <span class="token operator">=</span> <span class="token function">_estimateBuyUSDTCost</span><span class="token punctuation">(</span>amount<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    userInvestment<span class="token punctuation">[</span>to<span class="token punctuation">]</span> <span class="token operator">=</span> userInvestment<span class="token punctuation">[</span>to<span class="token punctuation">]</span> <span class="token operator">+</span> estimatedUSDTCost<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// 修改后的卖出逻辑</span>
+<span class="token keyword keyword-function">function</span> <span class="token function">_handleSell</span><span class="token punctuation">(</span><span class="token builtin">address</span> <span class="token keyword keyword-from">from</span><span class="token punctuation">,</span> <span class="token builtin">address</span> to<span class="token punctuation">,</span> <span class="token builtin">uint256</span> amount<span class="token punctuation">)</span> <span class="token keyword keyword-private">private</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 无 Swap 税，只有盈利税</span>
+    <span class="token builtin">uint256</span> estimatedUSDTFromSale <span class="token operator">=</span> <span class="token function">_estimateSwapOutput</span><span class="token punctuation">(</span>amount<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token builtin">uint256</span> profitTaxInSYI <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>userInvestment<span class="token punctuation">[</span><span class="token keyword keyword-from">from</span><span class="token punctuation">]</span> <span class="token operator">&gt;</span> <span class="token number">0</span> <span class="token operator">&amp;&amp;</span> estimatedUSDTFromSale <span class="token operator">&gt;</span> userInvestment<span class="token punctuation">[</span><span class="token keyword keyword-from">from</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token builtin">uint256</span> profitAmount <span class="token operator">=</span> estimatedUSDTFromSale <span class="token operator">-</span> userInvestment<span class="token punctuation">[</span><span class="token keyword keyword-from">from</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token builtin">uint256</span> profitTaxUSDT <span class="token operator">=</span> <span class="token punctuation">(</span>profitAmount <span class="token operator">*</span> <span class="token number">25</span><span class="token punctuation">)</span> <span class="token operator">/</span> <span class="token number">100</span><span class="token punctuation">;</span>
+        profitTaxInSYI <span class="token operator">=</span> <span class="token punctuation">(</span>profitTaxUSDT <span class="token operator">*</span> amount<span class="token punctuation">)</span> <span class="token operator">/</span> estimatedUSDTFromSale<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token builtin">uint256</span> netAmount <span class="token operator">=</span> amount <span class="token operator">-</span> profitTaxInSYI<span class="token punctuation">;</span>
+    super<span class="token punctuation">.</span><span class="token function">_update</span><span class="token punctuation">(</span><span class="token keyword keyword-from">from</span><span class="token punctuation">,</span> to<span class="token punctuation">,</span> netAmount<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><p><strong>影响分析</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>方面</th>
+<th>影响</th>
+<th>严重程度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>用户体验</td>
+<td>🟢 更好的买卖体验，无 Swap 税</td>
+<td>正面</td>
+</tr>
+<tr>
+<td>流动性</td>
+<td>🟡 无自动添加流动性</td>
+<td>中性</td>
+</tr>
+<tr>
+<td>营销资金</td>
+<td>🔴 无 1.5% 卖出税收入</td>
+<td>负面</td>
+</tr>
+<tr>
+<td>价格稳定性</td>
+<td>🟡 缺少 burn 通缩机制</td>
+<td>中性偏负</td>
+</tr>
+<tr>
+<td>盈利税</td>
+<td>🟢 仍然收取 25% 盈利税</td>
+<td>正面</td>
+</tr>
+</tbody>
+</table>
+<h4 id="方案b-完全去掉所有费用包括盈利税">方案B: 完全去掉所有费用（包括盈利税） </h4>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token keyword keyword-function">function</span> <span class="token function">_handleBuy</span><span class="token punctuation">(</span><span class="token builtin">address</span> <span class="token keyword keyword-from">from</span><span class="token punctuation">,</span> <span class="token builtin">address</span> to<span class="token punctuation">,</span> <span class="token builtin">uint256</span> amount<span class="token punctuation">)</span> <span class="token keyword keyword-private">private</span> <span class="token punctuation">{</span>
+    super<span class="token punctuation">.</span><span class="token function">_update</span><span class="token punctuation">(</span><span class="token keyword keyword-from">from</span><span class="token punctuation">,</span> to<span class="token punctuation">,</span> amount<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 完全无税，无成本追踪</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword keyword-function">function</span> <span class="token function">_handleSell</span><span class="token punctuation">(</span><span class="token builtin">address</span> <span class="token keyword keyword-from">from</span><span class="token punctuation">,</span> <span class="token builtin">address</span> to<span class="token punctuation">,</span> <span class="token builtin">uint256</span> amount<span class="token punctuation">)</span> <span class="token keyword keyword-private">private</span> <span class="token punctuation">{</span>
+    super<span class="token punctuation">.</span><span class="token function">_update</span><span class="token punctuation">(</span><span class="token keyword keyword-from">from</span><span class="token punctuation">,</span> to<span class="token punctuation">,</span> amount<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 完全无税</span>
+<span class="token punctuation">}</span>
+</code></pre><p><strong>影响分析</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>方面</th>
+<th>影响</th>
+<th>严重程度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>合规性</td>
+<td>🟢 符合 OKX 上币要求（无黑白名单限制）</td>
+<td>正面</td>
+</tr>
+<tr>
+<td>用户体验</td>
+<td>🟢 完全无税，体验最佳</td>
+<td>正面</td>
+</tr>
+<tr>
+<td>项目收入</td>
+<td>🔴 无任何交易费收入</td>
+<td>负面</td>
+</tr>
+<tr>
+<td>通缩机制</td>
+<td>🔴 无 burn，可能通胀</td>
+<td>负面</td>
+</tr>
+<tr>
+<td>价格稳定性</td>
+<td>🟡 缺少费用缓冲机制</td>
+<td>中性偏负</td>
+</tr>
+</tbody>
+</table>
+<h3 id="53-交易费对流动性的影响">5.3 交易费对流动性的影响 </h3>
+<h4 id="当前设计-部分费用已移除">当前设计 (部分费用已移除): </h4>
+<div class="mermaid">graph TD
+    A[用户交易] --&gt; B[1% burn]
+    A --&gt; C[1.5% marketing]
+    A --&gt; D[25% 盈利税]
+
+    B --&gt; E[通缩效应&lt;br/&gt;减少供应]
+    C --&gt; F[营销资金&lt;br/&gt;项目运营]
+    D --&gt; G[节点奖励&lt;br/&gt;激励持有]
+
+    H[LP 费用] -.-&gt;|已移除| I[无自动添加流动性]
+
+    style B fill:#f8d7da
+    style C fill:#d4edda
+    style D fill:#d4edda
+    style H fill:#e2e3e5
+    style I fill:#f8d7da
+</div><h4 id="完全无税设计">完全无税设计: </h4>
+<div class="mermaid">graph TD
+    A[用户交易] --&gt; B[无费用]
+    B --&gt; C[用户体验好]
+    B --&gt; D[符合 OKX 要求]
+
+    E[项目收入] -.-&gt;|❌ 无收入| F[需要其他收入来源]
+    G[流动性] -.-&gt;|❌ 无自动添加| H[需要手动管理]
+    I[通缩机制] -.-&gt;|❌ 无 burn| J[可能通胀]
+
+    style C fill:#d4edda
+    style D fill:#d4edda
+    style F fill:#f8d7da
+    style H fill:#fff3cd
+    style J fill:#f8d7da
+</div><h3 id="54-推荐方案">5.4 推荐方案 </h3>
+<p>根据项目需求分析，推荐<strong>方案A</strong>（仅去掉 Swap 费用，保留盈利税）:</p>
+<p><strong>理由</strong>:</p>
+<ol>
+<li>✅ 符合 OKX 上币要求（无黑白名单，无基础 Swap 税）</li>
+<li>✅ 保留盈利税机制，仍有收入来源</li>
+<li>✅ 用户体验好（日常买卖无税）</li>
+<li>✅ 防止套利（盈利税惩罚短期炒作）</li>
+<li>⚠️ 需要注意：无 burn 可能导致通胀，建议通过质押奖励控制</li>
+</ol>
+<p><strong>需要调整的代码</strong>:</p>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token comment">// SYIBase.sol</span>
+<span class="token builtin">uint256</span> <span class="token keyword keyword-private">private</span> <span class="token keyword keyword-constant">constant</span> BUY_BURN_FEE <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>        <span class="token comment">// 改为 0</span>
+<span class="token builtin">uint256</span> <span class="token keyword keyword-private">private</span> <span class="token keyword keyword-constant">constant</span> SELL_MARKETING_FEE <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>  <span class="token comment">// 改为 0</span>
+<span class="token builtin">uint256</span> <span class="token keyword keyword-private">private</span> <span class="token keyword keyword-constant">constant</span> PROFIT_TAX_RATE <span class="token operator">=</span> <span class="token number">2500</span><span class="token punctuation">;</span>  <span class="token comment">// 保留 25%</span>
+</code></pre><p><strong>额外建议</strong>:</p>
+<ol>
+<li>增加质押锁定期，减少流通供应</li>
+<li>通过 Staking 奖励吸引长期持有</li>
+<li>定期从质押收入中 burn 代币，维持通缩</li>
+<li>流动性由项目方或社区定期手动添加</li>
+</ol>
+<hr>
+<h2 id="6-总结对比表">6. 总结对比表 </h2>
+<h3 id="61-各场景资金流向总览">6.1 各场景资金流向总览 </h3>
+<table>
+<thead>
+<tr>
+<th>场景</th>
+<th>用户投入</th>
+<th>协议扣除</th>
+<th>用户实得</th>
+<th>协议累积</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>买入</td>
+<td>1000 USDT</td>
+<td>1% burn</td>
+<td>9,900 SYI</td>
+<td>100 SYI burn</td>
+</tr>
+<tr>
+<td>卖出(无盈利)</td>
+<td>1000 SYI</td>
+<td>1.5% marketing</td>
+<td>985 SYI → ~950 USDT</td>
+<td>15 SYI</td>
+</tr>
+<tr>
+<td>卖出(有盈利)</td>
+<td>1000 SYI</td>
+<td>1.5% marketing + 25% 盈利税</td>
+<td>~875 USDT</td>
+<td>15 SYI + 125 USDT</td>
+</tr>
+<tr>
+<td>质押</td>
+<td>1000 USDT</td>
+<td>1% burn (买入时)</td>
+<td>1000 sSYI</td>
+<td>添加流动性</td>
+</tr>
+<tr>
+<td>解质押</td>
+<td>1000 sSYI</td>
+<td>5%+35%+1% 收益</td>
+<td>~848 USDT</td>
+<td>368 USDT 分配</td>
+</tr>
+</tbody>
+</table>
+<h3 id="62-费用对比">6.2 费用对比 </h3>
+<table>
+<thead>
+<tr>
+<th>费用类型</th>
+<th>当前费率</th>
+<th>接收方</th>
+<th>是否保留</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>买入 burn</td>
+<td>1%</td>
+<td>销毁地址</td>
+<td>✅ 是</td>
+</tr>
+<tr>
+<td>买入 LP</td>
+<td>2%</td>
+<td>流动性池</td>
+<td>❌ 已移除</td>
+</tr>
+<tr>
+<td>卖出 marketing</td>
+<td>1.5%</td>
+<td>营销地址</td>
+<td>✅ 是</td>
+</tr>
+<tr>
+<td>卖出 LP</td>
+<td>1.5%</td>
+<td>流动性池</td>
+<td>❌ 已移除</td>
+</tr>
+<tr>
+<td>盈利税</td>
+<td>25%</td>
+<td>节点/营销</td>
+<td>✅ 是</td>
+</tr>
+<tr>
+<td>直推奖励</td>
+<td>5%</td>
+<td>Friend</td>
+<td>✅ 是</td>
+</tr>
+<tr>
+<td>团队奖励</td>
+<td>最高35%</td>
+<td>推荐链</td>
+<td>✅ 是</td>
+</tr>
+<tr>
+<td>赎回费</td>
+<td>1%</td>
+<td>feeRecipient</td>
+<td>✅ 是</td>
+</tr>
+</tbody>
+</table>
+<h3 id="63-代币流动路径">6.3 代币流动路径 </h3>
+<div class="mermaid">graph TD
+    A[SYI 代币总流动] --&gt; B[买入流入]
+    A --&gt; C[卖出流出]
+    A --&gt; D[质押循环]
+
+    B --&gt; B1[USDT → SYI&lt;br/&gt;扣除1% burn]
+    C --&gt; C1[SYI → USDT&lt;br/&gt;扣除1.5% marketing + 25% 盈利税]
+
+    D --&gt; D1[质押: USDT → 添加流动性]
+    D --&gt; D2[解质押: 回收 SYI → USDT]
+    D --&gt; D3[Recycle: 池子 → Staking]
+
+    E[流动性池] &lt;--&gt; D
+    E &lt;--&gt; B
+    E &lt;--&gt; C
+
+    style A fill:#e1f5ff
+    style B1 fill:#d4edda
+    style C1 fill:#f8d7da
+    style D1 fill:#fff3cd
+    style D2 fill:#fff3cd
+    style D3 fill:#cfe2ff
+</div><hr>
+<h2 id="附录关键合约函数索引">附录：关键合约函数索引 </h2>
+<table>
+<thead>
+<tr>
+<th>函数名</th>
+<th>合约</th>
+<th>行号</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>_handleBuy</code></td>
+<td>SYIBase</td>
+<td>817-848</td>
+<td>处理买入交易</td>
+</tr>
+<tr>
+<td><code>_handleSell</code></td>
+<td>SYIBase</td>
+<td>850-935</td>
+<td>处理卖出交易</td>
+</tr>
+<tr>
+<td><code>recycle</code></td>
+<td>SYIBase</td>
+<td>453-553</td>
+<td>从池子回收 SYI</td>
+</tr>
+<tr>
+<td><code>stake</code></td>
+<td>StakingBase</td>
+<td>193-198</td>
+<td>质押 USDT</td>
+</tr>
+<tr>
+<td><code>unstake</code></td>
+<td>StakingBase</td>
+<td>200-264</td>
+<td>解除质押</td>
+</tr>
+<tr>
+<td><code>_swapAndAddLiquidity</code></td>
+<td>StakingBase</td>
+<td>1211-1245</td>
+<td>添加流动性</td>
+</tr>
+<tr>
+<td><code>_calculateStakeReward</code></td>
+<td>StakingBase</td>
+<td>1167-1196</td>
+<td>计算复利</td>
+</tr>
+<tr>
+<td><code>_distributeFriendReward</code></td>
+<td>StakingBase</td>
+<td>999-1012</td>
+<td>分配直推奖励</td>
+</tr>
+<tr>
+<td><code>_distributeTeamReward</code></td>
+<td>StakingBase</td>
+<td>1014-1078</td>
+<td>分配团队奖励</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p><strong>生成时间</strong>: 2025-10-13<br>
+<strong>分析版本</strong>: SYI v1.0 (已移除 LP 质押功能)<br>
+<strong>分析人</strong>: Claude Code</p>
+
+      </div>
+      
+      
+    
+    
+    <script type="module">
+// TODO: If ZenUML gets integrated into mermaid in the future,
+//      we can remove the following lines.
+
+
+var MERMAID_CONFIG = ({"startOnLoad":false});
+if (typeof MERMAID_CONFIG !== 'undefined') {
+  MERMAID_CONFIG.startOnLoad = false
+  MERMAID_CONFIG.cloneCssStyles = false
+  MERMAID_CONFIG.theme = "default"
+}
+
+mermaid.initialize(MERMAID_CONFIG || {})
+if (typeof(window['Reveal']) !== 'undefined') {
+  function mermaidRevealHelper(event) {
+    var currentSlide = event.currentSlide
+    var diagrams = currentSlide.querySelectorAll('.mermaid')
+    for (var i = 0; i < diagrams.length; i++) {
+      var diagram = diagrams[i]
+      if (!diagram.hasAttribute('data-processed')) {
+        mermaid.init(null, diagram, ()=> {
+          Reveal.slide(event.indexh, event.indexv)
+        })
+      }
+    }
+  }
+  Reveal.addEventListener('slidetransitionend', mermaidRevealHelper)
+  Reveal.addEventListener('ready', mermaidRevealHelper)
+  await mermaid.run({
+    nodes: document.querySelectorAll('.mermaid')
+  })
+} else {
+  await mermaid.run({
+    nodes: document.querySelectorAll('.mermaid')
+  })
+}
+</script>
+    
+    
+    
+  
+    </body></html>

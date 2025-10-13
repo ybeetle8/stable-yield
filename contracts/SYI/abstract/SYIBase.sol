@@ -8,7 +8,6 @@ import {IUniswapV2Router02} from "../interfaces/IUniswapV2Router02.sol";
 import {IUniswapV2Pair} from "../interfaces/IUniswapV2Pair.sol";
 import {IUniswapV2Factory} from "../interfaces/IUniswapV2Factory.sol";
 import {IStaking} from "../interfaces/IStaking.sol";
-import {ILiquidityStaking} from "../interfaces/ILiquidityStaking.sol";
 import {FundRelay} from "../utils/FundRelay.sol";
 import {Helper} from "../utils/Helper.sol";
 
@@ -220,7 +219,6 @@ abstract contract SYIBase is ERC20, Ownable {
     // =========================================================================
 
     IUniswapV2Pair public uniswapV2Pair;
-    ILiquidityStaking public liquidityStaking;
     FundRelay public fundRelay;
     address public rootAddress;
     address public marketingAddress;
@@ -339,12 +337,6 @@ abstract contract SYIBase is ERC20, Ownable {
         if (address(uniswapV2Pair) != address(0)) revert AlreadySet();
         uniswapV2Pair = IUniswapV2Pair(_pair);
         _updatePresaleDurationFromStaking();
-    }
-
-    function setLiquidityStaking(address _liquidityStaking) external onlyOwner {
-        if (_liquidityStaking == address(0)) revert ZeroAddress();
-        liquidityStaking = ILiquidityStaking(_liquidityStaking);
-        feeWhitelisted[_liquidityStaking] = true;
     }
 
     function setFundRelay(address _fundRelay) external onlyOwner {
@@ -594,10 +586,6 @@ abstract contract SYIBase is ERC20, Ownable {
         return address(uniswapV2Pair);
     }
 
-    function getLiquidityStaking() external view returns (address) {
-        return address(liquidityStaking);
-    }
-
     function getFundRelay() external view returns (address) {
         return address(fundRelay);
     }
@@ -838,31 +826,14 @@ abstract contract SYIBase is ERC20, Ownable {
             revert NotAllowedBuy();
         }
 
+        // 只保留 1% burn 费用，移除 2% LP 费用
         uint256 burnFee = (amount * BUY_BURN_FEE) / BASIS_POINTS;
-        uint256 liquidityFee = (amount * BUY_LIQUIDITY_FEE) / BASIS_POINTS;
-        uint256 totalFees = burnFee + liquidityFee;
+        uint256 totalFees = burnFee;
         uint256 netAmount = amount - totalFees;
 
         if (burnFee > 0) {
             super._update(from, DEAD_ADDRESS, burnFee);
             emit TokensBurned(burnFee);
-        }
-
-        if (liquidityFee > 0) {
-            super._update(from, address(this), liquidityFee);
-            // 直接存入 SYI 代币到 LiquidityStaking，避免在 SYI 合约内进行 swap
-            IERC20(address(this)).approve(
-                address(liquidityStaking),
-                liquidityFee
-            );
-            liquidityStaking.depositSYIRewards(liquidityFee);
-            emit LPRewardDeposited(liquidityFee);
-            emit FeeCollected(
-                address(this),
-                liquidityFee,
-                "BUY_LP_REWARD_SYI",
-                address(liquidityStaking)
-            );
         }
 
         super._update(from, to, netAmount);
@@ -872,7 +843,7 @@ abstract contract SYIBase is ERC20, Ownable {
             amount,
             netAmount,
             burnFee,
-            liquidityFee
+            0  // liquidityFee 设为 0
         );
     }
 
@@ -884,12 +855,9 @@ abstract contract SYIBase is ERC20, Ownable {
         if (block.timestamp < lastBuyTime[from] + coldTime)
             revert InColdPeriod();
 
+        // 只保留 1.5% marketing 费用，移除 1.5% LP 费用
         uint256 marketingFee = (amount * SELL_MARKETING_FEE) / BASIS_POINTS;
-        uint256 liquidityAccumFee = (amount * SELL_LIQUIDITY_ACCUM_FEE) /
-            BASIS_POINTS;
-        uint256 netAmountAfterTradingFees = amount -
-            marketingFee -
-            liquidityAccumFee;
+        uint256 netAmountAfterTradingFees = amount - marketingFee;
 
         uint256 estimatedUSDTFromSale = _estimateSwapOutput(
             netAmountAfterTradingFees
@@ -913,10 +881,7 @@ abstract contract SYIBase is ERC20, Ownable {
                 estimatedUSDTFromSale;
         }
 
-        uint256 netAmount = amount -
-            marketingFee -
-            liquidityAccumFee -
-            profitTaxInSYI;
+        uint256 netAmount = amount - marketingFee - profitTaxInSYI;
 
         uint256 actualUSDTReceived = estimatedUSDTFromSale -
             profitTaxUSDT -
@@ -925,10 +890,6 @@ abstract contract SYIBase is ERC20, Ownable {
         if (marketingFee > 0) {
             super._update(from, address(this), marketingFee);
             amountMarketingFee += marketingFee;
-        }
-        if (liquidityAccumFee > 0) {
-            super._update(from, address(this), liquidityAccumFee);
-            amountLPFee += liquidityAccumFee;
         }
 
         uint256 profitTaxToMarketing = 0;
@@ -942,24 +903,14 @@ abstract contract SYIBase is ERC20, Ownable {
             );
 
             if (usdtAmountFromProfitTax > 0) {
-                uint256 lsShare = (usdtAmountFromProfitTax * 10) / 25;
-                uint256 nodeShare = usdtAmountFromProfitTax - lsShare;
+                // 盈利税全部给节点/营销地址，不再分给 LP
+                address nodeAddr = nodeDividendAddress != address(0)
+                    ? nodeDividendAddress
+                    : marketingAddress;
+                IERC20(USDT).transfer(nodeAddr, usdtAmountFromProfitTax);
 
-                if (lsShare > 0) {
-                    IERC20(USDT).approve(address(liquidityStaking), lsShare);
-                    liquidityStaking.depositRewards(lsShare);
-                    emit LPRewardDeposited(lsShare);
-                }
-
-                if (nodeShare > 0) {
-                    address nodeAddr = nodeDividendAddress != address(0)
-                        ? nodeDividendAddress
-                        : marketingAddress;
-                    IERC20(USDT).transfer(nodeAddr, nodeShare);
-                }
-
-                profitTaxToReferrer = lsShare;
-                profitTaxToMarketing = nodeShare;
+                profitTaxToMarketing = usdtAmountFromProfitTax;
+                profitTaxToReferrer = 0;  // 不再有 LP 份额
             }
         }
 
@@ -971,7 +922,7 @@ abstract contract SYIBase is ERC20, Ownable {
             from,
             amount,
             marketingFee,
-            liquidityAccumFee,
+            0,  // liquidityAccumFee 设为 0
             netAmountAfterTradingFees,
             estimatedUSDTFromSale,
             userCurrentInvestment,
@@ -1246,16 +1197,15 @@ abstract contract SYIBase is ERC20, Ownable {
 
     function triggerFundRelayDistribution() external {
         require(
-            msg.sender == address(staking) ||
-                msg.sender == address(liquidityStaking),
-            "Only staking or liquidity staking contract"
+            msg.sender == address(staking),
+            "Only staking contract"
         );
         _tryTriggerFundRelayDistribution();
         _tryProcessAccumulatedFees();
     }
 
     function _tryProcessAccumulatedFees() private {
-        uint256 totalFees = amountMarketingFee + amountLPFee;
+        uint256 totalFees = amountMarketingFee;
 
         if (totalFees >= swapAtAmount && !_inSwap) {
             if (_canProcessFees()) {
@@ -1277,7 +1227,7 @@ abstract contract SYIBase is ERC20, Ownable {
     }
 
     function _canProcessFees() private view returns (bool) {
-        uint256 totalFees = amountMarketingFee + amountLPFee;
+        uint256 totalFees = amountMarketingFee;
         if (totalFees == 0) return false;
         if (balanceOf(address(this)) < totalFees) return false;
 
@@ -1317,45 +1267,29 @@ abstract contract SYIBase is ERC20, Ownable {
 
     function _processFeeDistribution() private lockSwap {
         uint256 totalMarketingFee = amountMarketingFee;
-        uint256 totalLPFee = amountLPFee;
 
-        if (totalMarketingFee + totalLPFee == 0) return;
+        if (totalMarketingFee == 0) return;
 
         amountMarketingFee = 0;
-        amountLPFee = 0;
 
-        uint256 totalUSDTReceived = 0;
         uint256 marketingUSDT = 0;
-        uint256 lpUSDT = 0;
 
         if (totalMarketingFee > 0) {
             marketingUSDT = _swapTokensForUSDT(totalMarketingFee);
             if (marketingUSDT > 0 && marketingAddress != address(0)) {
                 IERC20(USDT).transfer(marketingAddress, marketingUSDT);
-                totalUSDTReceived += marketingUSDT;
             }
-        }
-
-        if (totalLPFee > 0) {
-            // 直接存入 SYI 代币到 LiquidityStaking
-            IERC20(address(this)).approve(
-                address(liquidityStaking),
-                totalLPFee
-            );
-            liquidityStaking.depositSYIRewards(totalLPFee);
-            emit LPRewardDeposited(totalLPFee);
-            totalUSDTReceived += totalLPFee; // 这里记录的是 SYI 数量
         }
 
         emit FeesProcessed(
             block.timestamp,
             "ACCUMULATED_FEES",
-            totalMarketingFee + totalLPFee,
-            totalUSDTReceived,
-            lpUSDT,
+            totalMarketingFee,
+            marketingUSDT,
+            0,  // lpUSDT = 0
             marketingUSDT,
             0,
-            address(liquidityStaking),
+            address(0),  // 不再有 liquidityStaking
             marketingAddress
         );
     }
@@ -1463,17 +1397,9 @@ abstract contract SYIBase is ERC20, Ownable {
 
             fundRelay.withdrawToSYI(usdtAmount);
 
-            uint256 marketingShare = (usdtAmount * 60) / 100;
-            uint256 lpShare = usdtAmount - marketingShare;
-
-            if (marketingShare > 0) {
-                IERC20(USDT).transfer(marketingAddress, marketingShare);
-            }
-
-            if (lpShare > 0) {
-                IERC20(USDT).approve(address(liquidityStaking), lpShare);
-                liquidityStaking.depositRewards(lpShare);
-                emit LPRewardDeposited(lpShare);
+            // 全部给营销地址，不再分给 LP
+            if (usdtAmount > 0) {
+                IERC20(USDT).transfer(marketingAddress, usdtAmount);
             }
 
             emit FeesProcessed(
@@ -1481,10 +1407,10 @@ abstract contract SYIBase is ERC20, Ownable {
                 "FUND_RELAY_FEES",
                 xfAmount,
                 usdtAmount,
-                lpShare,
-                marketingShare,
+                0,  // lpShare = 0
+                usdtAmount,  // 全部给 marketing
                 0,
-                address(liquidityStaking),
+                address(0),  // 不再有 liquidityStaking
                 marketingAddress
             );
         } catch {}
@@ -1575,8 +1501,7 @@ abstract contract SYIBase is ERC20, Ownable {
     function triggerFeeProcessing() external {
         require(
             msg.sender == owner() ||
-                msg.sender == address(staking) ||
-                msg.sender == address(liquidityStaking),
+                msg.sender == address(staking),
             "Unauthorized"
         );
 

@@ -1,0 +1,1473 @@
+<!DOCTYPE html><html><head>
+      <title>SYI黑白名单机制分析</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      
+      <link rel="stylesheet" href="file:////home/ybeetle/.vscode-server/extensions/shd101wyy.markdown-preview-enhanced-0.8.19/crossnote/dependencies/katex/katex.min.css">
+      
+      
+      <script type="text/javascript" src="file:////home/ybeetle/.vscode-server/extensions/shd101wyy.markdown-preview-enhanced-0.8.19/crossnote/dependencies/mermaid/mermaid.min.js" charset="UTF-8"></script>
+      
+      
+      <style>
+      code[class*=language-],pre[class*=language-]{color:#333;background:0 0;font-family:Consolas,"Liberation Mono",Menlo,Courier,monospace;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.4;-moz-tab-size:8;-o-tab-size:8;tab-size:8;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:.8em;overflow:auto;border-radius:3px;background:#f5f5f5}:not(pre)>code[class*=language-]{padding:.1em;border-radius:.3em;white-space:normal;background:#f5f5f5}.token.blockquote,.token.comment{color:#969896}.token.cdata{color:#183691}.token.doctype,.token.macro.property,.token.punctuation,.token.variable{color:#333}.token.builtin,.token.important,.token.keyword,.token.operator,.token.rule{color:#a71d5d}.token.attr-value,.token.regex,.token.string,.token.url{color:#183691}.token.atrule,.token.boolean,.token.code,.token.command,.token.constant,.token.entity,.token.number,.token.property,.token.symbol{color:#0086b3}.token.prolog,.token.selector,.token.tag{color:#63a35c}.token.attr-name,.token.class,.token.class-name,.token.function,.token.id,.token.namespace,.token.pseudo-class,.token.pseudo-element,.token.url-reference .token.variable{color:#795da3}.token.entity{cursor:help}.token.title,.token.title .token.punctuation{font-weight:700;color:#1d3e81}.token.list{color:#ed6a43}.token.inserted{background-color:#eaffea;color:#55a532}.token.deleted{background-color:#ffecec;color:#bd2c00}.token.bold{font-weight:700}.token.italic{font-style:italic}.language-json .token.property{color:#183691}.language-markup .token.tag .token.punctuation{color:#333}.language-css .token.function,code.language-css{color:#0086b3}.language-yaml .token.atrule{color:#63a35c}code.language-yaml{color:#183691}.language-ruby .token.function{color:#333}.language-markdown .token.url{color:#795da3}.language-makefile .token.symbol{color:#795da3}.language-makefile .token.variable{color:#183691}.language-makefile .token.builtin{color:#0086b3}.language-bash .token.keyword{color:#0086b3}pre[data-line]{position:relative;padding:1em 0 1em 3em}pre[data-line] .line-highlight-wrapper{position:absolute;top:0;left:0;background-color:transparent;display:block;width:100%}pre[data-line] .line-highlight{position:absolute;left:0;right:0;padding:inherit 0;margin-top:1em;background:hsla(24,20%,50%,.08);background:linear-gradient(to right,hsla(24,20%,50%,.1) 70%,hsla(24,20%,50%,0));pointer-events:none;line-height:inherit;white-space:pre}pre[data-line] .line-highlight:before,pre[data-line] .line-highlight[data-end]:after{content:attr(data-start);position:absolute;top:.4em;left:.6em;min-width:1em;padding:0 .5em;background-color:hsla(24,20%,50%,.4);color:#f4f1ef;font:bold 65%/1.5 sans-serif;text-align:center;vertical-align:.3em;border-radius:999px;text-shadow:none;box-shadow:0 1px #fff}pre[data-line] .line-highlight[data-end]:after{content:attr(data-end);top:auto;bottom:.4em}html body{font-family:'Helvetica Neue',Helvetica,'Segoe UI',Arial,freesans,sans-serif;font-size:16px;line-height:1.6;color:#333;background-color:#fff;overflow:initial;box-sizing:border-box;word-wrap:break-word}html body>:first-child{margin-top:0}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{line-height:1.2;margin-top:1em;margin-bottom:16px;color:#000}html body h1{font-size:2.25em;font-weight:300;padding-bottom:.3em}html body h2{font-size:1.75em;font-weight:400;padding-bottom:.3em}html body h3{font-size:1.5em;font-weight:500}html body h4{font-size:1.25em;font-weight:600}html body h5{font-size:1.1em;font-weight:600}html body h6{font-size:1em;font-weight:600}html body h1,html body h2,html body h3,html body h4,html body h5{font-weight:600}html body h5{font-size:1em}html body h6{color:#5c5c5c}html body strong{color:#000}html body del{color:#5c5c5c}html body a:not([href]){color:inherit;text-decoration:none}html body a{color:#08c;text-decoration:none}html body a:hover{color:#00a3f5;text-decoration:none}html body img{max-width:100%}html body>p{margin-top:0;margin-bottom:16px;word-wrap:break-word}html body>ol,html body>ul{margin-bottom:16px}html body ol,html body ul{padding-left:2em}html body ol.no-list,html body ul.no-list{padding:0;list-style-type:none}html body ol ol,html body ol ul,html body ul ol,html body ul ul{margin-top:0;margin-bottom:0}html body li{margin-bottom:0}html body li.task-list-item{list-style:none}html body li>p{margin-top:0;margin-bottom:0}html body .task-list-item-checkbox{margin:0 .2em .25em -1.8em;vertical-align:middle}html body .task-list-item-checkbox:hover{cursor:pointer}html body blockquote{margin:16px 0;font-size:inherit;padding:0 15px;color:#5c5c5c;background-color:#f0f0f0;border-left:4px solid #d6d6d6}html body blockquote>:first-child{margin-top:0}html body blockquote>:last-child{margin-bottom:0}html body hr{height:4px;margin:32px 0;background-color:#d6d6d6;border:0 none}html body table{margin:10px 0 15px 0;border-collapse:collapse;border-spacing:0;display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}html body table th{font-weight:700;color:#000}html body table td,html body table th{border:1px solid #d6d6d6;padding:6px 13px}html body dl{padding:0}html body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:700}html body dl dd{padding:0 16px;margin-bottom:16px}html body code{font-family:Menlo,Monaco,Consolas,'Courier New',monospace;font-size:.85em;color:#000;background-color:#f0f0f0;border-radius:3px;padding:.2em 0}html body code::after,html body code::before{letter-spacing:-.2em;content:'\00a0'}html body pre>code{padding:0;margin:0;word-break:normal;white-space:pre;background:0 0;border:0}html body .highlight{margin-bottom:16px}html body .highlight pre,html body pre{padding:1em;overflow:auto;line-height:1.45;border:#d6d6d6;border-radius:3px}html body .highlight pre{margin-bottom:0;word-break:normal}html body pre code,html body pre tt{display:inline;max-width:initial;padding:0;margin:0;overflow:initial;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}html body pre code:after,html body pre code:before,html body pre tt:after,html body pre tt:before{content:normal}html body blockquote,html body dl,html body ol,html body p,html body pre,html body ul{margin-top:0;margin-bottom:16px}html body kbd{color:#000;border:1px solid #d6d6d6;border-bottom:2px solid #c7c7c7;padding:2px 4px;background-color:#f0f0f0;border-radius:3px}@media print{html body{background-color:#fff}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{color:#000;page-break-after:avoid}html body blockquote{color:#5c5c5c}html body pre{page-break-inside:avoid}html body table{display:table}html body img{display:block;max-width:100%;max-height:100%}html body code,html body pre{word-wrap:break-word;white-space:pre}}.markdown-preview{width:100%;height:100%;box-sizing:border-box}.markdown-preview ul{list-style:disc}.markdown-preview ul ul{list-style:circle}.markdown-preview ul ul ul{list-style:square}.markdown-preview ol{list-style:decimal}.markdown-preview ol ol,.markdown-preview ul ol{list-style-type:lower-roman}.markdown-preview ol ol ol,.markdown-preview ol ul ol,.markdown-preview ul ol ol,.markdown-preview ul ul ol{list-style-type:lower-alpha}.markdown-preview .newpage,.markdown-preview .pagebreak{page-break-before:always}.markdown-preview pre.line-numbers{position:relative;padding-left:3.8em;counter-reset:linenumber}.markdown-preview pre.line-numbers>code{position:relative}.markdown-preview pre.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:0;width:3em;letter-spacing:-1px;border-right:1px solid #999;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.markdown-preview pre.line-numbers .line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.markdown-preview pre.line-numbers .line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}.markdown-preview .mathjax-exps .MathJax_Display{text-align:center!important}.markdown-preview:not([data-for=preview]) .code-chunk .code-chunk-btn-group{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .status{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .output-div{margin-bottom:16px}.markdown-preview .md-toc{padding:0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link div,.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}.markdown-preview .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}.scrollbar-style::-webkit-scrollbar{width:8px}.scrollbar-style::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}.scrollbar-style::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode]){position:relative;width:100%;height:100%;top:0;left:0;margin:0;padding:0;overflow:auto}html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{position:relative;top:0;min-height:100vh}@media screen and (min-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em calc(50% - 457px + 2em)}}@media screen and (max-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{font-size:14px!important;padding:1em}}@media print{html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{display:none}}html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{position:fixed;bottom:8px;left:8px;font-size:28px;cursor:pointer;color:inherit;z-index:99;width:32px;text-align:center;opacity:.4}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] #sidebar-toc-btn{opacity:1}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc{position:fixed;top:0;left:0;width:300px;height:100%;padding:32px 0 48px 0;font-size:14px;box-shadow:0 0 4px rgba(150,150,150,.33);box-sizing:border-box;overflow:auto;background-color:inherit}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar{width:8px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc a{text-decoration:none}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc{padding:0 16px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link div,html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{left:300px;width:calc(100% - 300px);padding:2em calc(50% - 457px - 300px / 2);margin:0;box-sizing:border-box}@media screen and (max-width:1274px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{width:100%}}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .markdown-preview{left:50%;transform:translateX(-50%)}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .md-sidebar-toc{display:none}
+/* Please visit the URL below for more information: */
+/*   https://shd101wyy.github.io/markdown-preview-enhanced/#/customize-css */
+
+      </style>
+      <!-- The content below will be included at the end of the <head> element. --><script type="text/javascript">
+  document.addEventListener("DOMContentLoaded", function () {
+    // your code here
+  });
+</script></head><body for="html-export">
+    
+    
+      <div class="crossnote markdown-preview  ">
+      <div>
+<h1 id="syi-黑白名单机制分析">SYI 黑白名单机制分析 </h1>
+<h2 id="-目录">📋 目录 </h2>
+<ul>
+<li><a href="#%E4%B8%80%E9%BB%91%E7%99%BD%E5%90%8D%E5%8D%95%E7%B1%BB%E5%9E%8B%E6%80%BB%E8%A7%88">一、黑白名单类型总览</a></li>
+<li><a href="#%E4%BA%8C%E8%AF%A6%E7%BB%86%E6%9C%BA%E5%88%B6%E5%88%86%E6%9E%90">二、详细机制分析</a></li>
+<li><a href="#%E4%B8%89%E6%B5%81%E7%A8%8B%E5%9B%BE">三、流程图</a></li>
+<li><a href="#%E5%9B%9B%E5%BD%B1%E5%93%8D%E8%8C%83%E5%9B%B4%E5%88%86%E6%9E%90">四、影响范围分析</a></li>
+<li><a href="#%E4%BA%94%E7%A7%BB%E9%99%A4%E9%BB%91%E7%99%BD%E5%90%8D%E5%8D%95%E7%9A%84%E5%BD%B1%E5%93%8D%E8%AF%84%E4%BC%B0">五、移除黑白名单的影响评估</a></li>
+</ul>
+<hr>
+<h2 id="一-黑白名单类型总览">一、黑白名单类型总览 </h2>
+<h3 id="11-syi-代币合约syibasesol">1.1 SYI 代币合约（SYIBase.sol） </h3>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>变量名</th>
+<th>代码位置</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>费用白名单</strong></td>
+<td><code>feeWhitelisted</code></td>
+<td>Line 245</td>
+<td>免除买卖交易费用</td>
+</tr>
+<tr>
+<td><strong>交易黑名单</strong></td>
+<td><code>blacklisted</code></td>
+<td>Line 246</td>
+<td>完全禁止买卖交易</td>
+</tr>
+<tr>
+<td><strong>🔥 预售期白名单</strong></td>
+<td><code>feeWhitelisted</code> + <code>presaleActive</code></td>
+<td>Line 245 + 233</td>
+<td><strong>预售期间仅白名单可买入</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="12-staking-合约stakingbasesol">1.2 Staking 合约（StakingBase.sol） </h3>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>机制名称</th>
+<th>代码位置</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>EOA检查</strong></td>
+<td><code>onlyEOA</code> modifier</td>
+<td>Line 161-165</td>
+<td>仅允许外部账户（非合约）调用</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="二-详细机制分析">二、详细机制分析 </h2>
+<h3 id="21-费用白名单feewhitelisted">2.1 费用白名单（feeWhitelisted） </h3>
+<h4 id="-定义">📍 定义 </h4>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token keyword keyword-mapping">mapping</span><span class="token punctuation">(</span><span class="token builtin">address</span> <span class="token operator">=&gt;</span> <span class="token builtin">bool</span><span class="token punctuation">)</span> <span class="token keyword keyword-public">public</span> feeWhitelisted<span class="token punctuation">;</span>  <span class="token comment">// Line 245</span>
+</code></pre><h4 id="-功能">🎯 功能 </h4>
+<p>免除以下费用：</p>
+<ul>
+<li><strong>买入费用</strong>: 1% burn + 2% LP = 3%</li>
+<li><strong>卖出费用</strong>: 1.5% marketing + 1.5% LP = 3%</li>
+<li><strong>盈利税</strong>: 25%</li>
+<li><strong>LP操作费用</strong>: 2.5%</li>
+<li><strong>延迟买入期限</strong>: 绕过30天限制</li>
+</ul>
+<h4 id="-管理函数">🔧 管理函数 </h4>
+<table>
+<thead>
+<tr>
+<th>函数名</th>
+<th>位置</th>
+<th>权限</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>initializeWhitelist()</code></td>
+<td>Line 318-329</td>
+<td>Owner</td>
+<td>一次性初始化核心地址</td>
+</tr>
+<tr>
+<td><code>setFeeWhitelisted()</code></td>
+<td>Line 361-366</td>
+<td>Owner</td>
+<td>单个地址设置</td>
+</tr>
+<tr>
+<td><code>setBatchFeeWhitelisted()</code></td>
+<td>Line 368-375</td>
+<td>Owner</td>
+<td>批量地址设置</td>
+</tr>
+</tbody>
+</table>
+<h4 id="-初始化地址initializewhitelist">📦 初始化地址（initializeWhitelist） </h4>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code>feeWhitelisted<span class="token punctuation">[</span><span class="token function">owner</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>              <span class="token comment">// 合约所有者</span>
+feeWhitelisted<span class="token punctuation">[</span><span class="token builtin">address</span><span class="token punctuation">(</span><span class="token keyword keyword-this">this</span><span class="token punctuation">)</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>        <span class="token comment">// SYI 合约自身</span>
+feeWhitelisted<span class="token punctuation">[</span><span class="token builtin">address</span><span class="token punctuation">(</span>staking<span class="token punctuation">)</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>     <span class="token comment">// Staking 合约</span>
+feeWhitelisted<span class="token punctuation">[</span>marketingAddress<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>     <span class="token comment">// 营销地址</span>
+feeWhitelisted<span class="token punctuation">[</span><span class="token builtin">address</span><span class="token punctuation">(</span>uniswapV2Router<span class="token punctuation">)</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>  <span class="token comment">// 路由合约</span>
+</code></pre><h4 id="-调用链路">🔄 调用链路 </h4>
+<div class="mermaid">graph TB
+    A[用户转账/交易] --&gt; B{_update 函数}
+    B --&gt; C{from/to 是白名单?}
+    C --&gt;|是| D[直接转账 super._update]
+    C --&gt;|否| E{是买入?}
+    E --&gt;|是| F[_handleBuy]
+    E --&gt;|否| G{是卖出?}
+    G --&gt;|是| H[_handleSell]
+    G --&gt;|否| D
+
+    F --&gt; I{检查 delayedBuyCheck}
+    I --&gt; J{是白名单?}
+    J --&gt;|是| K[绕过延迟期]
+    J --&gt;|否| L{延迟期满?}
+    L --&gt;|否| M[revert DelayedBuyPeriodNotMet]
+    L --&gt;|是| K
+    K --&gt; N[收取买入费用]
+
+    H --&gt; O[检查冷却时间]
+    O --&gt; P[收取卖出费用]
+</div><h4 id="-核心代码片段">💡 核心代码片段 </h4>
+<p><strong>1. 主转账逻辑（Line 730-762）</strong></p>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token keyword keyword-function">function</span> <span class="token function">_update</span><span class="token punctuation">(</span><span class="token builtin">address</span> <span class="token keyword keyword-from">from</span><span class="token punctuation">,</span> <span class="token builtin">address</span> to<span class="token punctuation">,</span> <span class="token builtin">uint256</span> value<span class="token punctuation">)</span> <span class="token keyword keyword-internal">internal</span> override <span class="token punctuation">{</span>
+    <span class="token comment">// ...</span>
+    <span class="token comment">// 早期白名单检查</span>
+    <span class="token builtin">bool</span> isWhitelisted <span class="token operator">=</span> feeWhitelisted<span class="token punctuation">[</span><span class="token keyword keyword-from">from</span><span class="token punctuation">]</span> <span class="token operator">||</span> feeWhitelisted<span class="token punctuation">[</span>to<span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>isWhitelisted<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        super<span class="token punctuation">.</span><span class="token function">_update</span><span class="token punctuation">(</span><span class="token keyword keyword-from">from</span><span class="token punctuation">,</span> to<span class="token punctuation">,</span> value<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 直接转账，无费用</span>
+        <span class="token keyword keyword-return">return</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment">// ...</span>
+<span class="token punctuation">}</span>
+</code></pre><p><strong>2. 延迟买入检查（Line 266-277）</strong></p>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token keyword keyword-modifier">modifier</span> <span class="token function">delayedBuyCheck</span><span class="token punctuation">(</span><span class="token builtin">address</span> buyer<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>delayedBuyEnabled <span class="token operator">&amp;&amp;</span> <span class="token operator">!</span>feeWhitelisted<span class="token punctuation">[</span>buyer<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>  <span class="token comment">// 白名单绕过</span>
+        <span class="token builtin">uint256</span> requiredDelay <span class="token operator">=</span> <span class="token function">getDelayedBuyPeriod</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 30天</span>
+        <span class="token builtin">uint256</span> baseTime <span class="token operator">=</span> delayedBuyEnabledTime <span class="token operator">&gt;</span> <span class="token number">0</span>
+            <span class="token operator">?</span> delayedBuyEnabledTime
+            <span class="token punctuation">:</span> contractDeployTime<span class="token punctuation">;</span>
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>block<span class="token punctuation">.</span>timestamp <span class="token operator">&lt;</span> baseTime <span class="token operator">+</span> requiredDelay<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword keyword-revert">revert</span> <span class="token function">DelayedBuyPeriodNotMet</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword keyword-_">_</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><hr>
+<h3 id="22-交易黑名单blacklisted">2.2 交易黑名单（blacklisted） </h3>
+<h4 id="-定义-1">📍 定义 </h4>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token keyword keyword-mapping">mapping</span><span class="token punctuation">(</span><span class="token builtin">address</span> <span class="token operator">=&gt;</span> <span class="token builtin">bool</span><span class="token punctuation">)</span> <span class="token keyword keyword-public">public</span> blacklisted<span class="token punctuation">;</span>  <span class="token comment">// Line 246</span>
+</code></pre><h4 id="-功能-1">🎯 功能 </h4>
+<p>完全禁止地址参与：</p>
+<ul>
+<li>买入交易</li>
+<li>卖出交易</li>
+<li>任何涉及代币转移的操作</li>
+</ul>
+<h4 id="-管理函数-1">🔧 管理函数 </h4>
+<table>
+<thead>
+<tr>
+<th>函数名</th>
+<th>位置</th>
+<th>权限</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>setBlacklisted()</code></td>
+<td>Line 386-391</td>
+<td>Owner</td>
+<td>单个地址设置</td>
+</tr>
+<tr>
+<td><code>setBatchBlacklisted()</code></td>
+<td>Line 377-384</td>
+<td>Owner</td>
+<td>批量地址设置</td>
+</tr>
+</tbody>
+</table>
+<h4 id="-拦截机制">🚫 拦截机制 </h4>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token keyword keyword-modifier">modifier</span> <span class="token function">notBlacklisted</span><span class="token punctuation">(</span><span class="token builtin">address</span> account<span class="token punctuation">)</span> <span class="token punctuation">{</span>  <span class="token comment">// Line 255-258</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>blacklisted<span class="token punctuation">[</span>account<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token keyword keyword-revert">revert</span> <span class="token function">Blacklisted</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-_">_</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><h4 id="-调用链路-1">🔄 调用链路 </h4>
+<div class="mermaid">graph TB
+    A[交易发起] --&gt; B{是买入?}
+    B --&gt;|是| C[_handleBuy 调用]
+    C --&gt; D[notBlacklisted to 检查]
+    D --&gt;|黑名单| E[revert Blacklisted]
+    D --&gt;|通过| F[执行买入]
+
+    B --&gt;|是卖出| G[_handleSell 调用]
+    G --&gt; H[notBlacklisted from 检查]
+    H --&gt;|黑名单| E
+    H --&gt;|通过| I[执行卖出]
+</div><h4 id="-核心代码片段-1">💡 核心代码片段 </h4>
+<p><strong>买入检查（Line 817-848）</strong></p>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token keyword keyword-function">function</span> <span class="token function">_handleBuy</span><span class="token punctuation">(</span>
+    <span class="token builtin">address</span> <span class="token keyword keyword-from">from</span><span class="token punctuation">,</span>
+    <span class="token builtin">address</span> to<span class="token punctuation">,</span>
+    <span class="token builtin">uint256</span> amount
+<span class="token punctuation">)</span> <span class="token keyword keyword-private">private</span> <span class="token function">notBlacklisted</span><span class="token punctuation">(</span>to<span class="token punctuation">)</span> <span class="token function">delayedBuyCheck</span><span class="token punctuation">(</span>to<span class="token punctuation">)</span> <span class="token punctuation">{</span>  <span class="token comment">// 同时检查黑名单和延迟买入</span>
+    <span class="token comment">// ...</span>
+<span class="token punctuation">}</span>
+</code></pre><p><strong>卖出检查（Line 850-935）</strong></p>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token keyword keyword-function">function</span> <span class="token function">_handleSell</span><span class="token punctuation">(</span>
+    <span class="token builtin">address</span> <span class="token keyword keyword-from">from</span><span class="token punctuation">,</span>
+    <span class="token builtin">address</span> to<span class="token punctuation">,</span>
+    <span class="token builtin">uint256</span> amount
+<span class="token punctuation">)</span> <span class="token keyword keyword-private">private</span> <span class="token function">notBlacklisted</span><span class="token punctuation">(</span><span class="token keyword keyword-from">from</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>  <span class="token comment">// 检查卖方黑名单</span>
+    <span class="token comment">// ...</span>
+<span class="token punctuation">}</span>
+</code></pre><hr>
+<h3 id="23-eoa-检查机制staking-合约">2.3 EOA 检查机制（Staking 合约） </h3>
+<h4 id="-定义-2">📍 定义 </h4>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token keyword keyword-modifier">modifier</span> <span class="token function">onlyEOA</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>  <span class="token comment">// Line 161-165</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span><span class="token function">shouldCheckEOA</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> tx<span class="token punctuation">.</span>origin <span class="token operator">!=</span> msg<span class="token punctuation">.</span>sender<span class="token punctuation">)</span>
+        <span class="token keyword keyword-revert">revert</span> <span class="token function">OnlyEOAAllowed</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-_">_</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><h4 id="-功能-2">🎯 功能 </h4>
+<p>防止智能合约调用关键函数：</p>
+<ul>
+<li><code>stake()</code> - 质押</li>
+<li><code>unstake()</code> - 取消质押</li>
+</ul>
+<h4 id="️-环境配置">⚙️ 环境配置 </h4>
+<table>
+<thead>
+<tr>
+<th>环境</th>
+<th>shouldCheckEOA()</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>主网</td>
+<td><code>true</code></td>
+<td>启用EOA检查，防止合约攻击</td>
+</tr>
+<tr>
+<td>测试网</td>
+<td><code>false</code></td>
+<td>禁用EOA检查，方便测试</td>
+</tr>
+</tbody>
+</table>
+<h4 id="-调用链路-2">🔄 调用链路 </h4>
+<div class="mermaid">graph TB
+    A[用户调用 stake/unstake] --&gt; B{onlyEOA 检查}
+    B --&gt; C{shouldCheckEOA = true?}
+    C --&gt;|否| D[允许执行]
+    C --&gt;|是| E{tx.origin == msg.sender?}
+    E --&gt;|是 外部账户| D
+    E --&gt;|否 合约调用| F[revert OnlyEOAAllowed]
+</div><h4 id="-核心代码片段-2">💡 核心代码片段 </h4>
+<p><strong>质押函数（Line 193-198）</strong></p>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token keyword keyword-function">function</span> <span class="token function">stake</span><span class="token punctuation">(</span><span class="token builtin">uint160</span> _amount<span class="token punctuation">,</span> <span class="token builtin">uint8</span> _stakeIndex<span class="token punctuation">)</span> <span class="token keyword keyword-external">external</span> onlyEOA <span class="token punctuation">{</span>
+    <span class="token function">_validateStakeParameters</span><span class="token punctuation">(</span>_amount<span class="token punctuation">,</span> _stakeIndex<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">_swapAndAddLiquidity</span><span class="token punctuation">(</span>_amount<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token builtin">address</span> user <span class="token operator">=</span> msg<span class="token punctuation">.</span>sender<span class="token punctuation">;</span>
+    <span class="token function">_mintStakeRecord</span><span class="token punctuation">(</span>user<span class="token punctuation">,</span> _amount<span class="token punctuation">,</span> _stakeIndex<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><p><strong>配置（Staking.sol Line 90-92）</strong></p>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token keyword keyword-function">function</span> <span class="token function">shouldCheckEOA</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword keyword-internal">internal</span> <span class="token keyword keyword-pure">pure</span> override <span class="token keyword keyword-returns">returns</span> <span class="token punctuation">(</span><span class="token builtin">bool</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword keyword-return">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>  <span class="token comment">// 主网启用</span>
+<span class="token punctuation">}</span>
+</code></pre><hr>
+<h3 id="24-预售期白名单机制-">2.4 预售期白名单机制 🔥🔥🔥 </h3>
+<blockquote>
+<p><strong>⚠️ 重点警告</strong>：这是一个<strong>隐藏的白名单预售机制</strong>，与OK交易所审计要求<strong>严重冲突</strong>！</p>
+</blockquote>
+<h4 id="-定义-3">📍 定义 </h4>
+<p>预售期白名单是通过<strong>组合两个机制</strong>实现的：</p>
+<table>
+<thead>
+<tr>
+<th>组件</th>
+<th>位置</th>
+<th>变量</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>白名单检查</td>
+<td><code>SYIBase.sol:743</code></td>
+<td><code>feeWhitelisted[from] || feeWhitelisted[to]</code></td>
+</tr>
+<tr>
+<td>预售期检查</td>
+<td><code>SYIBase.sol:822-827</code></td>
+<td><code>presaleActive &amp;&amp; block.timestamp &lt; presaleStartTime + presaleDuration</code></td>
+</tr>
+</tbody>
+</table>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token comment">// 预售期状态变量</span>
+<span class="token builtin">uint256</span> <span class="token keyword keyword-public">public</span> presaleStartTime<span class="token punctuation">;</span>      <span class="token comment">// Line 231</span>
+<span class="token builtin">uint256</span> <span class="token keyword keyword-public">public</span> presaleDuration<span class="token punctuation">;</span>       <span class="token comment">// Line 232</span>
+<span class="token builtin">bool</span> <span class="token keyword keyword-public">public</span> presaleActive<span class="token punctuation">;</span>            <span class="token comment">// Line 233</span>
+</code></pre><h4 id="-工作原理隐式白名单">🎯 工作原理（隐式白名单） </h4>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>预售期间（presaleActive = true，30天内）：
+
+┌─────────────────┐
+│ 白名单用户买入  │
+└─────────────────┘
+        │
+        ├──→ _update() Line 730
+        │
+        ├──→ 检查: feeWhitelisted[to] = true  ✅
+        │
+        └──→ 直接执行 super._update()（Line 747-749）
+             绕过 _handleBuy()，无预售期检查
+             ✅ 买入成功
+
+
+┌─────────────────┐
+│ 普通用户买入    │
+└─────────────────┘
+        │
+        ├──→ _update() Line 730
+        │
+        ├──→ 检查: feeWhitelisted[to] = false
+        │
+        ├──→ 进入 _handleBuy() Line 817
+        │
+        ├──→ 预售期检查 Line 822-827:
+        │    if (presaleActive &amp;&amp; block.timestamp &lt; presaleStartTime + presaleDuration) {
+        │        revert NotAllowedBuy();  ❌
+        │    }
+        │
+        └──→ ❌ 交易失败，revert
+</code></pre><h4 id="-核心代码片段-3">💡 核心代码片段 </h4>
+<p><strong>1. 白名单绕过预售检查（Line 743-749）</strong></p>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token keyword keyword-function">function</span> <span class="token function">_update</span><span class="token punctuation">(</span><span class="token builtin">address</span> <span class="token keyword keyword-from">from</span><span class="token punctuation">,</span> <span class="token builtin">address</span> to<span class="token punctuation">,</span> <span class="token builtin">uint256</span> value<span class="token punctuation">)</span> <span class="token keyword keyword-internal">internal</span> override <span class="token punctuation">{</span>
+    <span class="token comment">// ...</span>
+    <span class="token builtin">bool</span> isWhitelisted <span class="token operator">=</span> feeWhitelisted<span class="token punctuation">[</span><span class="token keyword keyword-from">from</span><span class="token punctuation">]</span> <span class="token operator">||</span> feeWhitelisted<span class="token punctuation">[</span>to<span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>isWhitelisted<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        super<span class="token punctuation">.</span><span class="token function">_update</span><span class="token punctuation">(</span><span class="token keyword keyword-from">from</span><span class="token punctuation">,</span> to<span class="token punctuation">,</span> value<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 🔥 直接放行，绕过所有检查</span>
+        <span class="token keyword keyword-return">return</span><span class="token punctuation">;</span>                           <span class="token comment">// 包括预售期检查！</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token builtin">bool</span> isBuy <span class="token operator">=</span> <span class="token function">_isBuyOperation</span><span class="token punctuation">(</span><span class="token keyword keyword-from">from</span><span class="token punctuation">,</span> to<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token builtin">bool</span> isSell <span class="token operator">=</span> <span class="token function">_isSellOperation</span><span class="token punctuation">(</span><span class="token keyword keyword-from">from</span><span class="token punctuation">,</span> to<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>isBuy<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">_handleBuy</span><span class="token punctuation">(</span><span class="token keyword keyword-from">from</span><span class="token punctuation">,</span> to<span class="token punctuation">,</span> value<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 普通用户进入这里</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment">// ...</span>
+<span class="token punctuation">}</span>
+</code></pre><p><strong>2. 预售期买入拦截（Line 817-827）</strong></p>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token keyword keyword-function">function</span> <span class="token function">_handleBuy</span><span class="token punctuation">(</span>
+    <span class="token builtin">address</span> <span class="token keyword keyword-from">from</span><span class="token punctuation">,</span>
+    <span class="token builtin">address</span> to<span class="token punctuation">,</span>
+    <span class="token builtin">uint256</span> amount
+<span class="token punctuation">)</span> <span class="token keyword keyword-private">private</span> <span class="token function">notBlacklisted</span><span class="token punctuation">(</span>to<span class="token punctuation">)</span> <span class="token function">delayedBuyCheck</span><span class="token punctuation">(</span>to<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 🔥 预售期检查：普通用户会在这里被拦截</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>
+        presaleActive <span class="token operator">&amp;&amp;</span>
+        block<span class="token punctuation">.</span>timestamp <span class="token operator">&lt;</span> presaleStartTime <span class="token operator">+</span> presaleDuration
+    <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword keyword-revert">revert</span> <span class="token function">NotAllowedBuy</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// ❌ 普通用户无法买入</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">// 只有预售期结束后，普通用户才能执行到这里</span>
+    <span class="token comment">// ...买入逻辑</span>
+<span class="token punctuation">}</span>
+</code></pre><p><strong>3. 预售期管理（Line 409-417）</strong></p>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token keyword keyword-function">function</span> <span class="token function">setPresaleActive</span><span class="token punctuation">(</span><span class="token builtin">bool</span> _active<span class="token punctuation">)</span> <span class="token keyword keyword-external">external</span> onlyOwner <span class="token punctuation">{</span>
+    presaleActive <span class="token operator">=</span> _active<span class="token punctuation">;</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>_active<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        presaleStartTime <span class="token operator">=</span> block<span class="token punctuation">.</span>timestamp<span class="token punctuation">;</span>
+        presaleDuration <span class="token operator">=</span> <span class="token function">getPresaleDuration</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 主网30天</span>
+        <span class="token keyword keyword-emit">emit</span> <span class="token function">PresaleDurationUpdated</span><span class="token punctuation">(</span>presaleDuration<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword keyword-emit">emit</span> <span class="token function">PresaleStatusUpdated</span><span class="token punctuation">(</span>_active<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><p><strong>4. 预售期配置（SYI.sol Line 32-34）</strong></p>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token keyword keyword-function">function</span> <span class="token function">getPresaleDuration</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword keyword-internal">internal</span> <span class="token keyword keyword-pure">pure</span> override <span class="token keyword keyword-returns">returns</span> <span class="token punctuation">(</span><span class="token builtin">uint256</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">30</span> days<span class="token punctuation">;</span>  <span class="token comment">// 🔥 主网30天预售期</span>
+<span class="token punctuation">}</span>
+</code></pre><h4 id="-预售期完整流程">🔄 预售期完整流程 </h4>
+<div class="mermaid">flowchart TD
+    Start([代币部署]) --&gt; Init[presaleActive = true&lt;br/&gt;presaleStartTime = now&lt;br/&gt;presaleDuration = 30 days]
+
+    Init --&gt; Phase1[阶段1: 预售期&lt;br/&gt;0-30天]
+
+    Phase1 --&gt; WhitelistUser[白名单用户尝试买入]
+    Phase1 --&gt; NormalUser[普通用户尝试买入]
+
+    WhitelistUser --&gt; CheckWhite{_update 检查&lt;br/&gt;白名单?}
+    CheckWhite --&gt;|是| DirectPass[直接放行&lt;br/&gt;super._update]
+    DirectPass --&gt; Success1[✅ 买入成功&lt;br/&gt;无需等待]
+
+    NormalUser --&gt; CheckWhite2{_update 检查&lt;br/&gt;白名单?}
+    CheckWhite2 --&gt;|否| HandleBuy[进入 _handleBuy]
+    HandleBuy --&gt; PresaleCheck{预售期检查&lt;br/&gt;presaleActive?}
+    PresaleCheck --&gt;|是| RevertBuy[❌ revert&lt;br/&gt;NotAllowedBuy]
+
+    Phase1 --&gt; OwnerEnd[Owner 调用&lt;br/&gt;setPresaleActive false]
+    OwnerEnd --&gt; Phase2[阶段2: 公开交易期&lt;br/&gt;30天后]
+
+    Phase2 --&gt; PublicBuy[所有用户尝试买入]
+    PublicBuy --&gt; HandleBuy2[进入 _handleBuy]
+    HandleBuy2 --&gt; PresaleCheck2{预售期检查&lt;br/&gt;presaleActive?}
+    PresaleCheck2 --&gt;|否| Success2[✅ 买入成功&lt;br/&gt;所有人可交易]
+
+    style Phase1 fill:#FFE4E1
+    style WhitelistUser fill:#90EE90
+    style NormalUser fill:#FFB6C1
+    style RevertBuy fill:#FF6B6B
+    style Success1 fill:#98FB98
+    style Success2 fill:#98FB98
+    style PresaleCheck fill:#FFA500
+</div><h4 id="️-与ok交易所审计的冲突">⚠️ 与OK交易所审计的冲突 </h4>
+<table>
+<thead>
+<tr>
+<th>审计维度</th>
+<th>当前实现</th>
+<th>审计要求</th>
+<th>冲突程度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>白名单预售</strong></td>
+<td>✅ 存在</td>
+<td>❌ 不允许</td>
+<td>🔴 严重</td>
+</tr>
+<tr>
+<td><strong>动态白名单</strong></td>
+<td>✅ 可动态添加/删除</td>
+<td>❌ 不允许</td>
+<td>🔴 严重</td>
+</tr>
+<tr>
+<td><strong>买入限制</strong></td>
+<td>✅ 预售期禁止普通用户买入</td>
+<td>❌ 不允许任意限制</td>
+<td>🔴 严重</td>
+</tr>
+<tr>
+<td><strong>特权地址</strong></td>
+<td>✅ 白名单免费+优先购买</td>
+<td>❌ 所有用户平等</td>
+<td>🔴 严重</td>
+</tr>
+</tbody>
+</table>
+<p><a href="http://xn--CLAUDE-hz8lt03a.md">根据CLAUDE.md</a>：</p>
+<blockquote>
+<p>要上ok交易所,币代码上应该不允许有黑白名单, 有这功能会被自动标记为诈骗</p>
+</blockquote>
+<p><strong>预售期白名单属于典型的"黑白名单功能"，必须移除！</strong></p>
+<h4 id="-实际影响案例">🚨 实际影响案例 </h4>
+<p><strong>场景1：预售期内</strong></p>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token comment">// 2024-01-01 00:00:00 合约部署</span>
+<span class="token comment">// presaleActive = true, presaleDuration = 30 days</span>
+
+<span class="token comment">// 2024-01-15 (第15天)</span>
+<span class="token comment">// 白名单地址 0xAAA 买入 10,000 SYI</span>
+<span class="token function">buyTokens</span><span class="token punctuation">(</span><span class="token number">0xAAA</span><span class="token punctuation">,</span> <span class="token number">10000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// ✅ 成功，无费用</span>
+
+<span class="token comment">// 普通用户 0xBBB 买入 10,000 SYI</span>
+<span class="token function">buyTokens</span><span class="token punctuation">(</span><span class="token number">0xBBB</span><span class="token punctuation">,</span> <span class="token number">10000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// ❌ revert: "NotAllowedBuy"</span>
+
+<span class="token comment">// 结果：白名单独享预售期，普通用户无法参与</span>
+</code></pre><p><strong>场景2：预售结束后</strong></p>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token comment">// 2024-02-01 Owner 关闭预售</span>
+<span class="token function">setPresaleActive</span><span class="token punctuation">(</span><span class="token boolean">false</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// presaleActive = false</span>
+
+<span class="token comment">// 普通用户 0xBBB 再次尝试买入</span>
+<span class="token function">buyTokens</span><span class="token punctuation">(</span><span class="token number">0xBBB</span><span class="token punctuation">,</span> <span class="token number">10000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// ✅ 成功，但需支付3%费用</span>
+
+<span class="token comment">// 白名单地址 0xAAA 买入</span>
+<span class="token function">buyTokens</span><span class="token punctuation">(</span><span class="token number">0xAAA</span><span class="token punctuation">,</span> <span class="token number">10000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// ✅ 成功，依然免费</span>
+
+<span class="token comment">// 结果：白名单永久享受免费优惠</span>
+</code></pre><h4 id="-预售期白名单影响矩阵">📊 预售期白名单影响矩阵 </h4>
+<table>
+<thead>
+<tr>
+<th>时间段</th>
+<th>白名单用户</th>
+<th>普通用户</th>
+<th>差异</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>预售期（0-30天）</strong></td>
+<td>✅ 可买入，免费</td>
+<td>❌ 无法买入</td>
+<td><strong>完全封锁</strong></td>
+</tr>
+<tr>
+<td><strong>公开期（30天后）</strong></td>
+<td>✅ 可买入，免费</td>
+<td>✅ 可买入，3%费用</td>
+<td>3%费用差距</td>
+</tr>
+<tr>
+<td><strong>卖出</strong></td>
+<td>✅ 免费</td>
+<td>收3%+25%盈利税</td>
+<td>最高28%差距</td>
+</tr>
+</tbody>
+</table>
+<h4 id="-查询预售状态">🔧 查询预售状态 </h4>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token comment">// 查询预售状态（Line 613-637）</span>
+<span class="token keyword keyword-function">function</span> <span class="token function">getPresaleStatus</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword keyword-external">external</span> <span class="token keyword keyword-view">view</span>
+    <span class="token keyword keyword-returns">returns</span> <span class="token punctuation">(</span>
+        <span class="token builtin">bool</span> active<span class="token punctuation">,</span>           <span class="token comment">// 预售是否激活</span>
+        <span class="token builtin">uint256</span> startTime<span class="token punctuation">,</span>     <span class="token comment">// 预售开始时间</span>
+        <span class="token builtin">uint256</span> duration<span class="token punctuation">,</span>      <span class="token comment">// 预售持续时间</span>
+        <span class="token builtin">uint256</span> remainingTime<span class="token punctuation">,</span> <span class="token comment">// 剩余时间</span>
+        <span class="token builtin">bool</span> isInPresale       <span class="token comment">// 当前是否在预售期</span>
+    <span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token builtin">uint256</span> endTime <span class="token operator">=</span> presaleStartTime <span class="token operator">+</span> presaleDuration<span class="token punctuation">;</span>
+    <span class="token builtin">uint256</span> remaining <span class="token operator">=</span> block<span class="token punctuation">.</span>timestamp <span class="token operator">&lt;</span> endTime
+        <span class="token operator">?</span> endTime <span class="token operator">-</span> block<span class="token punctuation">.</span>timestamp
+        <span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token builtin">bool</span> inPresale <span class="token operator">=</span> presaleActive <span class="token operator">&amp;&amp;</span> block<span class="token punctuation">.</span>timestamp <span class="token operator">&lt;</span> endTime<span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token punctuation">(</span>
+        presaleActive<span class="token punctuation">,</span>
+        presaleStartTime<span class="token punctuation">,</span>
+        presaleDuration<span class="token punctuation">,</span>
+        remaining<span class="token punctuation">,</span>
+        inPresale
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><h4 id="️-移除方案">🛠️ 移除方案 </h4>
+<p><strong>方案1：完全移除预售机制（推荐）</strong></p>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token comment">// 删除预售相关变量</span>
+<span class="token comment">// uint256 public presaleStartTime;</span>
+<span class="token comment">// uint256 public presaleDuration;</span>
+<span class="token comment">// bool public presaleActive;</span>
+
+<span class="token comment">// 删除 _handleBuy 中的预售检查</span>
+<span class="token keyword keyword-function">function</span> <span class="token function">_handleBuy</span><span class="token punctuation">(</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span> <span class="token keyword keyword-private">private</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 删除以下代码：</span>
+    <span class="token comment">// if (presaleActive &amp;&amp; block.timestamp &lt; presaleStartTime + presaleDuration) {</span>
+    <span class="token comment">//     revert NotAllowedBuy();</span>
+    <span class="token comment">// }</span>
+
+    <span class="token comment">// 直接进入买入逻辑</span>
+    <span class="token comment">// ...</span>
+<span class="token punctuation">}</span>
+</code></pre><p><strong>方案2：改为对所有人的锁定期（中立）</strong></p>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token comment">// 改为：部署后30天内禁止所有人买入（包括白名单）</span>
+<span class="token builtin">uint256</span> <span class="token keyword keyword-public">public</span> tradingStartTime<span class="token punctuation">;</span>  <span class="token comment">// 交易开放时间</span>
+
+<span class="token keyword keyword-function">function</span> <span class="token function">_update</span><span class="token punctuation">(</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span> <span class="token keyword keyword-internal">internal</span> override <span class="token punctuation">{</span>
+    <span class="token comment">// 在最开始检查，白名单也无法绕过</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>block<span class="token punctuation">.</span>timestamp <span class="token operator">&lt;</span> tradingStartTime<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword keyword-revert">revert</span> <span class="token function">TradingNotStarted</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">// ...后续逻辑</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// Owner开启交易</span>
+<span class="token keyword keyword-function">function</span> <span class="token function">startTrading</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword keyword-external">external</span> onlyOwner <span class="token punctuation">{</span>
+    tradingStartTime <span class="token operator">=</span> block<span class="token punctuation">.</span>timestamp<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><h4 id="️-两种方案对比">⚖️ 两种方案对比 </h4>
+<table>
+<thead>
+<tr>
+<th>方案</th>
+<th>优点</th>
+<th>缺点</th>
+<th>审计合规性</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>方案1：完全移除</strong></td>
+<td>彻底去除白名单机制<br>代码简洁</td>
+<td>无法控制上线时机</td>
+<td>✅ 完全合规</td>
+</tr>
+<tr>
+<td><strong>方案2：全局锁定</strong></td>
+<td>可控制上线时间<br>对所有人公平</td>
+<td>需要Owner手动开启交易</td>
+<td>⚠️ 部分合规</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="三-流程图">三、流程图 </h2>
+<h3 id="31-syi-代币转账完整流程">3.1 SYI 代币转账完整流程 </h3>
+<div class="mermaid">flowchart TD
+    Start([用户发起转账]) --&gt; CheckZero{from/to&lt;br/&gt;是零地址?}
+
+    CheckZero --&gt;|是| Mint[铸造/销毁&lt;br/&gt;super._update]
+    CheckZero --&gt;|否| CheckWhitelist{from/to&lt;br/&gt;是白名单?}
+
+    CheckWhitelist --&gt;|是| DirectTransfer[直接转账&lt;br/&gt;免除所有费用&lt;br/&gt;super._update]
+    CheckWhitelist --&gt;|否| CheckType{交易类型?}
+
+    CheckType --&gt;|买入| BuyFlow[买入流程&lt;br/&gt;_handleBuy]
+    CheckType --&gt;|卖出| SellFlow[卖出流程&lt;br/&gt;_handleSell]
+    CheckType --&gt;|普通转账| DirectTransfer
+
+    BuyFlow --&gt; BuyBlacklist{买方&lt;br/&gt;黑名单?}
+    BuyBlacklist --&gt;|是| RevertBlack[❌ revert&lt;br/&gt;Blacklisted]
+    BuyBlacklist --&gt;|否| PresaleCheck{🔥 预售期&lt;br/&gt;检查}
+
+    PresaleCheck --&gt; IsPresale{presaleActive&lt;br/&gt;= true?}
+    IsPresale --&gt;|是| RevertPresale[❌ revert&lt;br/&gt;NotAllowedBuy&lt;br/&gt;🔥 普通用户禁止买入]
+    IsPresale --&gt;|否| DelayCheck{延迟买入&lt;br/&gt;检查}
+
+    DelayCheck --&gt; IsWhite{是白名单?}
+    IsWhite --&gt;|是| BuyFee[收取买入费用&lt;br/&gt;1% burn]
+    IsWhite --&gt;|否| DelayEnabled{延迟启用?}
+    DelayEnabled --&gt;|否| BuyFee
+    DelayEnabled --&gt;|是| TimeMet{满30天?}
+    TimeMet --&gt;|否| RevertDelay[❌ revert&lt;br/&gt;DelayedBuyPeriodNotMet]
+    TimeMet --&gt;|是| BuyFee
+
+    BuyFee --&gt; BuyComplete[买入完成&lt;br/&gt;更新投资记录]
+
+    SellFlow --&gt; SellBlacklist{卖方&lt;br/&gt;黑名单?}
+    SellBlacklist --&gt;|是| RevertBlack
+    SellBlacklist --&gt;|否| ColdTime{冷却时间?}
+    ColdTime --&gt;|未满| RevertCold[❌ revert&lt;br/&gt;InColdPeriod]
+    ColdTime --&gt;|已满| SellFee[收取卖出费用&lt;br/&gt;1.5% marketing&lt;br/&gt;+ 盈利税25%]
+
+    SellFee --&gt; SellComplete[卖出完成&lt;br/&gt;更新投资记录]
+
+    BuyComplete --&gt; End([交易完成])
+    SellComplete --&gt; End
+    DirectTransfer --&gt; End
+    Mint --&gt; End
+
+    style CheckWhitelist fill:#90EE90
+    style BuyBlacklist fill:#FFB6C1
+    style SellBlacklist fill:#FFB6C1
+    style IsWhite fill:#87CEEB
+    style PresaleCheck fill:#FFA500
+    style IsPresale fill:#FFA500
+    style RevertPresale fill:#FF6B6B
+    style RevertBlack fill:#FF6B6B
+    style RevertDelay fill:#FF6B6B
+    style RevertCold fill:#FF6B6B
+</div><h3 id="32-staking-质押流程">3.2 Staking 质押流程 </h3>
+<div class="mermaid">flowchart TD
+    Start([用户调用 stake]) --&gt; EOACheck{EOA检查}
+
+    EOACheck --&gt; CheckEOA{shouldCheckEOA&lt;br/&gt;= true?}
+    CheckEOA --&gt;|否 测试网| ValidateParams[验证参数]
+    CheckEOA --&gt;|是 主网| TxOrigin{tx.origin ==&lt;br/&gt;msg.sender?}
+
+    TxOrigin --&gt;|是 外部账户| ValidateParams
+    TxOrigin --&gt;|否 合约调用| RevertEOA[❌ revert&lt;br/&gt;OnlyEOAAllowed]
+
+    ValidateParams --&gt; CheckAmount{金额检查}
+    CheckAmount --&gt; CheckLimit{超过限额?}
+    CheckLimit --&gt;|是| RevertLimit[❌ revert&lt;br/&gt;ExceedsMaxStakeAmount]
+    CheckLimit --&gt;|否| CheckBind{绑定推荐人?}
+
+    CheckBind --&gt;|否| RevertBind[❌ revert&lt;br/&gt;MustBindReferral]
+    CheckBind --&gt;|是| Swap[兑换并添加流动性]
+
+    Swap --&gt; MintRecord[铸造质押记录&lt;br/&gt;mint sSYI]
+    MintRecord --&gt; UpdateTeam[更新团队KPI]
+    UpdateTeam --&gt; End([质押完成])
+
+    style EOACheck fill:#87CEEB
+    style CheckBind fill:#FFD700
+    style RevertEOA fill:#FF6B6B
+    style RevertLimit fill:#FF6B6B
+    style RevertBind fill:#FF6B6B
+</div><h3 id="33-黑白名单管理流程">3.3 黑白名单管理流程 </h3>
+<div class="mermaid">flowchart TD
+    Start([Owner 管理黑白名单]) --&gt; ChooseAction{操作类型}
+
+    ChooseAction --&gt;|初始化白名单| InitWhitelist[initializeWhitelist]
+    ChooseAction --&gt;|单个地址| Single[单个地址操作]
+    ChooseAction --&gt;|批量地址| Batch[批量地址操作]
+
+    InitWhitelist --&gt; CheckInit{已初始化?}
+    CheckInit --&gt;|是| RevertInit[❌ revert&lt;br/&gt;AlreadyInitialized]
+    CheckInit --&gt;|否| InitCore[初始化核心地址:&lt;br/&gt;Owner, SYI, Staking,&lt;br/&gt;Marketing, Router]
+
+    Single --&gt; SingleType{白名单/黑名单?}
+    SingleType --&gt;|白名单| SetWhite[setFeeWhitelisted]
+    SingleType --&gt;|黑名单| SetBlack[setBlacklisted]
+
+    Batch --&gt; BatchType{白名单/黑名单?}
+    BatchType --&gt;|白名单| BatchWhite[setBatchFeeWhitelisted]
+    BatchType --&gt;|黑名单| BatchBlack[setBatchBlacklisted]
+
+    SetWhite --&gt; UpdateMapping1[更新 mapping&lt;br/&gt;feeWhitelisted]
+    SetBlack --&gt; UpdateMapping2[更新 mapping&lt;br/&gt;blacklisted]
+    BatchWhite --&gt; Loop1[循环设置多个地址]
+    BatchBlack --&gt; Loop2[循环设置多个地址]
+
+    InitCore --&gt; End([操作完成])
+    UpdateMapping1 --&gt; End
+    UpdateMapping2 --&gt; End
+    Loop1 --&gt; End
+    Loop2 --&gt; End
+
+    style InitWhitelist fill:#90EE90
+    style SetWhite fill:#87CEEB
+    style SetBlack fill:#FFB6C1
+    style RevertInit fill:#FF6B6B
+</div><hr>
+<h2 id="四-影响范围分析">四、影响范围分析 </h2>
+<h3 id="41-费用白名单影响矩阵">4.1 费用白名单影响矩阵 </h3>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>普通用户</th>
+<th>白名单用户</th>
+<th>影响</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>买入交易</td>
+<td>收取1% burn费</td>
+<td>✅ 免费</td>
+<td>节省3%</td>
+</tr>
+<tr>
+<td>卖出交易</td>
+<td>收取1.5% marketing费</td>
+<td>✅ 免费</td>
+<td>节省3%</td>
+</tr>
+<tr>
+<td>盈利税</td>
+<td>收取25%盈利税</td>
+<td>✅ 免费</td>
+<td>节省25%</td>
+</tr>
+<tr>
+<td>延迟买入</td>
+<td>等待30天</td>
+<td>✅ 立即买入</td>
+<td>无需等待</td>
+</tr>
+<tr>
+<td>LP操作</td>
+<td>收取2.5%费用</td>
+<td>✅ 免费</td>
+<td>节省2.5%</td>
+</tr>
+<tr>
+<td>普通转账</td>
+<td>免费</td>
+<td>免费</td>
+<td>无差异</td>
+</tr>
+</tbody>
+</table>
+<h3 id="42-黑名单影响矩阵">4.2 黑名单影响矩阵 </h3>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>普通用户</th>
+<th>黑名单用户</th>
+<th>影响</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>买入交易</td>
+<td>✅ 允许</td>
+<td>❌ revert</td>
+<td>完全禁止</td>
+</tr>
+<tr>
+<td>卖出交易</td>
+<td>✅ 允许</td>
+<td>❌ revert</td>
+<td>完全禁止</td>
+</tr>
+<tr>
+<td>持有代币</td>
+<td>✅ 允许</td>
+<td>✅ 允许</td>
+<td>无影响</td>
+</tr>
+<tr>
+<td>普通转账</td>
+<td>✅ 允许</td>
+<td>✅ 允许*</td>
+<td>*如果不涉及pair</td>
+</tr>
+<tr>
+<td>质押/取款</td>
+<td>✅ 允许</td>
+<td>✅ 允许</td>
+<td>无影响</td>
+</tr>
+</tbody>
+</table>
+<h3 id="43-代码位置索引">4.3 代码位置索引 </h3>
+<table>
+<thead>
+<tr>
+<th>机制</th>
+<th>相关代码位置</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>白名单定义</td>
+<td><code>SYIBase.sol:245</code></td>
+<td><code>mapping(address =&gt; bool) public feeWhitelisted</code></td>
+</tr>
+<tr>
+<td>黑名单定义</td>
+<td><code>SYIBase.sol:246</code></td>
+<td><code>mapping(address =&gt; bool) public blacklisted</code></td>
+</tr>
+<tr>
+<td><strong>🔥 预售期状态</strong></td>
+<td><code>SYIBase.sol:231-233</code></td>
+<td><code>presaleStartTime, presaleDuration, presaleActive</code></td>
+</tr>
+<tr>
+<td>白名单初始化</td>
+<td><code>SYIBase.sol:318-329</code></td>
+<td><code>initializeWhitelist()</code></td>
+</tr>
+<tr>
+<td>黑名单检查</td>
+<td><code>SYIBase.sol:255-258</code></td>
+<td><code>modifier notBlacklisted</code></td>
+</tr>
+<tr>
+<td>延迟买入检查</td>
+<td><code>SYIBase.sol:266-277</code></td>
+<td><code>modifier delayedBuyCheck</code></td>
+</tr>
+<tr>
+<td><strong>🔥 预售期检查</strong></td>
+<td><code>SYIBase.sol:822-827</code></td>
+<td><code>if (presaleActive &amp;&amp; ...) revert NotAllowedBuy()</code></td>
+</tr>
+<tr>
+<td>主转账逻辑</td>
+<td><code>SYIBase.sol:730-762</code></td>
+<td><code>_update()</code> - <strong>白名单绕过预售检查</strong></td>
+</tr>
+<tr>
+<td>买入处理</td>
+<td><code>SYIBase.sol:817-848</code></td>
+<td><code>_handleBuy()</code> - <strong>预售期拦截普通用户</strong></td>
+</tr>
+<tr>
+<td>卖出处理</td>
+<td><code>SYIBase.sol:850-935</code></td>
+<td><code>_handleSell()</code></td>
+</tr>
+<tr>
+<td><strong>🔥 预售期管理</strong></td>
+<td><code>SYIBase.sol:409-417</code></td>
+<td><code>setPresaleActive()</code></td>
+</tr>
+<tr>
+<td><strong>🔥 预售期查询</strong></td>
+<td><code>SYIBase.sol:613-637</code></td>
+<td><code>getPresaleStatus()</code></td>
+</tr>
+<tr>
+<td><strong>🔥 预售期配置</strong></td>
+<td><code>SYI.sol:32-34</code></td>
+<td><code>getPresaleDuration() = 30 days</code></td>
+</tr>
+<tr>
+<td>EOA检查</td>
+<td><code>StakingBase.sol:161-165</code></td>
+<td><code>modifier onlyEOA</code></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="五-移除黑白名单的影响评估">五、移除黑白名单的影响评估 </h2>
+<h3 id="51-移除白名单feewhitelisted的影响">5.1 移除白名单（feeWhitelisted）的影响 </h3>
+<h4 id="-负面影响">❌ 负面影响 </h4>
+<table>
+<thead>
+<tr>
+<th>影响对象</th>
+<th>具体影响</th>
+<th>严重程度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Staking 合约</strong></td>
+<td>质押/取款时需支付3%费用，损耗本金</td>
+<td>🔴 严重</td>
+</tr>
+<tr>
+<td><strong>SYI 合约自身</strong></td>
+<td>费用分发/流动性操作需支付费用，造成死循环</td>
+<td>🔴 严重</td>
+</tr>
+<tr>
+<td><strong>Router 合约</strong></td>
+<td>路由操作需支付费用，影响交易效率</td>
+<td>🟡 中等</td>
+</tr>
+<tr>
+<td><strong>Marketing 地址</strong></td>
+<td>收到营销费用时需支付3%费用</td>
+<td>🟡 中等</td>
+</tr>
+<tr>
+<td><strong>Owner 地址</strong></td>
+<td>无法免费管理代币，增加运营成本</td>
+<td>🟢 轻微</td>
+</tr>
+<tr>
+<td><strong>延迟买入机制</strong></td>
+<td>所有用户需等待30天才能买入</td>
+<td>🔴 严重</td>
+</tr>
+</tbody>
+</table>
+<h4 id="-技术问题">🔧 技术问题 </h4>
+<ol>
+<li><strong>费用递归问题</strong></li>
+</ol>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token comment">// 当前逻辑（有白名单）</span>
+amountMarketingFee <span class="token operator">+=</span> marketingFee<span class="token punctuation">;</span>  <span class="token comment">// 累积费用</span>
+<span class="token function">_swapTokensForUSDT</span><span class="token punctuation">(</span>amountMarketingFee<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 合约swap，免费</span>
+<span class="token function">IERC20</span><span class="token punctuation">(</span>USDT<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">transfer</span><span class="token punctuation">(</span>marketingAddress<span class="token punctuation">,</span> usdtAmount<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 发送USDT</span>
+
+<span class="token comment">// 移除白名单后</span>
+amountMarketingFee <span class="token operator">+=</span> marketingFee<span class="token punctuation">;</span>  <span class="token comment">// 累积费用</span>
+<span class="token function">_swapTokensForUSDT</span><span class="token punctuation">(</span>amountMarketingFee<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 💥 合约swap，再收3%费用</span>
+<span class="token function">IERC20</span><span class="token punctuation">(</span>USDT<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">transfer</span><span class="token punctuation">(</span>marketingAddress<span class="token punctuation">,</span> usdtAmount<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 💥 再收3%费用</span>
+<span class="token comment">// 结果：费用叠加，经济模型崩溃</span>
+</code></pre><ol start="2">
+<li><strong>Staking 循环问题</strong></li>
+</ol>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token comment">// 质押流程</span>
+<span class="token function">IERC20</span><span class="token punctuation">(</span>USDT<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">transferFrom</span><span class="token punctuation">(</span>user<span class="token punctuation">,</span> staking<span class="token punctuation">,</span> <span class="token number">100</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 用户转USDT到Staking</span>
+SYI<span class="token punctuation">.</span><span class="token function">transferFrom</span><span class="token punctuation">(</span>pair<span class="token punctuation">,</span> user<span class="token punctuation">,</span> netAmount<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 💥 Pair -&gt; User 需收费3%</span>
+
+<span class="token comment">// 取款流程</span>
+SYI<span class="token punctuation">.</span><span class="token function">transfer</span><span class="token punctuation">(</span>pair<span class="token punctuation">,</span> calculatedReward<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 💥 Staking -&gt; Pair 需收费3%</span>
+USDT<span class="token punctuation">.</span><span class="token function">transfer</span><span class="token punctuation">(</span>user<span class="token punctuation">,</span> finalAmount<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// Staking发送USDT，正常</span>
+<span class="token comment">// 结果：用户本金损耗6%</span>
+</code></pre><ol start="3">
+<li><strong>流动性操作问题</strong></li>
+</ol>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token comment">// 添加流动性</span>
+SYI<span class="token punctuation">.</span><span class="token function">transfer</span><span class="token punctuation">(</span>pair<span class="token punctuation">,</span> tokenAmount<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 💥 需收费3%</span>
+USDT<span class="token punctuation">.</span><span class="token function">transfer</span><span class="token punctuation">(</span>pair<span class="token punctuation">,</span> usdtAmount<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// 结果：LP代币数量错误，价格扭曲</span>
+</code></pre><h4 id="-ok交易所合规要求">✅ OK交易所合规要求 </h4>
+<p>根据CLAUDE.md中提到：</p>
+<blockquote>
+<p>要上ok交易所,币代码上应该不允许有黑白名单, 有这功能会被自动标记为诈骗</p>
+</blockquote>
+<p><strong>解决方案</strong>：</p>
+<ul>
+<li>❌ <strong>不能简单移除</strong> - 会导致系统崩溃</li>
+<li>✅ <strong>重构费用逻辑</strong> - 改为"源地址/目标地址"判断</li>
+<li>✅ <strong>硬编码核心地址</strong> - 用 <code>if (from == address(staking))</code> 替代白名单</li>
+</ul>
+<h3 id="52-移除黑名单blacklisted的影响">5.2 移除黑名单（blacklisted）的影响 </h3>
+<h4 id="-正面影响">✅ 正面影响 </h4>
+<table>
+<thead>
+<tr>
+<th>方面</th>
+<th>影响</th>
+<th>好处</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>交易所合规</strong></td>
+<td>通过安全审计</td>
+<td>避免被标记为诈骗项目</td>
+</tr>
+<tr>
+<td><strong>用户信任</strong></td>
+<td>提升透明度</td>
+<td>无法任意冻结用户资产</td>
+</tr>
+<tr>
+<td><strong>去中心化</strong></td>
+<td>符合DeFi精神</td>
+<td>无审查交易</td>
+</tr>
+</tbody>
+</table>
+<h4 id="-负面影响-1">❌ 负面影响 </h4>
+<table>
+<thead>
+<tr>
+<th>风险</th>
+<th>影响</th>
+<th>严重程度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>无法阻止黑客</strong></td>
+<td>被盗资金无法冻结</td>
+<td>🔴 严重</td>
+</tr>
+<tr>
+<td><strong>无法防范女巫攻击</strong></td>
+<td>恶意地址无法封禁</td>
+<td>🟡 中等</td>
+</tr>
+<tr>
+<td><strong>监管合规</strong></td>
+<td>无法配合执法</td>
+<td>🟡 中等</td>
+</tr>
+</tbody>
+</table>
+<h4 id="-替代方案">🔧 替代方案 </h4>
+<p>由于黑名单只在<strong>买卖交易</strong>时检查，移除影响较小：</p>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token comment">// 当前逻辑（有黑名单）</span>
+<span class="token keyword keyword-function">function</span> <span class="token function">_handleBuy</span><span class="token punctuation">(</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span> <span class="token keyword keyword-private">private</span> <span class="token function">notBlacklisted</span><span class="token punctuation">(</span>to<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 买入逻辑</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// 移除黑名单后</span>
+<span class="token keyword keyword-function">function</span> <span class="token function">_handleBuy</span><span class="token punctuation">(</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span> <span class="token keyword keyword-private">private</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 买入逻辑 - 任何人都可以买入</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// 影响：黑客/恶意地址可以买卖，但不影响系统运行</span>
+</code></pre><h3 id="53-移除-eoa-检查的影响">5.3 移除 EOA 检查的影响 </h3>
+<h4 id="-负面影响-2">❌ 负面影响 </h4>
+<table>
+<thead>
+<tr>
+<th>风险</th>
+<th>影响</th>
+<th>严重程度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>闪电贷攻击</strong></td>
+<td>利用闪电贷操纵质押奖励</td>
+<td>🔴 严重</td>
+</tr>
+<tr>
+<td><strong>重入攻击</strong></td>
+<td>恶意合约递归调用</td>
+<td>🔴 严重</td>
+</tr>
+<tr>
+<td><strong>套利机器人</strong></td>
+<td>自动化套利损害普通用户</td>
+<td>🟡 中等</td>
+</tr>
+</tbody>
+</table>
+<h4 id="-替代方案-1">🔧 替代方案 </h4>
+<p>EOA检查是<strong>可选的</strong>，通过配置控制：</p>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token comment">// 主网：启用EOA检查</span>
+<span class="token keyword keyword-function">function</span> <span class="token function">shouldCheckEOA</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword keyword-internal">internal</span> <span class="token keyword keyword-pure">pure</span> override <span class="token keyword keyword-returns">returns</span> <span class="token punctuation">(</span><span class="token builtin">bool</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword keyword-return">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// 如果需要移除：</span>
+<span class="token keyword keyword-function">function</span> <span class="token function">shouldCheckEOA</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword keyword-internal">internal</span> <span class="token keyword keyword-pure">pure</span> override <span class="token keyword keyword-returns">returns</span> <span class="token punctuation">(</span><span class="token builtin">bool</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword keyword-return">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>  <span class="token comment">// 允许合约调用</span>
+<span class="token punctuation">}</span>
+</code></pre><hr>
+<h2 id="六-推荐的去黑白名单方案">六、推荐的去黑白名单方案 </h2>
+<h3 id="61-方案a硬编码核心地址推荐">6.1 方案A：硬编码核心地址（推荐） </h3>
+<h4 id="实施步骤">实施步骤 </h4>
+<p><strong>步骤1：移除白名单mapping</strong></p>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token comment">// 删除</span>
+<span class="token comment">// mapping(address =&gt; bool) public feeWhitelisted;</span>
+
+<span class="token comment">// 添加不可变地址</span>
+<span class="token builtin">address</span> <span class="token keyword keyword-public">public</span> immutable STAKING_CONTRACT<span class="token punctuation">;</span>
+<span class="token builtin">address</span> <span class="token keyword keyword-public">public</span> immutable MARKETING_ADDRESS<span class="token punctuation">;</span>
+</code></pre><p><strong>步骤2：重写费用检查逻辑</strong></p>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token keyword keyword-function">function</span> <span class="token function">_update</span><span class="token punctuation">(</span><span class="token builtin">address</span> <span class="token keyword keyword-from">from</span><span class="token punctuation">,</span> <span class="token builtin">address</span> to<span class="token punctuation">,</span> <span class="token builtin">uint256</span> value<span class="token punctuation">)</span> <span class="token keyword keyword-internal">internal</span> override <span class="token punctuation">{</span>
+    <span class="token comment">// 零地址检查</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span><span class="token keyword keyword-from">from</span> <span class="token operator">==</span> <span class="token builtin">address</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span> <span class="token operator">||</span> to <span class="token operator">==</span> <span class="token builtin">address</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        super<span class="token punctuation">.</span><span class="token function">_update</span><span class="token punctuation">(</span><span class="token keyword keyword-from">from</span><span class="token punctuation">,</span> to<span class="token punctuation">,</span> value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-return">return</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">// 硬编码核心地址免费（替代白名单）</span>
+    <span class="token builtin">bool</span> isCoreAddress <span class="token operator">=</span>
+        <span class="token keyword keyword-from">from</span> <span class="token operator">==</span> <span class="token builtin">address</span><span class="token punctuation">(</span><span class="token keyword keyword-this">this</span><span class="token punctuation">)</span> <span class="token operator">||</span>
+        <span class="token keyword keyword-from">from</span> <span class="token operator">==</span> STAKING_CONTRACT <span class="token operator">||</span>
+        <span class="token keyword keyword-from">from</span> <span class="token operator">==</span> MARKETING_ADDRESS <span class="token operator">||</span>
+        <span class="token keyword keyword-from">from</span> <span class="token operator">==</span> <span class="token builtin">address</span><span class="token punctuation">(</span>uniswapV2Router<span class="token punctuation">)</span> <span class="token operator">||</span>
+        to <span class="token operator">==</span> <span class="token builtin">address</span><span class="token punctuation">(</span><span class="token keyword keyword-this">this</span><span class="token punctuation">)</span> <span class="token operator">||</span>
+        to <span class="token operator">==</span> STAKING_CONTRACT <span class="token operator">||</span>
+        to <span class="token operator">==</span> MARKETING_ADDRESS <span class="token operator">||</span>
+        to <span class="token operator">==</span> <span class="token builtin">address</span><span class="token punctuation">(</span>uniswapV2Router<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>isCoreAddress<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        super<span class="token punctuation">.</span><span class="token function">_update</span><span class="token punctuation">(</span><span class="token keyword keyword-from">from</span><span class="token punctuation">,</span> to<span class="token punctuation">,</span> value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-return">return</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">// 普通用户正常收费</span>
+    <span class="token comment">// ...</span>
+<span class="token punctuation">}</span>
+</code></pre><p><strong>步骤3：移除延迟买入白名单</strong></p>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token keyword keyword-modifier">modifier</span> <span class="token function">delayedBuyCheck</span><span class="token punctuation">(</span><span class="token builtin">address</span> buyer<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>delayedBuyEnabled<span class="token punctuation">)</span> <span class="token punctuation">{</span>  <span class="token comment">// 移除白名单判断</span>
+        <span class="token builtin">uint256</span> requiredDelay <span class="token operator">=</span> <span class="token function">getDelayedBuyPeriod</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment">// ...如果需要延迟买入，所有用户统一等待</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword keyword-_">_</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// 或者直接移除延迟买入机制</span>
+</code></pre><p><strong>步骤4：移除黑名单</strong></p>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token comment">// 删除</span>
+<span class="token comment">// mapping(address =&gt; bool) public blacklisted;</span>
+<span class="token comment">// modifier notBlacklisted(address account) { ... }</span>
+
+<span class="token comment">// 买入/卖出函数移除修饰器</span>
+<span class="token keyword keyword-function">function</span> <span class="token function">_handleBuy</span><span class="token punctuation">(</span><span class="token builtin">address</span> <span class="token keyword keyword-from">from</span><span class="token punctuation">,</span> <span class="token builtin">address</span> to<span class="token punctuation">,</span> <span class="token builtin">uint256</span> amount<span class="token punctuation">)</span> <span class="token keyword keyword-private">private</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 移除 notBlacklisted(to)</span>
+    <span class="token comment">// ...</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword keyword-function">function</span> <span class="token function">_handleSell</span><span class="token punctuation">(</span><span class="token builtin">address</span> <span class="token keyword keyword-from">from</span><span class="token punctuation">,</span> <span class="token builtin">address</span> to<span class="token punctuation">,</span> <span class="token builtin">uint256</span> amount<span class="token punctuation">)</span> <span class="token keyword keyword-private">private</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 移除 notBlacklisted(from)</span>
+    <span class="token comment">// ...</span>
+<span class="token punctuation">}</span>
+</code></pre><h4 id="-优点">✅ 优点 </h4>
+<ul>
+<li>符合OK交易所审计要求（无动态黑白名单）</li>
+<li>核心地址费用逻辑保持完整</li>
+<li>代码简洁透明</li>
+<li>Gas 成本更低（无需查mapping）</li>
+</ul>
+<h4 id="-缺点">❌ 缺点 </h4>
+<ul>
+<li>无法动态调整核心地址（需要重新部署）</li>
+<li>无法应对紧急情况（如黑客攻击）</li>
+</ul>
+<hr>
+<h3 id="62-方案b延迟买入期改为预售期推荐">6.2 方案B：延迟买入期改为"预售期"（推荐） </h3>
+<p>当前的延迟买入机制对所有人都是负担，建议改为：</p>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token comment">// 删除 delayedBuyEnabled 和白名单相关</span>
+<span class="token comment">// 改为预售期机制</span>
+
+<span class="token builtin">uint256</span> <span class="token keyword keyword-public">public</span> presaleEndTime<span class="token punctuation">;</span>
+
+<span class="token keyword keyword-function">function</span> <span class="token function">_handleBuy</span><span class="token punctuation">(</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span> <span class="token keyword keyword-private">private</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 预售期检查</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>presaleActive <span class="token operator">&amp;&amp;</span> block<span class="token punctuation">.</span>timestamp <span class="token operator">&lt;</span> presaleEndTime<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword keyword-revert">revert</span><span class="token punctuation">(</span><span class="token string">"Presale not ended"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment">// ...正常买入</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// Owner设置预售结束</span>
+<span class="token keyword keyword-function">function</span> <span class="token function">endPresale</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword keyword-external">external</span> onlyOwner <span class="token punctuation">{</span>
+    presaleActive <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><h4 id="-优点-1">✅ 优点 </h4>
+<ul>
+<li>逻辑更清晰：预售期 vs 公开交易期</li>
+<li>无需白名单绕过</li>
+<li>符合常见代币发行模式</li>
+</ul>
+<hr>
+<h3 id="63-方案c保留staking的eoa检查">6.3 方案C：保留Staking的EOA检查 </h3>
+<p><strong>建议：保留</strong></p>
+<p>理由：</p>
+<ol>
+<li>EOA检查不属于"黑白名单"，是安全措施</li>
+<li>不影响OK交易所审计（仅限Staking合约内部）</li>
+<li>可通过配置关闭：<code>shouldCheckEOA() return false</code></li>
+</ol>
+<hr>
+<h2 id="七-总结与建议">七、总结与建议 </h2>
+<h3 id="71-当前黑白名单使用情况">7.1 当前黑白名单使用情况 </h3>
+<table>
+<thead>
+<tr>
+<th>机制</th>
+<th>位置</th>
+<th>必要性</th>
+<th>是否影响审计</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>费用白名单</td>
+<td>SYI合约</td>
+<td>🔴 必需</td>
+<td>⚠️ 会影响</td>
+</tr>
+<tr>
+<td>交易黑名单</td>
+<td>SYI合约</td>
+<td>🟢 非必需</td>
+<td>⚠️ 会影响</td>
+</tr>
+<tr>
+<td><strong>🔥 预售期白名单</strong></td>
+<td><strong>SYI合约</strong></td>
+<td><strong>🟢 非必需</strong></td>
+<td><strong>🔴 严重影响</strong></td>
+</tr>
+<tr>
+<td>EOA检查</td>
+<td>Staking合约</td>
+<td>🟡 建议保留</td>
+<td>✅ 不影响</td>
+</tr>
+</tbody>
+</table>
+<h3 id="72-分步实施建议">7.2 分步实施建议 </h3>
+<h4 id="阶段1立即移除低风险">阶段1：立即移除（低风险） </h4>
+<ul>
+<li>✅ <strong>🔥 移除预售期白名单机制（最优先）</strong>
+<ul>
+<li>删除预售期检查：<code>SYIBase.sol:822-827</code></li>
+<li>删除预售期状态变量：<code>presaleStartTime, presaleDuration, presaleActive</code></li>
+<li>删除预售期管理函数：<code>setPresaleActive()</code></li>
+<li>删除预售期查询函数：<code>getPresaleStatus()</code></li>
+</ul>
+</li>
+<li>✅ 移除交易黑名单（blacklisted）</li>
+<li>✅ 移除黑名单管理函数
+<ul>
+<li><code>setBlacklisted()</code></li>
+<li><code>setBatchBlacklisted()</code></li>
+</ul>
+</li>
+</ul>
+<h4 id="阶段2重构费用逻辑中风险">阶段2：重构费用逻辑（中风险） </h4>
+<ul>
+<li>✅ 用硬编码地址替代费用白名单</li>
+<li>✅ 移除白名单管理函数
+<ul>
+<li><code>initializeWhitelist()</code></li>
+<li><code>setFeeWhitelisted()</code></li>
+<li><code>setBatchFeeWhitelisted()</code></li>
+</ul>
+</li>
+<li>⚠️ <strong>全面测试</strong>费用分发逻辑</li>
+</ul>
+<h4 id="阶段3优化延迟买入低风险">阶段3：优化延迟买入（低风险） </h4>
+<ul>
+<li>✅ 改为预售期机制</li>
+<li>✅ 移除延迟买入白名单逻辑</li>
+</ul>
+<h4 id="阶段4可选优化低风险">阶段4：可选优化（低风险） </h4>
+<ul>
+<li>🔲 保留Staking的EOA检查（建议）</li>
+<li>🔲 或者配置 <code>shouldCheckEOA() return false</code></li>
+</ul>
+<h3 id="73-测试检查清单">7.3 测试检查清单 </h3>
+<p>重构后必须测试的场景：</p>
+<h4 id="基础功能测试">基础功能测试 </h4>
+<ul>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox"> 用户买入代币（收取1% burn费）</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox"> 用户卖出代币（收取1.5% marketing费 + 盈利税）</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox"> Staking合约质押（免费转账）</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox"> Staking合约取款（免费转账）</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox"> 费用自动处理（<code>_processFeeDistribution</code>）</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox"> 流动性添加（Router操作免费）</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox"> 营销地址收款（免费）</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox"> 回收机制（<code>recycle</code>）</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox"> FundRelay分发</li>
+</ul>
+<h4 id="-预售期相关测试移除后验证">🔥 预售期相关测试（移除后验证） </h4>
+<ul>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox"> <strong>确认预售期检查已删除</strong>：所有用户可立即买入</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox"> <strong>确认白名单不再绕过检查</strong>：核心地址仍然免费，但无预售特权</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox"> <strong>确认预售期管理函数已删除</strong>：<code>setPresaleActive()</code> 不存在</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox"> <strong>确认预售期查询函数已删除</strong>：<code>getPresaleStatus()</code> 不存在</li>
+</ul>
+<h4 id="黑名单移除验证">黑名单移除验证 </h4>
+<ul>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox"> <strong>确认黑名单检查已删除</strong>：任何地址都可以买卖</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox"> <strong>确认黑名单管理函数已删除</strong>：<code>setBlacklisted()</code> 不存在</li>
+</ul>
+<h3 id="74-风险提示">7.4 风险提示 </h3>
+<p>⚠️ <strong>关键风险</strong>：</p>
+<ol>
+<li><strong>🔥 预售期白名单是最严重的审计问题</strong>：会被OK交易所直接标记为诈骗项目</li>
+<li>费用逻辑重构可能导致<strong>经济模型崩溃</strong></li>
+<li>必须保证核心地址（Staking、Marketing、Router）的免费转账</li>
+<li>建议先在测试网充分测试，再部署主网</li>
+</ol>
+<p>🚨 <strong>特别警告</strong>：</p>
+<ul>
+<li><strong>预售期白名单（presaleActive）</strong> 是隐藏的白名单机制，<strong>必须立即移除</strong></li>
+<li>该机制通过 <code>feeWhitelisted</code> 绕过预售期检查，实现了"白名单专属预售"</li>
+<li>这与OK交易所的审计要求<strong>严重冲突</strong>，是最高优先级需要移除的功能</li>
+</ul>
+<p>📋 <strong>审计建议</strong>：</p>
+<ul>
+<li>重构后请第三方审计公司重新审计</li>
+<li>提供详细的费用流转文档给OK交易所</li>
+<li>说明硬编码地址的安全性优于动态白名单</li>
+</ul>
+<hr>
+<h2 id="八-附录">八、附录 </h2>
+<h3 id="81-相关合约地址映射">8.1 相关合约地址映射 </h3>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>当前变量</th>
+<th>建议改为不可变</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Staking</td>
+<td><code>staking</code> (immutable)</td>
+<td>✅ 已是immutable</td>
+</tr>
+<tr>
+<td>Router</td>
+<td><code>uniswapV2Router</code> (immutable)</td>
+<td>✅ 已是immutable</td>
+</tr>
+<tr>
+<td>USDT</td>
+<td><code>USDT</code> (immutable)</td>
+<td>✅ 已是immutable</td>
+</tr>
+<tr>
+<td>Marketing</td>
+<td><code>marketingAddress</code> (可变)</td>
+<td>⚠️ 建议改为immutable</td>
+</tr>
+<tr>
+<td>FundRelay</td>
+<td><code>fundRelay</code> (可变)</td>
+<td>⚠️ 建议改为immutable</td>
+</tr>
+</tbody>
+</table>
+<h3 id="82-参考链接">8.2 参考链接 </h3>
+<ul>
+<li>OLA代币（参考）：<a href="https://bscscan.com/token/0xfc548e35c4a3603b09204acead0cd16908423eea">https://bscscan.com/token/0xfc548e35c4a3603b09204acead0cd16908423eea</a></li>
+<li>OK交易所安全要求：待补充</li>
+</ul>
+<hr>
+<p><strong>文档版本</strong>: v1.1 🔥 增加预售期白名单机制分析<br>
+<strong>更新日期</strong>: 2025-10-13<br>
+<strong>作者</strong>: Claude Code Analysis</p>
+<h2 id="-v11-更新内容">📌 v1.1 更新内容 </h2>
+<p>新增了<strong>2.4 预售期白名单机制</strong>章节，重点说明：</p>
+<ol>
+<li><strong>隐藏的白名单预售</strong>：通过 <code>feeWhitelisted</code> + <code>presaleActive</code> 组合实现</li>
+<li><strong>工作原理</strong>：白名单用户绕过 <code>_handleBuy()</code> 中的预售期检查</li>
+<li><strong>审计冲突</strong>：与OK交易所审计要求<strong>严重冲突</strong></li>
+<li><strong>影响分析</strong>：预售期30天内，仅白名单可买入，普通用户完全封锁</li>
+<li><strong>移除方案</strong>：提供两种方案（完全移除 vs 全局锁定）</li>
+<li><strong>优先级</strong>：标记为<strong>最高优先级需要移除的功能</strong></li>
+</ol>
+</div>
+      </div>
+      
+      
+    
+    
+    <script type="module">
+// TODO: If ZenUML gets integrated into mermaid in the future,
+//      we can remove the following lines.
+
+
+var MERMAID_CONFIG = ({"startOnLoad":false});
+if (typeof MERMAID_CONFIG !== 'undefined') {
+  MERMAID_CONFIG.startOnLoad = false
+  MERMAID_CONFIG.cloneCssStyles = false
+  MERMAID_CONFIG.theme = "default"
+}
+
+mermaid.initialize(MERMAID_CONFIG || {})
+if (typeof(window['Reveal']) !== 'undefined') {
+  function mermaidRevealHelper(event) {
+    var currentSlide = event.currentSlide
+    var diagrams = currentSlide.querySelectorAll('.mermaid')
+    for (var i = 0; i < diagrams.length; i++) {
+      var diagram = diagrams[i]
+      if (!diagram.hasAttribute('data-processed')) {
+        mermaid.init(null, diagram, ()=> {
+          Reveal.slide(event.indexh, event.indexv)
+        })
+      }
+    }
+  }
+  Reveal.addEventListener('slidetransitionend', mermaidRevealHelper)
+  Reveal.addEventListener('ready', mermaidRevealHelper)
+  await mermaid.run({
+    nodes: document.querySelectorAll('.mermaid')
+  })
+} else {
+  await mermaid.run({
+    nodes: document.querySelectorAll('.mermaid')
+  })
+}
+</script>
+    
+    
+    
+  
+    </body></html>

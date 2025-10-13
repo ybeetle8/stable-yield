@@ -1449,19 +1449,6 @@
     },
     {
       "inputs": [],
-      "name": "getLiquidityStaking",
-      "outputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
       "name": "getPresaleStatus",
       "outputs": [
         {
@@ -1602,19 +1589,6 @@
           "internalType": "uint256",
           "name": "",
           "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "liquidityStaking",
-      "outputs": [
-        {
-          "internalType": "contract ILiquidityStaking",
-          "name": "",
-          "type": "address"
         }
       ],
       "stateMutability": "view",
@@ -1882,19 +1856,6 @@
         }
       ],
       "name": "setFundRelay",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "_liquidityStaking",
-          "type": "address"
-        }
-      ],
-      "name": "setLiquidityStaking",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
