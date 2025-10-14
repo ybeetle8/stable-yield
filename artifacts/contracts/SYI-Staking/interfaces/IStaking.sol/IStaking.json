@@ -117,6 +117,134 @@
         },
         {
           "indexed": true,
+          "internalType": "uint256",
+          "name": "stakeIndex",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "oldValue",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "newPrincipal",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint40",
+          "name": "oldStakeTime",
+          "type": "uint40"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint40",
+          "name": "newStakeTime",
+          "type": "uint40"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint40",
+          "name": "unchangedEndTime",
+          "type": "uint40"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "timestamp",
+          "type": "uint256"
+        }
+      ],
+      "name": "CompoundInterestReset",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "stakeIndex",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "profitAmount",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "usdtReceived",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "userPayout",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "friendReward",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "teamReward",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "redemptionFee",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint40",
+          "name": "resetTime",
+          "type": "uint40"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint40",
+          "name": "originalEndTime",
+          "type": "uint40"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "timestamp",
+          "type": "uint256"
+        }
+      ],
+      "name": "InterestWithdrawn",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+        },
+        {
+          "indexed": true,
           "internalType": "uint8",
           "name": "tier",
           "type": "uint8"
@@ -473,6 +601,40 @@
           "type": "uint256"
         }
       ],
+      "name": "canWithdrawInterest",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "canWithdraw",
+          "type": "bool"
+        },
+        {
+          "internalType": "uint256",
+          "name": "withdrawableProfit",
+          "type": "uint256"
+        },
+        {
+          "internalType": "string",
+          "name": "reason",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "stakeIndex",
+          "type": "uint256"
+        }
+      ],
       "name": "canWithdrawStake",
       "outputs": [
         {
@@ -680,6 +842,70 @@
           "internalType": "bool",
           "name": "isPreacherStatus",
           "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "stakeIndex",
+          "type": "uint256"
+        }
+      ],
+      "name": "getUserStakeDetails",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "principal",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "currentValue",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "newProfit",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "totalWithdrawn",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint40",
+          "name": "startTime",
+          "type": "uint40"
+        },
+        {
+          "internalType": "uint40",
+          "name": "lastResetTime",
+          "type": "uint40"
+        },
+        {
+          "internalType": "uint40",
+          "name": "originalEndTime",
+          "type": "uint40"
+        },
+        {
+          "internalType": "bool",
+          "name": "canWithdraw",
+          "type": "bool"
+        },
+        {
+          "internalType": "uint256",
+          "name": "timeRemaining",
+          "type": "uint256"
         }
       ],
       "stateMutability": "view",
@@ -1083,6 +1309,25 @@
         {
           "internalType": "uint256",
           "name": "totalReward",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "stakeIndex",
+          "type": "uint256"
+        }
+      ],
+      "name": "withdrawInterest",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "profitWithdrawn",
           "type": "uint256"
         }
       ],

@@ -197,6 +197,110 @@ abstract contract StakingBase is Ownable, IStaking {
         _mintStakeRecord(user, _amount, _stakeIndex);
     }
 
+    /**
+     * @notice Withdraws interest early while keeping principal staked
+     * @dev Resets compound interest calculation to principal, but keeps original end time unchanged
+     * @param stakeIndex Index of the stake record
+     * @return profitWithdrawn Amount of profit withdrawn in SYI (before swap)
+     */
+    function withdrawInterest(
+        uint256 stakeIndex
+    ) external onlyEOA returns (uint256 profitWithdrawn) {
+        IStaking.Record storage stakeRecord = userStakeRecord[msg.sender][
+            stakeIndex
+        ];
+
+        require(!stakeRecord.status, "Already withdrawn");
+        require(
+            block.timestamp < stakeRecord.originalEndTime,
+            "Stake period ended, use unstake instead"
+        );
+
+        // 1. 计算当前价值（从上次 stakeTime 开始复利）
+        uint256 currentValue = _calculateStakeReward(stakeRecord);
+
+        // 2. 计算新增盈利
+        uint256 newProfit = currentValue - stakeRecord.amount;
+
+        require(newProfit > 0, "No new profit to withdraw");
+
+        // 3. 兑换为 USDT
+        (uint256 usdtReceived, uint256 syiTokensUsed) = _swapSYIForReward(
+            newProfit
+        );
+
+        // 4. 分配费用（friend + team）
+        uint256 interestEarned = usdtReceived;
+        address[] memory referralChain = getReferrals(msg.sender, maxD);
+        uint256 friendReward = _distributeFriendReward(
+            msg.sender,
+            interestEarned
+        );
+        uint256 teamFee = _distributeTeamReward(referralChain, interestEarned);
+
+        // 5. 计算并收取 1% redemption fee
+        uint256 userPayout = usdtReceived - friendReward - teamFee;
+        uint256 redemptionFeeUSDT = (userPayout * REDEMPTION_FEE_RATE) /
+            BASIS_POINTS_DENOMINATOR;
+
+        if (redemptionFeeUSDT > 0 && feeRecipient != address(0)) {
+            (, uint256 redemptionFeeSYIUsed) = _swapSYIForReward(
+                redemptionFeeUSDT
+            );
+            emit RedemptionFeeCollected(
+                msg.sender,
+                stakeIndex,
+                redemptionFeeSYIUsed,
+                redemptionFeeUSDT,
+                feeRecipient,
+                block.timestamp
+            );
+        }
+
+        // 记录旧的 stakeTime 用于事件
+        uint40 oldStakeTime = stakeRecord.stakeTime;
+
+        // 6. ⚠️ 关键步骤：重置复利起点
+        stakeRecord.stakeTime = uint40(block.timestamp); // 重置为当前时间
+        // stakeRecord.amount 保持不变（本金不变）
+        // stakeRecord.originalEndTime 保持不变（到期时间不变）
+        stakeRecord.totalWithdrawn += uint160(usdtReceived); // 记录累计提取
+
+        // 7. 转账给用户
+        IERC20(USDT).transfer(msg.sender, userPayout);
+
+        // 8. 回收 SYI
+        SYI.recycle(syiTokensUsed);
+
+        // 9. 发出事件
+        emit InterestWithdrawn(
+            msg.sender,
+            stakeIndex,
+            newProfit,
+            usdtReceived,
+            userPayout,
+            friendReward,
+            teamFee,
+            redemptionFeeUSDT,
+            stakeRecord.stakeTime, // 新的 stakeTime
+            stakeRecord.originalEndTime,
+            block.timestamp
+        );
+
+        emit CompoundInterestReset(
+            msg.sender,
+            stakeIndex,
+            currentValue,
+            stakeRecord.amount,
+            oldStakeTime,
+            stakeRecord.stakeTime,
+            stakeRecord.originalEndTime,
+            block.timestamp
+        );
+
+        return newProfit;
+    }
+
     function unstake(
         uint256 stakeIndex
     ) external onlyEOA returns (uint256 totalReward) {
@@ -552,13 +656,107 @@ abstract contract StakingBase is Ownable, IStaking {
 
             IStaking.Record storage stakeRecord = userStakeRecord[user][i];
             if (!stakeRecord.status) {
-                uint256 elapsed = block.timestamp - stakeRecord.stakeTime;
-                uint256 required = getStakePeriod(stakeRecord.stakeIndex);
-                timeRemaining[i] = elapsed >= required ? 0 : required - elapsed;
+                // ⚠️ 修改：使用 originalEndTime
+                if (block.timestamp >= stakeRecord.originalEndTime) {
+                    timeRemaining[i] = 0;
+                } else {
+                    timeRemaining[i] =
+                        stakeRecord.originalEndTime -
+                        block.timestamp;
+                }
             } else {
                 timeRemaining[i] = 0;
             }
         }
+    }
+
+    /**
+     * @notice Gets detailed information about a user's stake
+     * @param user User address
+     * @param stakeIndex Index of the stake record
+     */
+    function getUserStakeDetails(
+        address user,
+        uint256 stakeIndex
+    )
+        external
+        view
+        returns (
+            uint256 principal,
+            uint256 currentValue,
+            uint256 newProfit,
+            uint256 totalWithdrawn,
+            uint40 startTime,
+            uint40 lastResetTime,
+            uint40 originalEndTime,
+            bool canWithdraw,
+            uint256 timeRemaining
+        )
+    {
+        require(
+            stakeIndex < userStakeRecord[user].length,
+            "Invalid stake index"
+        );
+
+        IStaking.Record storage stakeRecord = userStakeRecord[user][stakeIndex];
+
+        principal = stakeRecord.amount;
+        currentValue = _calculateStakeReward(stakeRecord);
+        newProfit = currentValue - principal;
+        totalWithdrawn = stakeRecord.totalWithdrawn;
+
+        startTime = stakeRecord.startTime;
+        lastResetTime = stakeRecord.stakeTime;
+        originalEndTime = stakeRecord.originalEndTime;
+
+        canWithdraw =
+            block.timestamp >= originalEndTime &&
+            !stakeRecord.status;
+
+        timeRemaining = block.timestamp >= originalEndTime
+            ? 0
+            : originalEndTime - block.timestamp;
+    }
+
+    /**
+     * @notice Checks if user can withdraw interest early
+     * @param user User address
+     * @param stakeIndex Index of the stake record
+     */
+    function canWithdrawInterest(
+        address user,
+        uint256 stakeIndex
+    )
+        external
+        view
+        returns (
+            bool canWithdraw,
+            uint256 withdrawableProfit,
+            string memory reason
+        )
+    {
+        if (userStakeRecord[user].length <= stakeIndex) {
+            return (false, 0, "Invalid stake index");
+        }
+
+        IStaking.Record storage stakeRecord = userStakeRecord[user][stakeIndex];
+
+        if (stakeRecord.status) {
+            return (false, 0, "Already withdrawn");
+        }
+
+        if (block.timestamp >= stakeRecord.originalEndTime) {
+            return (false, 0, "Stake period ended, use unstake()");
+        }
+
+        uint256 currentValue = _calculateStakeReward(stakeRecord);
+        uint256 newProfit = currentValue - stakeRecord.amount;
+
+        if (newProfit == 0) {
+            return (false, 0, "No new profit");
+        }
+
+        return (true, newProfit, "");
     }
 
     // =========================================================================
@@ -660,10 +858,8 @@ abstract contract StakingBase is Ownable, IStaking {
             return false;
         }
 
-        uint256 stakeTime = stakeRecord.stakeTime;
-        uint256 requiredPeriod = getStakePeriod(stakeRecord.stakeIndex);
-
-        return (block.timestamp - stakeTime) >= requiredPeriod;
+        // ⚠️ 关键修改：使用 originalEndTime 而不是 stakeTime + period
+        return block.timestamp >= stakeRecord.originalEndTime;
     }
 
     function isPreacher(address user) public view override returns (bool) {
@@ -872,9 +1068,15 @@ abstract contract StakingBase is Ownable, IStaking {
         tsy.tamount = uint160(totalSupply);
         t_supply.push(tsy);
 
+        uint40 currentTime = uint40(block.timestamp);
+        uint40 endTime = currentTime + uint40(getStakePeriod(_stakeIndex));
+
         IStaking.Record memory order;
-        order.stakeTime = uint40(block.timestamp);
+        order.startTime = currentTime;              // ⭐ 记录原始质押时间
+        order.stakeTime = currentTime;              // 复利计算起点
+        order.originalEndTime = endTime;            // ⭐ 记录原定到期时间
         order.amount = _amount;
+        order.totalWithdrawn = 0;                   // ⭐ 初始化累计提取
         order.status = false;
         order.stakeIndex = _stakeIndex;
 
@@ -901,11 +1103,10 @@ abstract contract StakingBase is Ownable, IStaking {
         IStaking.Record[] storage cord = userStakeRecord[sender];
         IStaking.Record storage user_record = cord[index];
 
-        uint256 stakeTime = user_record.stakeTime;
-
-        if (
-            block.timestamp - stakeTime < getStakePeriod(user_record.stakeIndex)
-        ) revert StakingPeriodNotMet();
+        // ⚠️ 关键修改：使用 originalEndTime 而不是 stakeTime + period
+        if (block.timestamp < user_record.originalEndTime) {
+            revert StakingPeriodNotMet();
+        }
         if (user_record.status) revert AlreadyWithdrawn();
 
         amount = user_record.amount;
@@ -1171,14 +1372,15 @@ abstract contract StakingBase is Ownable, IStaking {
         uint40 stakeStartTime = stakeRecord.stakeTime;
         uint40 stakingDuration;
 
-        unchecked {
-            stakingDuration = uint40(block.timestamp) - stakeStartTime;
-        }
-
-        stakingDuration = _min40(
-            stakingDuration,
-            uint40(getStakePeriod(stakeRecord.stakeIndex))
+        // ⚠️ 关键修改：计算复利时，限制最大时间不超过 originalEndTime
+        uint40 effectiveEndTime = _min40(
+            uint40(block.timestamp),
+            stakeRecord.originalEndTime
         );
+
+        unchecked {
+            stakingDuration = effectiveEndTime - stakeStartTime;
+        }
 
         if (stakingDuration == 0) {
             currentReward = UD60x18.unwrap(principalAmount);
@@ -1187,7 +1389,7 @@ abstract contract StakingBase is Ownable, IStaking {
 
             // Convert stakingDuration from seconds to the correct time unit (days for mainnet, minutes for testnet)
             uint256 compoundPeriods = stakingDuration / getCompoundTimeUnit();
-            
+
             UD60x18 compoundedAmount = principalAmount.mul(
                 baseInterestRate.powu(compoundPeriods)
             );

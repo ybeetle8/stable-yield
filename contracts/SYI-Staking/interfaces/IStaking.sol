@@ -57,14 +57,20 @@ interface IStaking {
 
     /**
      * @notice Individual stake record structure
-     * @param stakeTime Timestamp when stake was created
+     * @param startTime Original timestamp when stake was created (never changes)
+     * @param stakeTime Current compound interest start time (resets on withdrawInterest)
+     * @param originalEndTime Original end time when stake can be fully withdrawn (never changes)
      * @param amount Principal amount staked (in USDT)
+     * @param totalWithdrawn Total amount withdrawn via withdrawInterest (in USDT)
      * @param status Whether stake has been withdrawn (true = withdrawn)
      * @param stakeIndex Staking tier (0=1day/0.3% daily, 1=7days/0.6% daily, 2=15days/1.0% daily, 3=30days/1.5% daily)
      */
     struct Record {
+        uint40 startTime;
         uint40 stakeTime;
+        uint40 originalEndTime;
         uint160 amount;
+        uint160 totalWithdrawn;
         bool status;
         uint8 stakeIndex;
     }
@@ -269,6 +275,56 @@ interface IStaking {
         string reason
     );
 
+    /**
+     * @notice Event emitted when a user withdraws interest early
+     * @param user User who withdrew interest
+     * @param stakeIndex Index of the stake record
+     * @param profitAmount SYI profit amount withdrawn
+     * @param usdtReceived USDT received after swap
+     * @param userPayout Net amount user received (after fees)
+     * @param friendReward Friend reward paid
+     * @param teamReward Team reward paid
+     * @param redemptionFee Redemption fee paid
+     * @param resetTime New stakeTime after reset
+     * @param originalEndTime Original end time (unchanged)
+     * @param timestamp Withdrawal timestamp
+     */
+    event InterestWithdrawn(
+        address indexed user,
+        uint256 indexed stakeIndex,
+        uint256 profitAmount,
+        uint256 usdtReceived,
+        uint256 userPayout,
+        uint256 friendReward,
+        uint256 teamReward,
+        uint256 redemptionFee,
+        uint40 resetTime,
+        uint40 originalEndTime,
+        uint256 timestamp
+    );
+
+    /**
+     * @notice Event emitted when compound interest calculation is reset
+     * @param user User whose compound interest was reset
+     * @param stakeIndex Index of the stake record
+     * @param oldValue Value before reset
+     * @param newPrincipal Principal after reset
+     * @param oldStakeTime Old stake time
+     * @param newStakeTime New stake time after reset
+     * @param unchangedEndTime Original end time (unchanged)
+     * @param timestamp Reset timestamp
+     */
+    event CompoundInterestReset(
+        address indexed user,
+        uint256 indexed stakeIndex,
+        uint256 oldValue,
+        uint256 newPrincipal,
+        uint40 oldStakeTime,
+        uint40 newStakeTime,
+        uint40 unchangedEndTime,
+        uint256 timestamp
+    );
+
     // =========================================================================
     // CORE STAKING FUNCTIONS
     // =========================================================================
@@ -288,6 +344,14 @@ interface IStaking {
      * @return totalReward Total reward amount calculated
      */
     function unstake(uint256 stakeIndex) external returns (uint256 totalReward);
+
+    /**
+     * @notice Withdraws interest early while keeping principal staked
+     * @dev Resets compound interest calculation to principal, but keeps original end time
+     * @param stakeIndex Index of the stake record to withdraw interest from
+     * @return profitWithdrawn Amount of profit withdrawn in SYI
+     */
+    function withdrawInterest(uint256 stakeIndex) external returns (uint256 profitWithdrawn);
 
     // =========================================================================
     // WITHDRAWAL HISTORY FUNCTIONS
@@ -517,4 +581,50 @@ interface IStaking {
      * @param _amount Amount to withdraw
      */
     function emergencyWithdrawUSDT(address to, uint256 _amount) external;
+
+    /**
+     * @notice Gets detailed information about a user's stake
+     * @param user User address
+     * @param stakeIndex Index of the stake record
+     * @return principal Principal amount staked
+     * @return currentValue Current value including compound interest
+     * @return newProfit New profit since last reset
+     * @return totalWithdrawn Total amount withdrawn via withdrawInterest
+     * @return startTime Original stake start time
+     * @return lastResetTime Last time compound interest was reset (stakeTime)
+     * @return originalEndTime Original end time
+     * @return canWithdraw Whether can call unstake
+     * @return timeRemaining Time remaining until originalEndTime
+     */
+    function getUserStakeDetails(
+        address user,
+        uint256 stakeIndex
+    ) external view returns (
+        uint256 principal,
+        uint256 currentValue,
+        uint256 newProfit,
+        uint256 totalWithdrawn,
+        uint40 startTime,
+        uint40 lastResetTime,
+        uint40 originalEndTime,
+        bool canWithdraw,
+        uint256 timeRemaining
+    );
+
+    /**
+     * @notice Checks if user can withdraw interest early
+     * @param user User address
+     * @param stakeIndex Index of the stake record
+     * @return canWithdraw Whether can withdraw interest
+     * @return withdrawableProfit Amount of profit that can be withdrawn
+     * @return reason Reason if cannot withdraw
+     */
+    function canWithdrawInterest(
+        address user,
+        uint256 stakeIndex
+    ) external view returns (
+        bool canWithdraw,
+        uint256 withdrawableProfit,
+        string memory reason
+    );
 }
