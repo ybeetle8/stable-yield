@@ -81,7 +81,6 @@ abstract contract StakingBase is Ownable, IStaking {
     uint256 internal constant SYI_TOTAL_BUY_FEE_BPS =
         SYI_BUY_BURN_FEE_BPS + SYI_BUY_LIQUIDITY_FEE_BPS;
 
-    uint256 internal constant REWARD_WITHHOLD_RATE = 40;
 
     // =========================================================================
     // IMMUTABLE VARIABLES

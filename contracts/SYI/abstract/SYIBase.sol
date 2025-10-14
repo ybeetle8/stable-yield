@@ -44,42 +44,7 @@ abstract contract SYIBase is ERC20, Ownable {
         address referrer
     );
 
-    event FeesProcessed(
-        uint256 indexed timestamp,
-        string indexed processType,
-        uint256 totalFeesXF,
-        uint256 totalFeesUSDT,
-        uint256 lpAmount,
-        uint256 marketingAmount,
-        uint256 burnAmount,
-        address lpRecipient,
-        address marketingRecipient
-    );
-
-    event MarketingAddressUpdated(
-        address indexed oldAddress,
-        address indexed newAddress
-    );
-    event SwapFailed(string reason, uint256 tokenAmount, uint256 timestamp);
-    event FundRelayTransferFailed(
-        uint256 expectedAmount,
-        uint256 actualAmount,
-        uint256 timestamp
-    );
     event DelayedBuyEnabled(bool enabled);
-    event DelayedBuyPeriodUpdated(uint256 newPeriod);
-
-    event TokensBurned(uint256 amount);
-    event LiquidityAdded(uint256 tokenAmount, uint256 usdtAmount);
-    event LPRewardDeposited(uint256 amount);
-    event InvestmentUpdated(
-        address indexed user,
-        uint256 indexed timestamp,
-        uint256 previousInvestment,
-        uint256 newInvestment,
-        uint256 changeAmount,
-        string changeType
-    );
 
     // Backward compatible events
     event UserTransaction(
@@ -90,76 +55,10 @@ abstract contract SYIBase is ERC20, Ownable {
         uint256 usdtAmount,
         uint256 netReceived
     );
-    event FeeCollected(
-        address indexed user,
-        uint256 amount,
-        string indexed category,
-        address indexed recipient
-    );
 
-    // Legacy events
+    // Status events
     event PresaleDurationUpdated(uint256 newDuration);
     event PresaleStatusUpdated(bool active);
-
-    event LiquidityHandleFeeCollected(
-        address indexed from,
-        address indexed to,
-        uint256 feeAmount,
-        uint256 netAmount,
-        string operationType
-    );
-    event TransferFeeCollected(
-        address indexed from,
-        address indexed to,
-        uint256 feeAmount,
-        uint256 netAmount,
-        string transferType
-    );
-    event LPDistribution(
-        uint256 indexed timestamp,
-        uint256 regularFeesXF,
-        uint256 regularFeesUSDT,
-        address liquidityStakingContract,
-        string source
-    );
-
-    event FeesAccumulated(
-        string feeType,
-        uint256 amount,
-        uint256 totalAccumulated
-    );
-    event FeeProcessingSkipped(
-        uint256 totalFees,
-        string reason,
-        uint256 timestamp
-    );
-    event FeeProcessingTriggered(
-        uint256 totalFees,
-        address indexed triggeredBy,
-        string triggerType,
-        uint256 timestamp
-    );
-    event MarketingDistribution(
-        uint256 timestamp,
-        uint256 tokenAmount,
-        uint256 usdtAmount,
-        uint256 rewardIndex,
-        address indexed recipient,
-        string distributionType
-    );
-    event AutoSwapTriggered(
-        uint256 marketingFee,
-        uint256 lpFee,
-        string trigger
-    );
-    event NoProfitFeeCollected(
-        address indexed seller,
-        uint256 indexed timestamp,
-        uint256 feeAmountXF,
-        uint256 feeAmountUSDT,
-        uint256 saleValueUSDT,
-        uint256 userInvestmentUSDT
-    );
 
     event SellTransaction(
         address indexed seller,
@@ -191,24 +90,11 @@ abstract contract SYIBase is ERC20, Ownable {
     error AlreadySet();
     error NotAllowedBuy();
     error DelayedBuyPeriodNotMet();
-    error InsufficientBalance();
     error AlreadyInitialized();
 
     // =========================================================================
     // CONSTANTS & IMMUTABLES
     // =========================================================================
-
-    address public constant DEAD_ADDRESS =
-        0x000000000000000000000000000000000000dEaD;
-    uint256 private constant BASIS_POINTS = 10000;
-    // All trading fees removed - set to 0%
-    uint256 private constant BUY_BURN_FEE = 0; // 0% (was 1%)
-    uint256 private constant BUY_LIQUIDITY_FEE = 0; // 0% (was 2%)
-    uint256 private constant SELL_MARKETING_FEE = 0; // 0% (was 1.5%)
-    uint256 private constant SELL_LIQUIDITY_ACCUM_FEE = 0; // 0% (was 1.5%)
-    uint256 private constant PROFIT_TAX_RATE = 0; // 0% (was 25%)
-    uint256 private constant NO_PROFIT_FEE = 0; // 0% (was 25%)
-    uint256 private constant LP_HANDLE_FEE = 250; // 2.5% (kept for liquidity operations)
 
     address public immutable USDT;
     IUniswapV2Router02 public immutable uniswapV2Router;
@@ -219,7 +105,6 @@ abstract contract SYIBase is ERC20, Ownable {
     // =========================================================================
 
     IUniswapV2Pair public uniswapV2Pair;
-    address public rootAddress;
     uint256 public coldTime = 10 seconds;
 
     uint256 public presaleStartTime;

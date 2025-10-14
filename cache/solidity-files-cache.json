@@ -1482,8 +1482,8 @@
       ]
     },
     "/home/ybeetle/code/stable-yield/contracts/SYI-Staking/abstract/StakingBase.sol": {
-      "lastModificationDate": 1760410303490,
-      "contentHash": "0ddbc13e1a9ab9107b0bc779f0ec7691",
+      "lastModificationDate": 1760415011455,
+      "contentHash": "954c0f53c6cc143879d6b8c0e9740b64",
       "sourceName": "contracts/SYI-Staking/abstract/StakingBase.sol",
       "solcConfig": {
         "version": "0.8.28",
@@ -1755,8 +1755,8 @@
       ]
     },
     "/home/ybeetle/code/stable-yield/contracts/SYI/abstract/SYIBase.sol": {
-      "lastModificationDate": 1760363481373,
-      "contentHash": "ded345c6341273628c0ceac2096adcb8",
+      "lastModificationDate": 1760414965236,
+      "contentHash": "725c3ef9eff05e00755032d6b7b07573",
       "sourceName": "contracts/SYI/abstract/SYIBase.sol",
       "solcConfig": {
         "version": "0.8.28",
