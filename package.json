@@ -15,7 +15,9 @@
     "deploy-pancake": "npx hardhat run scripts/deployPancakeSwap.js",
     "use-pancake": "npx hardhat run scripts/usePancakeSwap.js",
     "deploy-and-use": "npx hardhat run scripts/deployAndUse.js",
-    "node": "npx hardhat node"
+    "node": "npx hardhat node",
+    "monitor-events": "npx hardhat run scripts/monitorStakingEvents.js --network localhost",
+    "test-events": "npx hardhat run scripts/testStakingEvents.js --network localhost"
   },
   "keywords": [],
   "author": "",
