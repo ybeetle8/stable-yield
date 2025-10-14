@@ -24,61 +24,19 @@ abstract contract SYIBase is ERC20, Ownable {
     function getPresaleDuration() internal pure virtual returns (uint256);
 
     // =========================================================================
-    // EVENTS - Keep all original events
+    // EVENTS
     // =========================================================================
 
-    event TransactionExecuted(
+    event Transaction(
         address indexed user,
         uint256 indexed timestamp,
         string indexed txType,
-        uint256 tokenAmount,
-        uint256 usdtAmount,
-        uint256 netUserReceived,
-        uint256 previousInvestment,
-        uint256 newInvestment,
-        uint256 burnFee,
-        uint256 lpFee,
-        uint256 marketingFee,
-        uint256 profitAmount,
-        uint256 profitTax,
-        address referrer
+        uint256 tokenAmount
     );
 
     event DelayedBuyEnabled(bool enabled);
-
-    // Backward compatible events
-    event UserTransaction(
-        address indexed user,
-        uint256 indexed timestamp,
-        string txType,
-        uint256 tokenAmount,
-        uint256 usdtAmount,
-        uint256 netReceived
-    );
-
-    // Status events
     event PresaleDurationUpdated(uint256 newDuration);
     event PresaleStatusUpdated(bool active);
-
-    event SellTransaction(
-        address indexed seller,
-        uint256 indexed timestamp,
-        uint256 originalXFAmount,
-        uint256 tradingFeeXF,
-        uint256 marketingFeeXF,
-        uint256 lpFeeXF,
-        uint256 netXFAfterTradingFees,
-        uint256 estimatedUSDTFromSale,
-        uint256 userHistoricalInvestment,
-        uint256 totalProfitAmount,
-        uint256 profitTaxUSDT,
-        uint256 noProfitFeeUSDT,
-        uint256 profitTaxToMarketing,
-        uint256 profitTaxToReferrer,
-        uint256 userNetProfitUSDT,
-        uint256 finalUSDTReceived,
-        address referrer
-    );
 
     // =========================================================================
     // ERRORS
@@ -621,32 +579,8 @@ abstract contract SYIBase is ERC20, Ownable {
         // Update last buy time for cooldown mechanism
         lastBuyTime[to] = block.timestamp;
 
-        // Emit events for tracking (all fees are 0)
-        emit TransactionExecuted(
-            to,
-            block.timestamp,
-            "BUY",
-            amount,
-            0,  // usdtAmount (not tracked)
-            amount,  // netUserReceived (full amount)
-            0,  // previousInvestment (not tracked)
-            0,  // newInvestment (not tracked)
-            0,  // burnFee
-            0,  // lpFee
-            0,  // marketingFee
-            0,  // profitAmount
-            0,  // profitTax
-            address(0)  // referrer
-        );
-
-        emit UserTransaction(
-            to,
-            block.timestamp,
-            "BUY",
-            amount,
-            0,  // usdtAmount
-            amount  // netReceived
-        );
+        // Emit transaction event
+        emit Transaction(to, block.timestamp, "BUY", amount);
     }
 
     function _handleSell(
@@ -661,43 +595,8 @@ abstract contract SYIBase is ERC20, Ownable {
         // No fees - direct transfer full amount
         super._update(from, to, amount);
 
-        // Emit events for tracking (all fees are 0)
-        emit SellTransaction(
-            from,
-            block.timestamp,
-            amount,  // originalXFAmount
-            0,  // tradingFeeXF
-            0,  // marketingFeeXF
-            0,  // lpFeeXF
-            amount,  // netXFAfterTradingFees (full amount)
-            0,  // estimatedUSDTFromSale (not calculated)
-            0,  // userHistoricalInvestment (not tracked)
-            0,  // totalProfitAmount
-            0,  // profitTaxUSDT
-            0,  // noProfitFeeUSDT
-            0,  // profitTaxToMarketing
-            0,  // profitTaxToReferrer
-            0,  // userNetProfitUSDT
-            0,  // finalUSDTReceived
-            address(0)  // referrer
-        );
-
-        emit TransactionExecuted(
-            from,
-            block.timestamp,
-            "SELL",
-            amount,
-            0,  // usdtAmount
-            amount,  // netUserReceived (full amount)
-            0,  // previousInvestment
-            0,  // newInvestment
-            0,  // burnFee
-            0,  // lpFee
-            0,  // marketingFee
-            0,  // profitAmount
-            0,  // profitTax
-            address(0)  // referrer
-        );
+        // Emit transaction event
+        emit Transaction(from, block.timestamp, "SELL", amount);
     }
 
     function _updatePresaleDurationFromStaking() private {
