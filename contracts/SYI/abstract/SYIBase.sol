@@ -231,7 +231,7 @@ abstract contract SYIBase is ERC20, Ownable {
     uint256 public delayedBuyEnabledTime;
 
     mapping(address => uint256) public lastBuyTime;
-    mapping(address => bool) public feeWhitelisted;
+    mapping(address => bool) public feeWhitelisted; 
     mapping(address => bool) public blacklisted;
 
     bool private _whitelistInitialized;
