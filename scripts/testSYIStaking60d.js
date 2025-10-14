@@ -220,7 +220,20 @@ async function main() {
   console.log("- 钱包5 净收益:", hre.ethers.formatEther(wallet5Profit1), "USDT");
   console.log("- Root 获得奖励:", hre.ethers.formatEther(rootReward1), "USDT");
   console.log("- 总收益:", hre.ethers.formatEther(totalReward1), "USDT");
-  console.log("- 收益率:", (Number(wallet5Profit1) / Number(stakeAmount) * 100).toFixed(4), "%");
+
+  // 计算实际收益率（扣除费用后）
+  const actualReturnRate = (Number(wallet5Profit1) / Number(stakeAmount) * 100);
+  console.log("- 实际收益率 (扣费后):", actualReturnRate.toFixed(4), "%");
+
+  // 计算理论收益率（无费用）
+  const theoreticalMultiplier = Math.pow(1.015, compoundPeriodsCalculated);
+  const theoreticalReturnRate = (theoreticalMultiplier - 1) * 100;
+  console.log("- 理论收益率 (无费用):", theoreticalReturnRate.toFixed(4), "%", `(1.015^${compoundPeriodsCalculated})`);
+
+  // 计算费用扣除比例
+  const feePercentage = ((theoreticalReturnRate - actualReturnRate) / theoreticalReturnRate * 100);
+  console.log("- 综合费用率:", feePercentage.toFixed(2), "%");
+  console.log("- 费用明细: SYI兑换滑点(~5%) + Friend奖励(5%) + Team奖励(0-35%) + Redemption Fee(1%)");
 
   // ========================================
   // 场景间隔：推进时间以重置网络流入检查
@@ -354,7 +367,11 @@ async function main() {
   console.log("- 钱包6 净收益 (总计):", hre.ethers.formatEther(wallet6Profit2), "USDT");
   console.log("- Root 获得奖励:", hre.ethers.formatEther(rootReward2), "USDT");
   console.log("- 总收益:", hre.ethers.formatEther(totalReward2), "USDT");
-  console.log("- 收益率:", (Number(wallet6Profit2) / Number(stakeAmount) * 100).toFixed(4), "%");
+
+  // 计算实际收益率（扣除费用后）
+  const actualReturnRate2 = (Number(wallet6Profit2) / Number(stakeAmount2) * 100);
+  console.log("- 实际收益率 (扣费后):", actualReturnRate2.toFixed(4), "%");
+  console.log("- 说明: 提前支取会重置复利，导致收益比场景1少");
 
   // ========================================
   // 对比总结
@@ -365,11 +382,13 @@ async function main() {
   console.log("==========================================");
   console.log("\n场景1 (直接解质押):");
   console.log("- 用户收益:", hre.ethers.formatEther(wallet5Profit1), "USDT");
-  console.log("- 收益率:", (Number(wallet5Profit1) / Number(stakeAmount) * 100).toFixed(4), "%");
+  console.log("- 实际收益率 (扣费后):", actualReturnRate.toFixed(4), "%");
+  console.log("- 理论收益率 (无费用):", theoreticalReturnRate.toFixed(4), "%");
+  console.log("- 综合费用率:", feePercentage.toFixed(2), "%");
 
   console.log("\n场景2 (提前支取+解质押):");
   console.log("- 用户收益:", hre.ethers.formatEther(wallet6Profit2), "USDT");
-  console.log("- 收益率:", (Number(wallet6Profit2) / Number(stakeAmount2) * 100).toFixed(4), "%");
+  console.log("- 实际收益率 (扣费后):", actualReturnRate2.toFixed(4), "%");
 
   const profitDiff = wallet5Profit1 - wallet6Profit2;
   const profitDiffPercent = (Number(profitDiff) / Number(wallet5Profit1) * 100);
@@ -377,8 +396,12 @@ async function main() {
   console.log("\n差异分析:");
   console.log("- 收益差额:", hre.ethers.formatEther(profitDiff), "USDT");
   console.log("- 损失比例:", profitDiffPercent.toFixed(4), "% (场景2相对场景1)");
-  console.log("\n说明: 提前支取会重置复利计算，导致总收益减少");
-  console.log("      这是因为复利效应被打断，后半段时间按本金重新计算");
+
+  console.log("\n📌 关键说明:");
+  console.log("1. 理论收益率 1358.6% = (1.015)^180 - 1 (无任何费用)");
+  console.log("2. 实际收益率 ~815% = 理论收益率 × (1 - 40%综合费率)");
+  console.log("3. 综合费用包括: SYI兑换滑点、Friend奖励、Team奖励、Redemption Fee");
+  console.log("4. 提前支取会重置复利，导致收益进一步减少");
 
   console.log("\n✅ 测试完成！");
 }
