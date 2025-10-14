@@ -134,6 +134,35 @@ abstract contract StakingBase is Ownable, IStaking {
     address public feeRecipient;
     uint256 public constant REDEMPTION_FEE_RATE = 100; // 1% = 100 basis points
 
+    // =========================================================================
+    // NODE TIER MANAGEMENT SYSTEM
+    // =========================================================================
+
+    /**
+     * @notice 节点等级管理员地址
+     * @dev 只有此地址可以设置用户的节点等级
+     */
+    address public tierManager;
+
+    /**
+     * @notice 节点等级记录结构
+     * @param tier 等级 (1=V1, 2=V2)
+     * @param setTime 设置时间戳
+     * @param setBy 设置操作者地址
+     * @param active 是否激活
+     */
+    struct NodeTierRecord {
+        uint8 tier;
+        uint40 setTime;
+        address setBy;
+        bool active;
+    }
+
+    /**
+     * @notice 用户节点等级映射
+     */
+    mapping(address => NodeTierRecord) public nodeTiers;
+
     // Events - Only define events not in IStaking interface
     event MarketingAddressUpdated(
         address indexed oldAddress,
@@ -154,6 +183,44 @@ abstract contract StakingBase is Ownable, IStaking {
         address indexed newRecipient
     );
 
+    // Node Tier Management Events
+    event TierManagerUpdated(
+        address indexed oldManager,
+        address indexed newManager,
+        address indexed operator,
+        uint256 timestamp
+    );
+
+    event NodeTierSet(
+        address indexed user,
+        uint8 tier,
+        address indexed setBy,
+        uint256 timestamp
+    );
+
+    event NodeTierRemoved(
+        address indexed user,
+        uint8 previousTier,
+        address indexed removedBy,
+        uint256 timestamp
+    );
+
+    event NodeTierBatchSet(
+        address[] users,
+        uint8[] tiers,
+        address indexed setBy,
+        uint256 count,
+        uint256 timestamp
+    );
+
+    event NodeTierUsed(
+        address indexed user,
+        uint8 naturalTier,
+        uint8 nodeTier,
+        uint8 finalTier,
+        string reason
+    );
+
     // =========================================================================
     // MODIFIERS
     // =========================================================================
@@ -161,6 +228,14 @@ abstract contract StakingBase is Ownable, IStaking {
     modifier onlyEOA() {
         if (shouldCheckEOA() && tx.origin != msg.sender)
             revert OnlyEOAAllowed();
+        _;
+    }
+
+    /**
+     * @notice 限制只有 tierManager 可以调用
+     */
+    modifier onlyTierManager() {
+        require(msg.sender == tierManager, "Caller is not tier manager");
         _;
     }
 
@@ -181,6 +256,9 @@ abstract contract StakingBase is Ownable, IStaking {
         ROUTER = IUniswapV2Router02(_router);
         rootAddress = _rootAddress;
         feeRecipient = _feeRecipient; // Initialize fee recipient to root address
+
+        // 初始化 tierManager 为 owner
+        tierManager = msg.sender;
 
         IERC20(_usdt).approve(_router, type(uint256).max);
         _updateRatesForMode();
@@ -1454,7 +1532,43 @@ abstract contract StakingBase is Ownable, IStaking {
         return a < b ? a : b;
     }
 
+    /**
+     * @notice 计算用户的最终等级
+     * @param user 用户地址
+     * @return tier 最终等级 (0-7)
+     * @dev 逻辑：MAX(自然等级, 节点等级)
+     * @dev 节点等级作为最低保障，不限制自然升级
+     */
     function _getUserTier(address user) private view returns (uint8 tier) {
+        // 1. rootAddress 永远返回 0
+        if (user == rootAddress) {
+            return 0;
+        }
+
+        // 2. 非 Preacher 用户返回 0（节点等级也无效）
+        if (!isPreacher(user)) {
+            return 0;
+        }
+
+        // 3. 计算自然等级（基于 teamKPI）
+        uint8 naturalTier = _calculateNaturalTier(user);
+
+        // 4. 检查节点等级
+        NodeTierRecord memory record = nodeTiers[user];
+        uint8 nodeTier = record.active ? record.tier : 0;
+
+        // 5. 取最大值
+        return _max8(naturalTier, nodeTier);
+    }
+
+    /**
+     * @notice 计算用户的自然等级（不考虑节点等级）
+     * @param user 用户地址
+     * @return tier 自然等级 (0-7)
+     * @dev 纯粹基于 teamKPI 计算
+     */
+    function _calculateNaturalTier(address user) private view returns (uint8 tier) {
+        // rootAddress 或非 Preacher 返回 0
         if (user == rootAddress || !isPreacher(user)) {
             return 0;
         }
@@ -1472,6 +1586,13 @@ abstract contract StakingBase is Ownable, IStaking {
         }
 
         return 0;
+    }
+
+    /**
+     * @notice 返回两个 uint8 的最大值
+     */
+    function _max8(uint8 a, uint8 b) private pure returns (uint8) {
+        return a >= b ? a : b;
     }
 
     function _getTierRewardRate(
@@ -1619,5 +1740,194 @@ abstract contract StakingBase is Ownable, IStaking {
         address oldRecipient = feeRecipient;
         feeRecipient = _feeRecipient;
         emit FeeRecipientUpdated(oldRecipient, _feeRecipient);
+    }
+
+    // =========================================================================
+    // NODE TIER MANAGEMENT FUNCTIONS
+    // =========================================================================
+
+    /**
+     * @notice 设置节点等级管理员地址
+     * @param _tierManager 新的管理员地址
+     * @dev 只能由 owner 调用，0地址表示禁用功能
+     */
+    function setTierManager(address _tierManager) external onlyOwner {
+        address oldManager = tierManager;
+        tierManager = _tierManager;
+
+        emit TierManagerUpdated(
+            oldManager,
+            _tierManager,
+            msg.sender,
+            block.timestamp
+        );
+    }
+
+    /**
+     * @notice 为用户设置节点等级（V1或V2）
+     * @param user 目标用户地址
+     * @param tier 等级 (1=V1, 2=V2)
+     * @dev 只能由 tierManager 调用
+     * @dev 节点等级作为最低保障，不限制自然升级
+     */
+    function setNodeTier(
+        address user,
+        uint8 tier
+    ) external onlyTierManager {
+        require(user != address(0), "NodeTier: invalid address");
+        require(user != rootAddress, "NodeTier: cannot set for root");
+        require(tier >= 1 && tier <= 2, "NodeTier: only tier 1 or 2 allowed");
+
+        nodeTiers[user] = NodeTierRecord({
+            tier: tier,
+            setTime: uint40(block.timestamp),
+            setBy: msg.sender,
+            active: true
+        });
+
+        emit NodeTierSet(user, tier, msg.sender, block.timestamp);
+    }
+
+    /**
+     * @notice 移除用户的节点等级
+     * @param user 目标用户地址
+     * @dev 只能由 tierManager 调用
+     */
+    function removeNodeTier(address user) external onlyTierManager {
+        require(nodeTiers[user].active, "NodeTier: no active tier");
+
+        uint8 previousTier = nodeTiers[user].tier;
+        nodeTiers[user].active = false;
+
+        emit NodeTierRemoved(user, previousTier, msg.sender, block.timestamp);
+    }
+
+    /**
+     * @notice 批量设置节点等级
+     * @param users 用户地址数组
+     * @param tiers 对应等级数组
+     * @dev 只能由 tierManager 调用
+     * @dev 最多一次处理 100 个用户
+     */
+    function batchSetNodeTier(
+        address[] calldata users,
+        uint8[] calldata tiers
+    ) external onlyTierManager {
+        require(users.length == tiers.length, "NodeTier: array length mismatch");
+        require(users.length > 0, "NodeTier: empty array");
+        require(users.length <= 100, "NodeTier: max 100 users per batch");
+
+        for (uint256 i = 0; i < users.length; ) {
+            address user = users[i];
+            uint8 tier = tiers[i];
+
+            require(user != address(0), "NodeTier: invalid address in batch");
+            require(user != rootAddress, "NodeTier: cannot set for root");
+            require(tier >= 1 && tier <= 2, "NodeTier: invalid tier in batch");
+
+            nodeTiers[user] = NodeTierRecord({
+                tier: tier,
+                setTime: uint40(block.timestamp),
+                setBy: msg.sender,
+                active: true
+            });
+
+            emit NodeTierSet(user, tier, msg.sender, block.timestamp);
+
+            unchecked {
+                ++i;
+            }
+        }
+
+        emit NodeTierBatchSet(users, tiers, msg.sender, users.length, block.timestamp);
+    }
+
+    /**
+     * @notice 批量移除节点等级
+     * @param users 用户地址数组
+     * @dev 只能由 tierManager 调用
+     */
+    function batchRemoveNodeTier(
+        address[] calldata users
+    ) external onlyTierManager {
+        require(users.length > 0, "NodeTier: empty array");
+        require(users.length <= 100, "NodeTier: max 100 users per batch");
+
+        for (uint256 i = 0; i < users.length; ) {
+            address user = users[i];
+            if (nodeTiers[user].active) {
+                uint8 previousTier = nodeTiers[user].tier;
+                nodeTiers[user].active = false;
+                emit NodeTierRemoved(user, previousTier, msg.sender, block.timestamp);
+            }
+
+            unchecked {
+                ++i;
+            }
+        }
+    }
+
+    // =========================================================================
+    // NODE TIER QUERY FUNCTIONS
+    // =========================================================================
+
+    /**
+     * @notice 查询用户的节点等级详情
+     * @param user 用户地址
+     * @return hasNodeTier 是否设置了节点等级
+     * @return tier 节点等级
+     * @return setTime 设置时间
+     * @return setBy 设置者地址
+     * @return isActive 是否激活
+     */
+    function getNodeTierDetails(
+        address user
+    ) external view returns (
+        bool hasNodeTier,
+        uint8 tier,
+        uint40 setTime,
+        address setBy,
+        bool isActive
+    ) {
+        NodeTierRecord memory record = nodeTiers[user];
+        hasNodeTier = record.tier > 0;
+        tier = record.tier;
+        setTime = record.setTime;
+        setBy = record.setBy;
+        isActive = record.active;
+    }
+
+    /**
+     * @notice 查询用户的完整等级信息
+     * @param user 用户地址
+     * @return isPreacherStatus 是否为 Preacher
+     * @return naturalTier 自然等级 (基于 teamKPI)
+     * @return nodeTier 节点等级
+     * @return finalTier 最终等级 (实际生效)
+     * @return usingNodeTier 是否使用了节点等级
+     */
+    function getUserTierBreakdown(
+        address user
+    ) external view returns (
+        bool isPreacherStatus,
+        uint8 naturalTier,
+        uint8 nodeTier,
+        uint8 finalTier,
+        bool usingNodeTier
+    ) {
+        isPreacherStatus = isPreacher(user);
+
+        // 计算自然等级（不考虑节点等级）
+        naturalTier = _calculateNaturalTier(user);
+
+        // 获取节点等级
+        NodeTierRecord memory record = nodeTiers[user];
+        nodeTier = (record.active && isPreacherStatus) ? record.tier : 0;
+
+        // 最终等级（通过 _getUserTier 获取）
+        finalTier = _getUserTier(user);
+
+        // 判断是否使用了节点等级
+        usingNodeTier = (nodeTier > 0 && finalTier == nodeTier && naturalTier < nodeTier);
     }
 }

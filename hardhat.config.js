@@ -19,6 +19,12 @@ module.exports = {
     artifacts: "./artifacts"
   },
   networks: {
+    hardhat: {
+      mining: {
+        auto: false,
+        interval: 3000  // 每3秒自动挖一个块 (单位: 毫秒)
+      }
+    },
     localhost: {
       url: "http://127.0.0.1:8545",
       chainId: 31337,

@@ -1482,8 +1482,8 @@
       ]
     },
     "/home/ybeetle/code/stable-yield/contracts/SYI-Staking/abstract/StakingBase.sol": {
-      "lastModificationDate": 1760378968169,
-      "contentHash": "005c0853942e8af1b3785740c23695ec",
+      "lastModificationDate": 1760410303490,
+      "contentHash": "0ddbc13e1a9ab9107b0bc779f0ec7691",
       "sourceName": "contracts/SYI-Staking/abstract/StakingBase.sol",
       "solcConfig": {
         "version": "0.8.28",
@@ -2100,126 +2100,6 @@
         "SYI"
       ]
     },
-    "/home/ybeetle/code/stable-yield/contracts/LiquidityStaking/abstract/LiquidityStakingBase.sol": {
-      "lastModificationDate": 1760265747339,
-      "contentHash": "d0665a8645ec86140673eff6ad51f8e5",
-      "sourceName": "contracts/LiquidityStaking/abstract/LiquidityStakingBase.sol",
-      "solcConfig": {
-        "version": "0.8.28",
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 200
-          },
-          "viaIR": true,
-          "evmVersion": "paris",
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [
-        "@openzeppelin/contracts/token/ERC20/IERC20.sol",
-        "@openzeppelin/contracts/utils/ReentrancyGuard.sol",
-        "../interfaces/IStaking.sol",
-        "../interfaces/ISYI.sol",
-        "@openzeppelin/contracts/access/Ownable.sol",
-        "@uniswap/v2-periphery/contracts/interfaces/IUniswapV2Router02.sol"
-      ],
-      "versionPragmas": [
-        "^0.8.20"
-      ],
-      "artifacts": [
-        "LiquidityStakingBase"
-      ]
-    },
-    "/home/ybeetle/code/stable-yield/contracts/LiquidityStaking/interfaces/IStaking.sol": {
-      "lastModificationDate": 1760265597451,
-      "contentHash": "b67ad241a6e677b4c12e2f2ff49e2ef9",
-      "sourceName": "contracts/LiquidityStaking/interfaces/IStaking.sol",
-      "solcConfig": {
-        "version": "0.8.28",
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 200
-          },
-          "viaIR": true,
-          "evmVersion": "paris",
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [
-        "^0.8.20"
-      ],
-      "artifacts": [
-        "IStaking"
-      ]
-    },
-    "/home/ybeetle/code/stable-yield/contracts/LiquidityStaking/interfaces/ISYI.sol": {
-      "lastModificationDate": 1760265624275,
-      "contentHash": "f66226fca991f0d089472423d6c22715",
-      "sourceName": "contracts/LiquidityStaking/interfaces/ISYI.sol",
-      "solcConfig": {
-        "version": "0.8.28",
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 200
-          },
-          "viaIR": true,
-          "evmVersion": "paris",
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [
-        "@openzeppelin/contracts/token/ERC20/IERC20.sol"
-      ],
-      "versionPragmas": [
-        "^0.8.20"
-      ],
-      "artifacts": [
-        "ISYI"
-      ]
-    },
     "/home/ybeetle/code/stable-yield/node_modules/@openzeppelin/contracts/utils/ReentrancyGuard.sol": {
       "lastModificationDate": 1760178954342,
       "contentHash": "190613e556d509d9e9a0ea43dc5d891d",
@@ -2255,45 +2135,6 @@
       ],
       "artifacts": [
         "ReentrancyGuard"
-      ]
-    },
-    "/home/ybeetle/code/stable-yield/contracts/LiquidityStaking/mainnet/LiquidityStaking.sol": {
-      "lastModificationDate": 1760265760981,
-      "contentHash": "27589e4adbdab4ce240081af13f8eccb",
-      "sourceName": "contracts/LiquidityStaking/mainnet/LiquidityStaking.sol",
-      "solcConfig": {
-        "version": "0.8.28",
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 200
-          },
-          "viaIR": true,
-          "evmVersion": "paris",
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [
-        "../abstract/LiquidityStakingBase.sol"
-      ],
-      "versionPragmas": [
-        "^0.8.20"
-      ],
-      "artifacts": [
-        "LiquidityStaking"
       ]
     }
   }
