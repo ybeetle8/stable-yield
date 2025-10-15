@@ -27,6 +27,11 @@
                 "ast"
               ]
             }
+          },
+          "libraries": {
+            "": {
+              "__CACHE_BREAKER__": "0x0000000000000031373630353034383633363035"
+            }
           }
         }
       },
@@ -66,6 +71,11 @@
                 "ast"
               ]
             }
+          },
+          "libraries": {
+            "": {
+              "__CACHE_BREAKER__": "0x0000000000000031373630353034383633363035"
+            }
           }
         }
       },
@@ -102,6 +112,11 @@
               "": [
                 "ast"
               ]
+            }
+          },
+          "libraries": {
+            "": {
+              "__CACHE_BREAKER__": "0x0000000000000031373630353034383633363035"
             }
           }
         }
@@ -145,6 +160,11 @@
                 "ast"
               ]
             }
+          },
+          "libraries": {
+            "": {
+              "__CACHE_BREAKER__": "0x0000000000000031373630353034383633363035"
+            }
           }
         }
       },
@@ -181,6 +201,11 @@
               "": [
                 "ast"
               ]
+            }
+          },
+          "libraries": {
+            "": {
+              "__CACHE_BREAKER__": "0x0000000000000031373630353034383633363035"
             }
           }
         }
@@ -221,6 +246,11 @@
                 "ast"
               ]
             }
+          },
+          "libraries": {
+            "": {
+              "__CACHE_BREAKER__": "0x0000000000000031373630353034383633363035"
+            }
           }
         }
       },
@@ -259,6 +289,11 @@
               "": [
                 "ast"
               ]
+            }
+          },
+          "libraries": {
+            "": {
+              "__CACHE_BREAKER__": "0x0000000000000031373630353034383633363035"
             }
           }
         }
@@ -303,6 +338,11 @@
                 "ast"
               ]
             }
+          },
+          "libraries": {
+            "": {
+              "__CACHE_BREAKER__": "0x0000000000000031373630353034383633363035"
+            }
           }
         }
       },
@@ -339,6 +379,11 @@
               "": [
                 "ast"
               ]
+            }
+          },
+          "libraries": {
+            "": {
+              "__CACHE_BREAKER__": "0x0000000000000031373630353034383633363035"
             }
           }
         }
@@ -389,6 +434,11 @@
                 "ast"
               ]
             }
+          },
+          "libraries": {
+            "": {
+              "__CACHE_BREAKER__": "0x0000000000000031373630353034383633363035"
+            }
           }
         }
       },
@@ -428,6 +478,11 @@
                 "ast"
               ]
             }
+          },
+          "libraries": {
+            "": {
+              "__CACHE_BREAKER__": "0x0000000000000031373630353034383633363035"
+            }
           }
         }
       },
@@ -464,6 +519,11 @@
               "": [
                 "ast"
               ]
+            }
+          },
+          "libraries": {
+            "": {
+              "__CACHE_BREAKER__": "0x0000000000000031373630353034383633363035"
             }
           }
         }
@@ -503,6 +563,11 @@
               "": [
                 "ast"
               ]
+            }
+          },
+          "libraries": {
+            "": {
+              "__CACHE_BREAKER__": "0x0000000000000031373630353034383633363035"
             }
           }
         }
@@ -545,6 +610,11 @@
                 "ast"
               ]
             }
+          },
+          "libraries": {
+            "": {
+              "__CACHE_BREAKER__": "0x0000000000000031373630353034383633363035"
+            }
           }
         }
       },
@@ -583,6 +653,11 @@
                 "ast"
               ]
             }
+          },
+          "libraries": {
+            "": {
+              "__CACHE_BREAKER__": "0x0000000000000031373630353034383633363035"
+            }
           }
         }
       },
@@ -617,6 +692,11 @@
               "": [
                 "ast"
               ]
+            }
+          },
+          "libraries": {
+            "": {
+              "__CACHE_BREAKER__": "0x0000000000000031373630353034383633363035"
             }
           }
         }
@@ -655,6 +735,11 @@
                 "ast"
               ]
             }
+          },
+          "libraries": {
+            "": {
+              "__CACHE_BREAKER__": "0x0000000000000031373630353034383633363035"
+            }
           }
         }
       },
@@ -691,6 +776,11 @@
               "": [
                 "ast"
               ]
+            }
+          },
+          "libraries": {
+            "": {
+              "__CACHE_BREAKER__": "0x0000000000000031373630353034383633363035"
             }
           }
         }
@@ -731,6 +821,11 @@
                 "ast"
               ]
             }
+          },
+          "libraries": {
+            "": {
+              "__CACHE_BREAKER__": "0x0000000000000031373630353034383633363035"
+            }
           }
         }
       },
@@ -767,6 +862,11 @@
               "": [
                 "ast"
               ]
+            }
+          },
+          "libraries": {
+            "": {
+              "__CACHE_BREAKER__": "0x0000000000000031373630353034383633363035"
             }
           }
         }
@@ -805,6 +905,11 @@
                 "ast"
               ]
             }
+          },
+          "libraries": {
+            "": {
+              "__CACHE_BREAKER__": "0x0000000000000031373630353034383633363035"
+            }
           }
         }
       },
@@ -841,6 +946,11 @@
               "": [
                 "ast"
               ]
+            }
+          },
+          "libraries": {
+            "": {
+              "__CACHE_BREAKER__": "0x0000000000000031373630353034383633363035"
             }
           }
         }
@@ -879,6 +989,11 @@
                 "ast"
               ]
             }
+          },
+          "libraries": {
+            "": {
+              "__CACHE_BREAKER__": "0x0000000000000031373630353034383633363035"
+            }
           }
         }
       },
@@ -915,6 +1030,11 @@
               "": [
                 "ast"
               ]
+            }
+          },
+          "libraries": {
+            "": {
+              "__CACHE_BREAKER__": "0x0000000000000031373630353034383633363035"
             }
           }
         }
@@ -953,6 +1073,11 @@
                 "ast"
               ]
             }
+          },
+          "libraries": {
+            "": {
+              "__CACHE_BREAKER__": "0x0000000000000031373630353034383633363035"
+            }
           }
         }
       },
@@ -989,6 +1114,11 @@
               "": [
                 "ast"
               ]
+            }
+          },
+          "libraries": {
+            "": {
+              "__CACHE_BREAKER__": "0x0000000000000031373630353034383633363035"
             }
           }
         }
@@ -1031,6 +1161,11 @@
                 "ast"
               ]
             }
+          },
+          "libraries": {
+            "": {
+              "__CACHE_BREAKER__": "0x0000000000000031373630353034383633363035"
+            }
           }
         }
       },
@@ -1067,6 +1202,11 @@
               "": [
                 "ast"
               ]
+            }
+          },
+          "libraries": {
+            "": {
+              "__CACHE_BREAKER__": "0x0000000000000031373630353034383633363035"
             }
           }
         }
@@ -1116,6 +1256,11 @@
                 "ast"
               ]
             }
+          },
+          "libraries": {
+            "": {
+              "__CACHE_BREAKER__": "0x0000000000000031373630353034383633363035"
+            }
           }
         }
       },
@@ -1153,6 +1298,11 @@
               "": [
                 "ast"
               ]
+            }
+          },
+          "libraries": {
+            "": {
+              "__CACHE_BREAKER__": "0x0000000000000031373630353034383633363035"
             }
           }
         }
@@ -1195,6 +1345,11 @@
                 "ast"
               ]
             }
+          },
+          "libraries": {
+            "": {
+              "__CACHE_BREAKER__": "0x0000000000000031373630353034383633363035"
+            }
           }
         }
       },
@@ -1231,6 +1386,11 @@
               "": [
                 "ast"
               ]
+            }
+          },
+          "libraries": {
+            "": {
+              "__CACHE_BREAKER__": "0x0000000000000031373630353034383633363035"
             }
           }
         }
@@ -1273,6 +1433,11 @@
                 "ast"
               ]
             }
+          },
+          "libraries": {
+            "": {
+              "__CACHE_BREAKER__": "0x0000000000000031373630353034383633363035"
+            }
           }
         }
       },
@@ -1309,6 +1474,11 @@
               "": [
                 "ast"
               ]
+            }
+          },
+          "libraries": {
+            "": {
+              "__CACHE_BREAKER__": "0x0000000000000031373630353034383633363035"
             }
           }
         }
@@ -1351,6 +1521,11 @@
                 "ast"
               ]
             }
+          },
+          "libraries": {
+            "": {
+              "__CACHE_BREAKER__": "0x0000000000000031373630353034383633363035"
+            }
           }
         }
       },
@@ -1387,6 +1562,11 @@
               "": [
                 "ast"
               ]
+            }
+          },
+          "libraries": {
+            "": {
+              "__CACHE_BREAKER__": "0x0000000000000031373630353034383633363035"
             }
           }
         }
@@ -1429,6 +1609,11 @@
                 "ast"
               ]
             }
+          },
+          "libraries": {
+            "": {
+              "__CACHE_BREAKER__": "0x0000000000000031373630353034383633363035"
+            }
           }
         }
       },
@@ -1466,6 +1651,11 @@
                 "ast"
               ]
             }
+          },
+          "libraries": {
+            "": {
+              "__CACHE_BREAKER__": "0x0000000000000031373630353034383633363035"
+            }
           }
         }
       },
@@ -1483,7 +1673,7 @@
     },
     "/home/ybeetle/code/stable-yield/contracts/SYI-Staking/abstract/StakingBase.sol": {
       "lastModificationDate": 1760415011455,
-      "contentHash": "954c0f53c6cc143879d6b8c0e9740b64",
+      "contentHash": "5e4ae28cbe575f2f35c4380e5dcbdeac",
       "sourceName": "contracts/SYI-Staking/abstract/StakingBase.sol",
       "solcConfig": {
         "version": "0.8.28",
@@ -1507,17 +1697,22 @@
                 "ast"
               ]
             }
+          },
+          "libraries": {
+            "": {
+              "__CACHE_BREAKER__": "0x0000000000000031373630353034383633363035"
+            }
           }
         }
       },
       "imports": [
         "@prb/math/src/UD60x18.sol",
-        "@uniswap/v2-core/contracts/interfaces/IUniswapV2Pair.sol",
+        "lib/v2-core/contracts/interfaces/IUniswapV2Pair.sol",
         "../interfaces/ISYI.sol",
         "../interfaces/IStaking.sol",
         "@openzeppelin/contracts/token/ERC20/IERC20.sol",
         "@openzeppelin/contracts/access/Ownable.sol",
-        "@uniswap/v2-periphery/contracts/interfaces/IUniswapV2Router02.sol"
+        "lib/v2-periphery/contracts/interfaces/IUniswapV2Router02.sol"
       ],
       "versionPragmas": [
         "^0.8.20"
@@ -1551,6 +1746,11 @@
               "": [
                 "ast"
               ]
+            }
+          },
+          "libraries": {
+            "": {
+              "__CACHE_BREAKER__": "0x0000000000000031373630353034383633363035"
             }
           }
         }
@@ -1591,6 +1791,11 @@
                 "ast"
               ]
             }
+          },
+          "libraries": {
+            "": {
+              "__CACHE_BREAKER__": "0x0000000000000031373630353034383633363035"
+            }
           }
         }
       },
@@ -1600,119 +1805,6 @@
       ],
       "artifacts": [
         "IStaking"
-      ]
-    },
-    "/home/ybeetle/code/stable-yield/lib/v2-core/contracts/interfaces/IUniswapV2Pair.sol": {
-      "lastModificationDate": 1760261361335,
-      "contentHash": "3fa31c3860f2b9585c3a98c64850829e",
-      "sourceName": "@uniswap/v2-core/contracts/interfaces/IUniswapV2Pair.sol",
-      "solcConfig": {
-        "version": "0.8.28",
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 200
-          },
-          "viaIR": true,
-          "evmVersion": "paris",
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [
-        ">=0.5.0"
-      ],
-      "artifacts": [
-        "IUniswapV2Pair"
-      ]
-    },
-    "/home/ybeetle/code/stable-yield/lib/v2-periphery/contracts/interfaces/IUniswapV2Router02.sol": {
-      "lastModificationDate": 1760261361335,
-      "contentHash": "3fd36426274a5b35f7e702f87ba08a8e",
-      "sourceName": "@uniswap/v2-periphery/contracts/interfaces/IUniswapV2Router02.sol",
-      "solcConfig": {
-        "version": "0.8.28",
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 200
-          },
-          "viaIR": true,
-          "evmVersion": "paris",
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [
-        "./IUniswapV2Router01.sol"
-      ],
-      "versionPragmas": [
-        ">=0.6.2"
-      ],
-      "artifacts": [
-        "IUniswapV2Router02"
-      ]
-    },
-    "/home/ybeetle/code/stable-yield/lib/v2-periphery/contracts/interfaces/IUniswapV2Router01.sol": {
-      "lastModificationDate": 1760261361335,
-      "contentHash": "95d8729b2c698dc663322167b3c085fe",
-      "sourceName": "@uniswap/v2-periphery/contracts/interfaces/IUniswapV2Router01.sol",
-      "solcConfig": {
-        "version": "0.8.28",
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 200
-          },
-          "viaIR": true,
-          "evmVersion": "paris",
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [
-        ">=0.6.2"
-      ],
-      "artifacts": [
-        "IUniswapV2Router01"
       ]
     },
     "/home/ybeetle/code/stable-yield/contracts/SYI-Staking/mainnet/Staking.sol": {
@@ -1740,6 +1832,11 @@
               "": [
                 "ast"
               ]
+            }
+          },
+          "libraries": {
+            "": {
+              "__CACHE_BREAKER__": "0x0000000000000031373630353034383633363035"
             }
           }
         }
@@ -1779,6 +1876,11 @@
               "": [
                 "ast"
               ]
+            }
+          },
+          "libraries": {
+            "": {
+              "__CACHE_BREAKER__": "0x0000000000000031373630353034383633363035"
             }
           }
         }
@@ -1826,6 +1928,11 @@
                 "ast"
               ]
             }
+          },
+          "libraries": {
+            "": {
+              "__CACHE_BREAKER__": "0x0000000000000031373630353034383633363035"
+            }
           }
         }
       },
@@ -1862,6 +1969,11 @@
               "": [
                 "ast"
               ]
+            }
+          },
+          "libraries": {
+            "": {
+              "__CACHE_BREAKER__": "0x0000000000000031373630353034383633363035"
             }
           }
         }
@@ -1900,6 +2012,11 @@
                 "ast"
               ]
             }
+          },
+          "libraries": {
+            "": {
+              "__CACHE_BREAKER__": "0x0000000000000031373630353034383633363035"
+            }
           }
         }
       },
@@ -1936,6 +2053,11 @@
               "": [
                 "ast"
               ]
+            }
+          },
+          "libraries": {
+            "": {
+              "__CACHE_BREAKER__": "0x0000000000000031373630353034383633363035"
             }
           }
         }
@@ -1974,6 +2096,11 @@
                 "ast"
               ]
             }
+          },
+          "libraries": {
+            "": {
+              "__CACHE_BREAKER__": "0x0000000000000031373630353034383633363035"
+            }
           }
         }
       },
@@ -2010,6 +2137,11 @@
               "": [
                 "ast"
               ]
+            }
+          },
+          "libraries": {
+            "": {
+              "__CACHE_BREAKER__": "0x0000000000000031373630353034383633363035"
             }
           }
         }
@@ -2050,6 +2182,11 @@
                 "ast"
               ]
             }
+          },
+          "libraries": {
+            "": {
+              "__CACHE_BREAKER__": "0x0000000000000031373630353034383633363035"
+            }
           }
         }
       },
@@ -2086,6 +2223,11 @@
               "": [
                 "ast"
               ]
+            }
+          },
+          "libraries": {
+            "": {
+              "__CACHE_BREAKER__": "0x0000000000000031373630353034383633363035"
             }
           }
         }
@@ -2135,6 +2277,134 @@
       ],
       "artifacts": [
         "ReentrancyGuard"
+      ]
+    },
+    "/home/ybeetle/code/stable-yield/lib/v2-core/contracts/interfaces/IUniswapV2Pair.sol": {
+      "lastModificationDate": 1760261361335,
+      "contentHash": "3fa31c3860f2b9585c3a98c64850829e",
+      "sourceName": "lib/v2-core/contracts/interfaces/IUniswapV2Pair.sol",
+      "solcConfig": {
+        "version": "0.8.28",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "viaIR": true,
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "libraries": {
+            "": {
+              "__CACHE_BREAKER__": "0x0000000000000031373630353034383633363035"
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        ">=0.5.0"
+      ],
+      "artifacts": [
+        "IUniswapV2Pair"
+      ]
+    },
+    "/home/ybeetle/code/stable-yield/lib/v2-periphery/contracts/interfaces/IUniswapV2Router02.sol": {
+      "lastModificationDate": 1760261361335,
+      "contentHash": "3fd36426274a5b35f7e702f87ba08a8e",
+      "sourceName": "lib/v2-periphery/contracts/interfaces/IUniswapV2Router02.sol",
+      "solcConfig": {
+        "version": "0.8.28",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "viaIR": true,
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "libraries": {
+            "": {
+              "__CACHE_BREAKER__": "0x0000000000000031373630353034383633363035"
+            }
+          }
+        }
+      },
+      "imports": [
+        "./IUniswapV2Router01.sol"
+      ],
+      "versionPragmas": [
+        ">=0.6.2"
+      ],
+      "artifacts": [
+        "IUniswapV2Router02"
+      ]
+    },
+    "/home/ybeetle/code/stable-yield/lib/v2-periphery/contracts/interfaces/IUniswapV2Router01.sol": {
+      "lastModificationDate": 1760261361335,
+      "contentHash": "95d8729b2c698dc663322167b3c085fe",
+      "sourceName": "lib/v2-periphery/contracts/interfaces/IUniswapV2Router01.sol",
+      "solcConfig": {
+        "version": "0.8.28",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "viaIR": true,
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "libraries": {
+            "": {
+              "__CACHE_BREAKER__": "0x0000000000000031373630353034383633363035"
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        ">=0.6.2"
+      ],
+      "artifacts": [
+        "IUniswapV2Router01"
       ]
     }
   }

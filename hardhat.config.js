@@ -1,4 +1,14 @@
 require("@nomicfoundation/hardhat-toolbox");
+require("hardhat-preprocessor");
+const fs = require("fs");
+
+function getRemappings() {
+  return fs
+    .readFileSync("remappings.txt", "utf8")
+    .split("\n")
+    .filter(Boolean)
+    .map((line) => line.trim().split("="));
+}
 
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
@@ -17,6 +27,20 @@ module.exports = {
     tests: "./test",
     cache: "./cache",
     artifacts: "./artifacts"
+  },
+  preprocess: {
+    eachLine: (hre) => ({
+      transform: (line) => {
+        if (line.match(/^\s*import /i)) {
+          getRemappings().forEach(([find, replace]) => {
+            if (line.match(find)) {
+              line = line.replace(find, replace);
+            }
+          });
+        }
+        return line;
+      },
+    }),
   },
   networks: {
     hardhat: {
