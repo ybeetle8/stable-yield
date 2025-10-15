@@ -15,10 +15,55 @@
  - ChainID:	31337
  - 币名:  GO (bnb的别名)
 
-## 测试代码,及够建流程
- 请确保安装了nodejs 版本大于 22
- 第一步:  git clone https://github.com/ybeetle8/stable-yield.git
- 第二步:  cd stable-yield
- 第三步:  运行 npm i 
+## 测试代码及构建流程
+
+### 环境要求
+- Node.js 版本 >= 22
+- Git
+
+### 快速开始
+
+```bash
+# 第一步: 克隆代码
+git clone https://github.com/ybeetle8/stable-yield.git
+
+# 第二步: 进入项目目录
+cd stable-yield
+
+# 第三步: 安装依赖
+npm install
+
+# 第四步: 编译合约
+npx hardhat compile
+
+# 第五步: 运行测试脚本（使用已部署的测试网络）
+npx hardhat run scripts/printTestAccounts.js --network localhost
+```
+
+### 常用测试脚本
+
+```bash
+# 查看测试账户余额
+npx hardhat run scripts/printTestAccounts.js --network localhost
+
+# 发送 ETH
+npx hardhat run scripts/sendEth.js --network localhost
+
+# 测试质押功能
+npx hardhat run scripts/testSYIStaking.js --network localhost
+
+# 测试节点层级
+npx hardhat run scripts/testNodeTier.js --network localhost
+
+# 监听质押事件
+npx hardhat run scripts/monitorStakingEvents.js --network localhost
+```
+
+### 故障排除
+
+如果遇到编译错误 `HH411: The library @uniswap/v2-core is not installed`，请确保：
+1. 已运行 `npm install`
+2. `lib/` 目录存在且包含 Uniswap 合约文件
+3. `hardhat.config.js` 配置了 `hardhat-preprocessor` 插件
 
 
