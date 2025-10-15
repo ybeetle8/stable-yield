@@ -43,22 +43,22 @@ contract Staking is StakingBase {
     // Staking Periods (Production mode: days)
     function getStakePeriod1D() internal pure override returns (uint256) {
         // return 1 days; // Production
-        return 1; // Test: 1 second
+        return 3; // Test: 3 seconds = 1 day
     }
 
     function getStakePeriod30D() internal pure override returns (uint256) {
         // return 30 days; // Production
-        return 30; // Test: 30 seconds
+        return 90; // Test: 90 seconds = 30 days (3 * 30)
     }
 
     function getStakePeriod90D() internal pure override returns (uint256) {
         // return 90 days; // Production
-        return 90; // Test: 90 seconds
+        return 270; // Test: 270 seconds = 90 days (3 * 90)
     }
 
     function getStakePeriod180D() internal pure override returns (uint256) {
         // return 180 days; // Production
-        return 180; // Test: 180 seconds
+        return 540; // Test: 540 seconds = 180 days (3 * 180)
     }
 
     // Team Thresholds (Production mode: V1..V7)
@@ -98,6 +98,6 @@ contract Staking is StakingBase {
     // Compound Interest Time Unit - daily for mainnet
     function getCompoundTimeUnit() internal pure override returns (uint256) {
         // return 1 days; // Production: daily compounding
-        return 1; // Test: per-second compounding
+        return 3; // Test: 3 seconds = 1 day for testing
     }
 }
