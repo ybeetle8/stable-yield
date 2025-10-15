@@ -16,7 +16,7 @@
  - 币名:  GO (bnb的别名)
 
 ## 测试代码,及够建流程
-
+ 请确保安装了nodejs 版本大于 22
  第一步:  git clone https://github.com/ybeetle8/stable-yield.git
  第二步:  cd stable-yield
  第三步:  运行 npm i 
