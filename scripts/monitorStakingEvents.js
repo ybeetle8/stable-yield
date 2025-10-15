@@ -392,19 +392,19 @@ async function main() {
 
   try {
     // 读取部署的合约地址
-    const deployedAddressesPath = path.join(__dirname, "../deployed-addresses.json");
+    const deployedAddressesPath = path.join(__dirname, "../syi-deployment.json");
 
     if (!fs.existsSync(deployedAddressesPath)) {
-      console.error("\n❌ 错误：未找到 deployed-addresses.json 文件");
+      console.error("\n❌ 错误：未找到 syi-deployment.json 文件");
       console.log("请先运行部署脚本：npm run deploy-syi\n");
       process.exit(1);
     }
 
     const deployedAddresses = JSON.parse(fs.readFileSync(deployedAddressesPath, "utf8"));
-    const stakingAddress = deployedAddresses.Staking;
+    const stakingAddress = deployedAddresses.contracts?.Staking;
 
     if (!stakingAddress) {
-      console.error("\n❌ 错误：deployed-addresses.json 中未找到 Staking 地址\n");
+      console.error("\n❌ 错误：syi-deployment.json 中未找到 Staking 地址\n");
       process.exit(1);
     }
 
