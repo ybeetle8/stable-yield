@@ -6,7 +6,7 @@ const path = require("path");
 // ========================================
 // 可配置参数
 // ========================================
-const REFERRER_ADDRESS = "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC"; // 推荐人地址
+const REFERRER_ADDRESS = "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC"; // 推荐人地址 填的钱包
 const STAKE_USDT_AMOUNT = "200"; // 质押 USDT 数量
 
 async function main() {
@@ -177,19 +177,16 @@ async function main() {
   console.log("\n[5/5] 查询质押记录和用户信息...");
 
   // 质押记录数
-  console.log("\n查询质押记录数...");
   const stakeCount = await staking.stakeCount(randomWallet.address);
-  console.log("质押记录数:", stakeCount.toString());
+  console.log("\n质押记录数:", stakeCount.toString());
 
   // sSYI 余额
-  console.log("查询 sSYI 余额...");
   const ssyiBalance = await staking.balanceOf(randomWallet.address);
   console.log("sSYI 余额:", hre.ethers.formatEther(ssyiBalance), "sSYI");
 
   // 查询推荐关系
-  console.log("查询推荐关系...");
-  const referrer = await staking.getReferral(randomWallet.address);
-  const friend = await staking.getFriend(randomWallet.address);
+  const referrer = await staking.referrers(randomWallet.address);
+  const friend = await staking.friends(randomWallet.address);
   console.log("\n推荐关系:");
   console.log("- 推荐人 (referrer):", referrer);
   console.log("- 朋友 (friend):", friend);
@@ -201,12 +198,10 @@ async function main() {
 
     console.log("\n最新质押记录详情:");
     console.log("- 本金:", hre.ethers.formatEther(stakeRecord.amount), "USDT");
-    console.log("- 档位索引:", stakeRecord.stakeIndex.toString());
-    console.log("- 开始时间:", new Date(Number(stakeRecord.startTime) * 1000).toLocaleString());
+    console.log("- 档位:", stakeRecord.stakeType.toString());
     console.log("- 质押时间:", new Date(Number(stakeRecord.stakeTime) * 1000).toLocaleString());
     console.log("- 到期时间:", new Date(Number(stakeRecord.originalEndTime) * 1000).toLocaleString());
-    console.log("- 已提取总额:", hre.ethers.formatEther(stakeRecord.totalWithdrawn), "USDT");
-    console.log("- 状态 (status):", stakeRecord.status);
+    console.log("- 是否已提取:", stakeRecord.withdrawn);
 
     // 计算预期收益
     const canWithdraw = await staking.canWithdrawStake(randomWallet.address, latestStakeIndex);
@@ -220,18 +215,15 @@ async function main() {
   }
 
   // 查询团队信息
-  console.log("\n查询团队信息...");
-  const teamPerformance = await staking.getTeamPerformanceDetails(randomWallet.address);
+  const totalInvested = await staking.totalInvested(randomWallet.address);
+  const tier = await staking.getTeamTier(randomWallet.address);
 
   console.log("\n团队信息:");
-  console.log("- 团队总投资:", hre.ethers.formatEther(teamPerformance.totalTeamInvestment), "SYI");
-  console.log("- 团队成员数:", teamPerformance.teamMemberCount.toString());
-  console.log("- 当前层级:", teamPerformance.currentTier.toString(), "(V" + teamPerformance.currentTier.toString() + ")");
-  console.log("- 下一层级门槛:", hre.ethers.formatEther(teamPerformance.nextTierThreshold), "SYI");
-  console.log("- 升级进度:", teamPerformance.progressToNextTier.toString() + "%");
+  console.log("- 团队总投资:", hre.ethers.formatEther(totalInvested), "SYI");
+  console.log("- 团队层级:", tier.toString(), "(V" + tier.toString() + ")");
 
   // 查询是否是传教士
-  const isPreacher = teamPerformance.totalTeamInvestment >= hre.ethers.parseEther("200");
+  const isPreacher = totalInvested >= hre.ethers.parseEther("200");
   console.log("- 是否是传教士 (≥200 SYI):", isPreacher);
 
   console.log("\n==========================================");
