@@ -11,7 +11,6 @@
     "test-network": "npx hardhat test test/network-connection-test.js --network localhost",
     "compile": "npx hardhat compile",
     "deploy": "npx hardhat run scripts/deploy.js",
-    "deploy-ola": "npx hardhat run scripts/deployOLASystem.js --network localhost",
     "deploy-pancake": "npx hardhat run scripts/deployPancakeSwap.js",
     "use-pancake": "npx hardhat run scripts/usePancakeSwap.js",
     "deploy-and-use": "npx hardhat run scripts/deployAndUse.js",
