@@ -1,0 +1,488 @@
+<!DOCTYPE html><html><head>
+      <title>SYI预售方案</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      
+      <link rel="stylesheet" href="file:////home/ybeetle/.vscode-server/extensions/shd101wyy.markdown-preview-enhanced-0.8.19/crossnote/dependencies/katex/katex.min.css">
+      
+      
+      <script type="text/javascript" src="file:////home/ybeetle/.vscode-server/extensions/shd101wyy.markdown-preview-enhanced-0.8.19/crossnote/dependencies/mermaid/mermaid.min.js" charset="UTF-8"></script>
+      
+      
+      <style>
+      code[class*=language-],pre[class*=language-]{color:#333;background:0 0;font-family:Consolas,"Liberation Mono",Menlo,Courier,monospace;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.4;-moz-tab-size:8;-o-tab-size:8;tab-size:8;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:.8em;overflow:auto;border-radius:3px;background:#f5f5f5}:not(pre)>code[class*=language-]{padding:.1em;border-radius:.3em;white-space:normal;background:#f5f5f5}.token.blockquote,.token.comment{color:#969896}.token.cdata{color:#183691}.token.doctype,.token.macro.property,.token.punctuation,.token.variable{color:#333}.token.builtin,.token.important,.token.keyword,.token.operator,.token.rule{color:#a71d5d}.token.attr-value,.token.regex,.token.string,.token.url{color:#183691}.token.atrule,.token.boolean,.token.code,.token.command,.token.constant,.token.entity,.token.number,.token.property,.token.symbol{color:#0086b3}.token.prolog,.token.selector,.token.tag{color:#63a35c}.token.attr-name,.token.class,.token.class-name,.token.function,.token.id,.token.namespace,.token.pseudo-class,.token.pseudo-element,.token.url-reference .token.variable{color:#795da3}.token.entity{cursor:help}.token.title,.token.title .token.punctuation{font-weight:700;color:#1d3e81}.token.list{color:#ed6a43}.token.inserted{background-color:#eaffea;color:#55a532}.token.deleted{background-color:#ffecec;color:#bd2c00}.token.bold{font-weight:700}.token.italic{font-style:italic}.language-json .token.property{color:#183691}.language-markup .token.tag .token.punctuation{color:#333}.language-css .token.function,code.language-css{color:#0086b3}.language-yaml .token.atrule{color:#63a35c}code.language-yaml{color:#183691}.language-ruby .token.function{color:#333}.language-markdown .token.url{color:#795da3}.language-makefile .token.symbol{color:#795da3}.language-makefile .token.variable{color:#183691}.language-makefile .token.builtin{color:#0086b3}.language-bash .token.keyword{color:#0086b3}pre[data-line]{position:relative;padding:1em 0 1em 3em}pre[data-line] .line-highlight-wrapper{position:absolute;top:0;left:0;background-color:transparent;display:block;width:100%}pre[data-line] .line-highlight{position:absolute;left:0;right:0;padding:inherit 0;margin-top:1em;background:hsla(24,20%,50%,.08);background:linear-gradient(to right,hsla(24,20%,50%,.1) 70%,hsla(24,20%,50%,0));pointer-events:none;line-height:inherit;white-space:pre}pre[data-line] .line-highlight:before,pre[data-line] .line-highlight[data-end]:after{content:attr(data-start);position:absolute;top:.4em;left:.6em;min-width:1em;padding:0 .5em;background-color:hsla(24,20%,50%,.4);color:#f4f1ef;font:bold 65%/1.5 sans-serif;text-align:center;vertical-align:.3em;border-radius:999px;text-shadow:none;box-shadow:0 1px #fff}pre[data-line] .line-highlight[data-end]:after{content:attr(data-end);top:auto;bottom:.4em}html body{font-family:'Helvetica Neue',Helvetica,'Segoe UI',Arial,freesans,sans-serif;font-size:16px;line-height:1.6;color:#333;background-color:#fff;overflow:initial;box-sizing:border-box;word-wrap:break-word}html body>:first-child{margin-top:0}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{line-height:1.2;margin-top:1em;margin-bottom:16px;color:#000}html body h1{font-size:2.25em;font-weight:300;padding-bottom:.3em}html body h2{font-size:1.75em;font-weight:400;padding-bottom:.3em}html body h3{font-size:1.5em;font-weight:500}html body h4{font-size:1.25em;font-weight:600}html body h5{font-size:1.1em;font-weight:600}html body h6{font-size:1em;font-weight:600}html body h1,html body h2,html body h3,html body h4,html body h5{font-weight:600}html body h5{font-size:1em}html body h6{color:#5c5c5c}html body strong{color:#000}html body del{color:#5c5c5c}html body a:not([href]){color:inherit;text-decoration:none}html body a{color:#08c;text-decoration:none}html body a:hover{color:#00a3f5;text-decoration:none}html body img{max-width:100%}html body>p{margin-top:0;margin-bottom:16px;word-wrap:break-word}html body>ol,html body>ul{margin-bottom:16px}html body ol,html body ul{padding-left:2em}html body ol.no-list,html body ul.no-list{padding:0;list-style-type:none}html body ol ol,html body ol ul,html body ul ol,html body ul ul{margin-top:0;margin-bottom:0}html body li{margin-bottom:0}html body li.task-list-item{list-style:none}html body li>p{margin-top:0;margin-bottom:0}html body .task-list-item-checkbox{margin:0 .2em .25em -1.8em;vertical-align:middle}html body .task-list-item-checkbox:hover{cursor:pointer}html body blockquote{margin:16px 0;font-size:inherit;padding:0 15px;color:#5c5c5c;background-color:#f0f0f0;border-left:4px solid #d6d6d6}html body blockquote>:first-child{margin-top:0}html body blockquote>:last-child{margin-bottom:0}html body hr{height:4px;margin:32px 0;background-color:#d6d6d6;border:0 none}html body table{margin:10px 0 15px 0;border-collapse:collapse;border-spacing:0;display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}html body table th{font-weight:700;color:#000}html body table td,html body table th{border:1px solid #d6d6d6;padding:6px 13px}html body dl{padding:0}html body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:700}html body dl dd{padding:0 16px;margin-bottom:16px}html body code{font-family:Menlo,Monaco,Consolas,'Courier New',monospace;font-size:.85em;color:#000;background-color:#f0f0f0;border-radius:3px;padding:.2em 0}html body code::after,html body code::before{letter-spacing:-.2em;content:'\00a0'}html body pre>code{padding:0;margin:0;word-break:normal;white-space:pre;background:0 0;border:0}html body .highlight{margin-bottom:16px}html body .highlight pre,html body pre{padding:1em;overflow:auto;line-height:1.45;border:#d6d6d6;border-radius:3px}html body .highlight pre{margin-bottom:0;word-break:normal}html body pre code,html body pre tt{display:inline;max-width:initial;padding:0;margin:0;overflow:initial;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}html body pre code:after,html body pre code:before,html body pre tt:after,html body pre tt:before{content:normal}html body blockquote,html body dl,html body ol,html body p,html body pre,html body ul{margin-top:0;margin-bottom:16px}html body kbd{color:#000;border:1px solid #d6d6d6;border-bottom:2px solid #c7c7c7;padding:2px 4px;background-color:#f0f0f0;border-radius:3px}@media print{html body{background-color:#fff}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{color:#000;page-break-after:avoid}html body blockquote{color:#5c5c5c}html body pre{page-break-inside:avoid}html body table{display:table}html body img{display:block;max-width:100%;max-height:100%}html body code,html body pre{word-wrap:break-word;white-space:pre}}.markdown-preview{width:100%;height:100%;box-sizing:border-box}.markdown-preview ul{list-style:disc}.markdown-preview ul ul{list-style:circle}.markdown-preview ul ul ul{list-style:square}.markdown-preview ol{list-style:decimal}.markdown-preview ol ol,.markdown-preview ul ol{list-style-type:lower-roman}.markdown-preview ol ol ol,.markdown-preview ol ul ol,.markdown-preview ul ol ol,.markdown-preview ul ul ol{list-style-type:lower-alpha}.markdown-preview .newpage,.markdown-preview .pagebreak{page-break-before:always}.markdown-preview pre.line-numbers{position:relative;padding-left:3.8em;counter-reset:linenumber}.markdown-preview pre.line-numbers>code{position:relative}.markdown-preview pre.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:0;width:3em;letter-spacing:-1px;border-right:1px solid #999;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.markdown-preview pre.line-numbers .line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.markdown-preview pre.line-numbers .line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}.markdown-preview .mathjax-exps .MathJax_Display{text-align:center!important}.markdown-preview:not([data-for=preview]) .code-chunk .code-chunk-btn-group{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .status{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .output-div{margin-bottom:16px}.markdown-preview .md-toc{padding:0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link div,.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}.markdown-preview .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}.scrollbar-style::-webkit-scrollbar{width:8px}.scrollbar-style::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}.scrollbar-style::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode]){position:relative;width:100%;height:100%;top:0;left:0;margin:0;padding:0;overflow:auto}html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{position:relative;top:0;min-height:100vh}@media screen and (min-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em calc(50% - 457px + 2em)}}@media screen and (max-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{font-size:14px!important;padding:1em}}@media print{html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{display:none}}html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{position:fixed;bottom:8px;left:8px;font-size:28px;cursor:pointer;color:inherit;z-index:99;width:32px;text-align:center;opacity:.4}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] #sidebar-toc-btn{opacity:1}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc{position:fixed;top:0;left:0;width:300px;height:100%;padding:32px 0 48px 0;font-size:14px;box-shadow:0 0 4px rgba(150,150,150,.33);box-sizing:border-box;overflow:auto;background-color:inherit}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar{width:8px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc a{text-decoration:none}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc{padding:0 16px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link div,html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{left:300px;width:calc(100% - 300px);padding:2em calc(50% - 457px - 300px / 2);margin:0;box-sizing:border-box}@media screen and (max-width:1274px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{width:100%}}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .markdown-preview{left:50%;transform:translateX(-50%)}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .md-sidebar-toc{display:none}
+/* Please visit the URL below for more information: */
+/*   https://shd101wyy.github.io/markdown-preview-enhanced/#/customize-css */
+
+      </style>
+      <!-- The content below will be included at the end of the <head> element. --><script type="text/javascript">
+  document.addEventListener("DOMContentLoaded", function () {
+    // your code here
+  });
+</script></head><body for="html-export">
+    
+    
+      <div class="crossnote markdown-preview  ">
+      <div>
+<h1 id="syi-预售方案">SYI 预售方案 </h1>
+<h2 id="一-预售机制概述">一、预售机制概述 </h2>
+<p>SYI 代币通过<strong>白名单 + 预售期</strong>的组合机制实现公平的预售分发，确保只有符合条件的早期投资者能够在预售期参与购买。</p>
+<h3 id="11-预售流程图">1.1 预售流程图 </h3>
+<div class="mermaid">flowchart TB
+    Start([合约部署]) --&gt; Init[调用 initializeWhitelist&lt;br/&gt;自动白名单: Owner, Staking, Router]
+    Init --&gt; AddWhitelist[批量添加预售白名单&lt;br/&gt;setBatchFeeWhitelisted]
+    AddWhitelist --&gt; PresalePeriod{预售期&lt;br/&gt;30天}
+
+    PresalePeriod --&gt;|白名单用户| WhitelistBuy[✅ 可以在 PancakeSwap 购买&lt;br/&gt;无任何限制]
+    PresalePeriod --&gt;|非白名单用户| NormalBuyFail[❌ 购买失败&lt;br/&gt;触发 NotAllowedBuy 错误]
+
+    WhitelistBuy --&gt; CheckEnd{30天到期?}
+    NormalBuyFail --&gt; CheckEnd
+
+    CheckEnd --&gt;|未到期| PresalePeriod
+    CheckEnd --&gt;|到期| PublicOpen[公开交易阶段]
+
+    PublicOpen --&gt; AllCanBuy[✅ 所有用户可自由交易&lt;br/&gt;PancakeSwap 正常买卖]
+
+    style Start fill:#e1f5ff
+    style Init fill:#fff4e1
+    style AddWhitelist fill:#fff4e1
+    style WhitelistBuy fill:#d4edda
+    style NormalBuyFail fill:#f8d7da
+    style PublicOpen fill:#d1ecf1
+    style AllCanBuy fill:#d4edda
+</div><h3 id="12-用户体验对比">1.2 用户体验对比 </h3>
+<div class="mermaid">gantt
+    title 预售期内用户购买体验
+    dateFormat YYYY-MM-DD
+    axisFormat %d天
+
+    section 白名单用户
+    可在 PancakeSwap 自由购买 :active, 2025-01-01, 30d
+
+    section 非白名单用户
+    无法购买（等待期）:crit, 2025-01-01, 30d
+
+    section 所有用户
+    预售结束，全面开放 :done, 2025-01-31, 1d
+</div><h3 id="13-预售期决策逻辑">1.3 预售期决策逻辑 </h3>
+<div class="mermaid">flowchart LR
+    User[用户尝试购买 SYI] --&gt; CheckBlacklist{是否在黑名单?}
+
+    CheckBlacklist --&gt;|是| Reject1[❌ 拒绝&lt;br/&gt;Blacklisted]
+    CheckBlacklist --&gt;|否| CheckWhitelist{是否在白名单?}
+
+    CheckWhitelist --&gt;|是| Allow1[✅ 允许购买&lt;br/&gt;跳过所有检查]
+    CheckWhitelist --&gt;|否| CheckPresale{预售期是否激活?}
+
+    CheckPresale --&gt;|否| Allow2[✅ 允许购买&lt;br/&gt;公开交易期]
+    CheckPresale --&gt;|是| CheckTime{当前时间 &lt; 预售结束时间?}
+
+    CheckTime --&gt;|否| Allow3[✅ 允许购买&lt;br/&gt;预售已结束]
+    CheckTime --&gt;|是| Reject2[❌ 拒绝&lt;br/&gt;NotAllowedBuy]
+
+    style Reject1 fill:#f8d7da
+    style Reject2 fill:#f8d7da
+    style Allow1 fill:#d4edda
+    style Allow2 fill:#d4edda
+    style Allow3 fill:#d4edda
+</div><h2 id="二-技术实现原理">二、技术实现原理 </h2>
+<h3 id="21-核心机制">2.1 核心机制 </h3>
+<table>
+<thead>
+<tr>
+<th>用户类型</th>
+<th>预售期内（30天）</th>
+<th>预售期后</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>白名单用户</strong></td>
+<td>✅ 可以购买</td>
+<td>✅ 可以购买</td>
+</tr>
+<tr>
+<td><strong>普通用户</strong></td>
+<td>❌ 无法购买（触发 <code>NotAllowedBuy()</code> 错误）</td>
+<td>✅ 可以购买</td>
+</tr>
+</tbody>
+</table>
+<h3 id="22-代码逻辑">2.2 代码逻辑 </h3>
+<p><strong>预售期检查</strong>（SYIBase.sol:568-574）：</p>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token keyword keyword-function">function</span> <span class="token function">_handleBuy</span><span class="token punctuation">(</span><span class="token builtin">address</span> <span class="token keyword keyword-from">from</span><span class="token punctuation">,</span> <span class="token builtin">address</span> to<span class="token punctuation">,</span> <span class="token builtin">uint256</span> amount<span class="token punctuation">)</span> <span class="token keyword keyword-private">private</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 预售期检查</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>presaleActive <span class="token operator">&amp;&amp;</span> block<span class="token punctuation">.</span>timestamp <span class="token operator">&lt;</span> presaleStartTime <span class="token operator">+</span> presaleDuration<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword keyword-revert">revert</span> <span class="token function">NotAllowedBuy</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 非白名单用户购买失败</span>
+    <span class="token punctuation">}</span>
+    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+<span class="token punctuation">}</span>
+</code></pre><p><strong>白名单豁免</strong>（SYIBase.sol:512-519）：</p>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token builtin">bool</span> isWhitelisted <span class="token operator">=</span> feeWhitelisted<span class="token punctuation">[</span><span class="token keyword keyword-from">from</span><span class="token punctuation">]</span> <span class="token operator">||</span> feeWhitelisted<span class="token punctuation">[</span>to<span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>isWhitelisted<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    super<span class="token punctuation">.</span><span class="token function">_update</span><span class="token punctuation">(</span><span class="token keyword keyword-from">from</span><span class="token punctuation">,</span> to<span class="token punctuation">,</span> value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-return">return</span><span class="token punctuation">;</span>  <span class="token comment">// 白名单用户跳过所有检查，直接执行转账</span>
+<span class="token punctuation">}</span>
+</code></pre><h3 id="23-关键参数">2.3 关键参数 </h3>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>主网值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>presaleDuration</code></td>
+<td>30 天</td>
+<td>预售期时长</td>
+</tr>
+<tr>
+<td><code>presaleActive</code></td>
+<td>初始为 <code>true</code></td>
+<td>预售激活状态</td>
+</tr>
+<tr>
+<td><code>presaleStartTime</code></td>
+<td>合约部署时间</td>
+<td>预售开始时间</td>
+</tr>
+</tbody>
+</table>
+<h2 id="三-预售流程">三、预售流程 </h2>
+<h3 id="阶段-1-预售准备合约部署前">阶段 1: 预售准备（合约部署前） </h3>
+<ol>
+<li>
+<p><strong>确定白名单用户</strong></p>
+<ul>
+<li>早期投资者地址</li>
+<li>合作伙伴地址</li>
+<li>项目方核心成员</li>
+</ul>
+</li>
+<li>
+<p><strong>部署合约</strong></p>
+<pre data-role="codeBlock" data-info="bash" class="language-bash bash"><code>npx hardhat compile
+npx hardhat run scripts/deploySYI.js <span class="token parameter variable">--network</span> bsc
+</code></pre></li>
+<li>
+<p><strong>初始化白名单</strong></p>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token comment">// 自动白名单地址（deploySYI.js 中会调用）</span>
+SYI<span class="token punctuation">.</span><span class="token function">initializeWhitelist</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// 自动加入: Owner, SYI合约, Staking合约, Router</span>
+</code></pre></li>
+</ol>
+<h3 id="阶段-2-添加预售白名单部署后立即执行">阶段 2: 添加预售白名单（部署后立即执行） </h3>
+<p><strong>方法 1: 单个地址添加</strong></p>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code>SYI<span class="token punctuation">.</span><span class="token function">setFeeWhitelisted</span><span class="token punctuation">(</span>预售用户地址<span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre><p><strong>方法 2: 批量添加（推荐）</strong></p>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token builtin">address</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token keyword keyword-memory">memory</span> presaleUsers <span class="token operator">=</span> <span class="token punctuation">[</span>
+    <span class="token number">0x1234</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token number">.5678</span><span class="token punctuation">,</span>
+    <span class="token number">0xabcd</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>ef00<span class="token punctuation">,</span>
+    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+<span class="token punctuation">]</span><span class="token punctuation">;</span>
+SYI<span class="token punctuation">.</span><span class="token function">setBatchFeeWhitelisted</span><span class="token punctuation">(</span>presaleUsers<span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre><p><strong>脚本示例</strong>：</p>
+<pre data-role="codeBlock" data-info="javascript" class="language-javascript javascript"><code><span class="token comment">// scripts/addPresaleWhitelist.js</span>
+<span class="token keyword keyword-const">const</span> presaleAddresses <span class="token operator">=</span> <span class="token punctuation">[</span>
+    <span class="token string">"0x..."</span><span class="token punctuation">,</span>  <span class="token comment">// 早期投资者 1</span>
+    <span class="token string">"0x..."</span><span class="token punctuation">,</span>  <span class="token comment">// 早期投资者 2</span>
+    <span class="token comment">// ...</span>
+<span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-const">const</span> syi <span class="token operator">=</span> <span class="token keyword control-flow keyword-await">await</span> ethers<span class="token punctuation">.</span><span class="token method function property-access">getContractAt</span><span class="token punctuation">(</span><span class="token string">"SYI"</span><span class="token punctuation">,</span> <span class="token constant">SYI_ADDRESS</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword keyword-const">const</span> tx <span class="token operator">=</span> <span class="token keyword control-flow keyword-await">await</span> syi<span class="token punctuation">.</span><span class="token method function property-access">setBatchFeeWhitelisted</span><span class="token punctuation">(</span>presaleAddresses<span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword control-flow keyword-await">await</span> tx<span class="token punctuation">.</span><span class="token method function property-access">wait</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token console class-name">console</span><span class="token punctuation">.</span><span class="token method function property-access">log</span><span class="token punctuation">(</span><span class="token string">"预售白名单添加成功"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre><h3 id="阶段-3-预售期0-30天">阶段 3: 预售期（0-30天） </h3>
+<p><strong>用户体验</strong>：</p>
+<ol>
+<li>
+<p><strong>白名单用户</strong>：</p>
+<ul>
+<li>在 PancakeSwap 正常购买 SYI</li>
+<li>无任何限制，享受早期价格</li>
+</ul>
+</li>
+<li>
+<p><strong>非白名单用户</strong>：</p>
+<ul>
+<li>尝试购买 → 交易失败</li>
+<li>错误提示: <code>NotAllowedBuy()</code></li>
+<li>需要等待预售期结束（30天后）</li>
+</ul>
+</li>
+</ol>
+<h3 id="阶段-4-预售期结束后30天后">阶段 4: 预售期结束后（30天后） </h3>
+<p><strong>自动开放</strong>：</p>
+<ul>
+<li>合约自动检测 <code>block.timestamp &gt;= presaleStartTime + 30 days</code></li>
+<li>所有用户均可自由购买</li>
+<li>无需管理员操作</li>
+</ul>
+<p><strong>或手动关闭</strong>（可选）：</p>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code>SYI<span class="token punctuation">.</span><span class="token function">setPresaleActive</span><span class="token punctuation">(</span><span class="token boolean">false</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 立即结束预售期</span>
+</code></pre><h2 id="四-预售期管理接口">四、预售期管理接口 </h2>
+<h3 id="41-查询预售状态">4.1 查询预售状态 </h3>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token keyword keyword-function">function</span> <span class="token function">getPresaleStatus</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword keyword-external">external</span> <span class="token keyword keyword-view">view</span> <span class="token keyword keyword-returns">returns</span> <span class="token punctuation">(</span>
+    <span class="token builtin">bool</span> active<span class="token punctuation">,</span>          <span class="token comment">// 是否激活</span>
+    <span class="token builtin">uint256</span> startTime<span class="token punctuation">,</span>    <span class="token comment">// 开始时间</span>
+    <span class="token builtin">uint256</span> duration<span class="token punctuation">,</span>     <span class="token comment">// 持续时长（秒）</span>
+    <span class="token builtin">uint256</span> remainingTime<span class="token punctuation">,</span><span class="token comment">// 剩余时间（秒）</span>
+    <span class="token builtin">bool</span> isInPresale      <span class="token comment">// 当前是否在预售期内</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre><p><strong>前端调用示例</strong>：</p>
+<pre data-role="codeBlock" data-info="javascript" class="language-javascript javascript"><code><span class="token keyword keyword-const">const</span> status <span class="token operator">=</span> <span class="token keyword control-flow keyword-await">await</span> syi<span class="token punctuation">.</span><span class="token method function property-access">getPresaleStatus</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token console class-name">console</span><span class="token punctuation">.</span><span class="token method function property-access">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">预售激活: </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>status<span class="token punctuation">.</span><span class="token property-access">active</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token console class-name">console</span><span class="token punctuation">.</span><span class="token method function property-access">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">剩余时间: </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>status<span class="token punctuation">.</span><span class="token property-access">remainingTime</span> <span class="token operator">/</span> <span class="token number">86400</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"> 天</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token console class-name">console</span><span class="token punctuation">.</span><span class="token method function property-access">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">当前在预售期: </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>status<span class="token punctuation">.</span><span class="token property-access">isInPresale</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre><h3 id="42-管理操作仅-owner">4.2 管理操作（仅 Owner） </h3>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>功能</th>
+<th>使用场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>setPresaleActive(bool)</code></td>
+<td>手动启停预售</td>
+<td>紧急情况或提前结束</td>
+</tr>
+<tr>
+<td><code>setFeeWhitelisted(address, bool)</code></td>
+<td>添加/移除单个白名单</td>
+<td>补充遗漏地址</td>
+</tr>
+<tr>
+<td><code>setBatchFeeWhitelisted(address[], bool)</code></td>
+<td>批量添加/移除</td>
+<td>预售名单管理</td>
+</tr>
+</tbody>
+</table>
+<h3 id="43-重启预售可选功能">4.3 重启预售（可选功能） </h3>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token comment">// 重新激活预售，重置开始时间</span>
+SYI<span class="token punctuation">.</span><span class="token function">setPresaleActive</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// 新的预售期: 当前时间 + 30 天</span>
+</code></pre><h2 id="五-安全机制">五、安全机制 </h2>
+<h3 id="51-黑名单保护">5.1 黑名单保护 </h3>
+<p>即使在白名单中，被加入黑名单的地址也无法购买：</p>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token keyword keyword-modifier">modifier</span> <span class="token function">notBlacklisted</span><span class="token punctuation">(</span><span class="token builtin">address</span> account<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>blacklisted<span class="token punctuation">[</span>account<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token keyword keyword-revert">revert</span> <span class="token function">Blacklisted</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-_">_</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><p><strong>优先级</strong>: 黑名单 &gt; 白名单</p>
+<h3 id="52-延迟购买保护">5.2 延迟购买保护 </h3>
+<p>可选启用 30 天延迟购买期（与预售期配合）：</p>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code>SYI<span class="token punctuation">.</span><span class="token function">setDelayedBuyEnabled</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// 非白名单用户需等待 30 天才能购买（额外保护）</span>
+</code></pre><p><strong>双重保护</strong>：</p>
+<ul>
+<li>预售期: 只允许白名单购买</li>
+<li>延迟购买期: 即使预售结束，非白名单还需再等 30 天</li>
+</ul>
+<h3 id="53-冷却时间">5.3 冷却时间 </h3>
+<p>防止机器人快速交易：</p>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity solidity"><code><span class="token builtin">uint256</span> <span class="token keyword keyword-public">public</span> coldTime <span class="token operator">=</span> <span class="token number">10</span> seconds<span class="token punctuation">;</span>  <span class="token comment">// 买入后 10 秒内不能卖出</span>
+</code></pre><h2 id="六-预售场景示例">六、预售场景示例 </h2>
+<h3 id="场景-1-标准-30-天预售">场景 1: 标准 30 天预售 </h3>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>T0 (部署)
+├─ 添加白名单: 100 个早期投资者
+│
+├─ 预售期（0-30天）
+│  ├─ 白名单用户: 在 PancakeSwap 购买
+│  └─ 普通用户: 无法购买
+│
+└─ T30 (自动开放)
+   └─ 所有用户可自由交易
+</code></pre><h3 id="场景-2-提前结束预售">场景 2: 提前结束预售 </h3>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>T0 (部署)
+├─ 添加白名单: 50 个用户
+│
+├─ 预售期（0-15天）
+│  └─ 白名单用户购买
+│
+├─ T15: 手动关闭预售
+│  └─ SYI.setPresaleActive(false)
+│
+└─ T15+ (立即开放)
+   └─ 所有用户可交易
+</code></pre><h3 id="场景-3-分阶段预售">场景 3: 分阶段预售 </h3>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>T0 (部署)
+├─ 第一轮白名单: 30 个种子用户
+│
+├─ T7: 添加第二轮白名单
+│  └─ 额外 70 个用户
+│
+├─ T15: 添加第三轮白名单
+│  └─ 额外 100 个用户
+│
+└─ T30 (自动开放)
+   └─ 所有用户可交易
+</code></pre><h2 id="七-前端集成建议">七、前端集成建议 </h2>
+<h3 id="71-预售倒计时组件">7.1 预售倒计时组件 </h3>
+<pre data-role="codeBlock" data-info="javascript" class="language-javascript javascript"><code><span class="token keyword keyword-async">async</span> <span class="token keyword keyword-function">function</span> <span class="token function">getPresaleCountdown</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword keyword-const">const</span> status <span class="token operator">=</span> <span class="token keyword control-flow keyword-await">await</span> syi<span class="token punctuation">.</span><span class="token method function property-access">getPresaleStatus</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword control-flow keyword-if">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>status<span class="token punctuation">.</span><span class="token property-access">isInPresale</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword control-flow keyword-return">return</span> <span class="token string">"预售已结束，可自由购买"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword keyword-const">const</span> days <span class="token operator">=</span> <span class="token known-class-name class-name">Math</span><span class="token punctuation">.</span><span class="token method function property-access">floor</span><span class="token punctuation">(</span>status<span class="token punctuation">.</span><span class="token property-access">remainingTime</span> <span class="token operator">/</span> <span class="token number">86400</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-const">const</span> hours <span class="token operator">=</span> <span class="token known-class-name class-name">Math</span><span class="token punctuation">.</span><span class="token method function property-access">floor</span><span class="token punctuation">(</span><span class="token punctuation">(</span>status<span class="token punctuation">.</span><span class="token property-access">remainingTime</span> <span class="token operator">%</span> <span class="token number">86400</span><span class="token punctuation">)</span> <span class="token operator">/</span> <span class="token number">3600</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword control-flow keyword-return">return</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">预售剩余: </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>days<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">天 </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>hours<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">小时</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><h3 id="72-购买前检查">7.2 购买前检查 </h3>
+<pre data-role="codeBlock" data-info="javascript" class="language-javascript javascript"><code><span class="token keyword keyword-async">async</span> <span class="token keyword keyword-function">function</span> <span class="token function">checkCanBuy</span><span class="token punctuation">(</span><span class="token parameter">userAddress</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword keyword-const">const</span> status <span class="token operator">=</span> <span class="token keyword control-flow keyword-await">await</span> syi<span class="token punctuation">.</span><span class="token method function property-access">getPresaleStatus</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword control-flow keyword-if">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>status<span class="token punctuation">.</span><span class="token property-access">isInPresale</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword control-flow keyword-return">return</span> <span class="token punctuation">{</span> <span class="token literal-property property">canBuy</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span> <span class="token literal-property property">reason</span><span class="token operator">:</span> <span class="token string">""</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword keyword-const">const</span> isWhitelisted <span class="token operator">=</span> <span class="token keyword control-flow keyword-await">await</span> syi<span class="token punctuation">.</span><span class="token method function property-access">feeWhitelisted</span><span class="token punctuation">(</span>userAddress<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword control-flow keyword-if">if</span> <span class="token punctuation">(</span>isWhitelisted<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword control-flow keyword-return">return</span> <span class="token punctuation">{</span> <span class="token literal-property property">canBuy</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span> <span class="token literal-property property">reason</span><span class="token operator">:</span> <span class="token string">"白名单用户"</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword control-flow keyword-else">else</span> <span class="token punctuation">{</span>
+        <span class="token keyword control-flow keyword-return">return</span> <span class="token punctuation">{</span>
+            <span class="token literal-property property">canBuy</span><span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+            <span class="token literal-property property">reason</span><span class="token operator">:</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">预售期内，请等待 </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span><span class="token known-class-name class-name">Math</span><span class="token punctuation">.</span><span class="token method function property-access">ceil</span><span class="token punctuation">(</span>status<span class="token punctuation">.</span><span class="token property-access">remainingTime</span> <span class="token operator">/</span> <span class="token number">86400</span><span class="token punctuation">)</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"> 天</span><span class="token template-punctuation string">`</span></span>
+        <span class="token punctuation">}</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><h3 id="73-错误处理">7.3 错误处理 </h3>
+<pre data-role="codeBlock" data-info="javascript" class="language-javascript javascript"><code><span class="token keyword control-flow keyword-try">try</span> <span class="token punctuation">{</span>
+    <span class="token keyword control-flow keyword-await">await</span> <span class="token function">buyTokens</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span> <span class="token keyword control-flow keyword-catch">catch</span> <span class="token punctuation">(</span>error<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword control-flow keyword-if">if</span> <span class="token punctuation">(</span>error<span class="token punctuation">.</span><span class="token property-access">message</span><span class="token punctuation">.</span><span class="token method function property-access">includes</span><span class="token punctuation">(</span><span class="token string">"NotAllowedBuy"</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">alert</span><span class="token punctuation">(</span><span class="token string">"预售期内仅限白名单用户购买，请等待预售结束"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword control-flow keyword-else">else</span> <span class="token keyword control-flow keyword-if">if</span> <span class="token punctuation">(</span>error<span class="token punctuation">.</span><span class="token property-access">message</span><span class="token punctuation">.</span><span class="token method function property-access">includes</span><span class="token punctuation">(</span><span class="token string">"Blacklisted"</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">alert</span><span class="token punctuation">(</span><span class="token string">"您的地址已被列入黑名单"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword control-flow keyword-else">else</span> <span class="token keyword control-flow keyword-if">if</span> <span class="token punctuation">(</span>error<span class="token punctuation">.</span><span class="token property-access">message</span><span class="token punctuation">.</span><span class="token method function property-access">includes</span><span class="token punctuation">(</span><span class="token string">"DelayedBuyPeriodNotMet"</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">alert</span><span class="token punctuation">(</span><span class="token string">"延迟购买期未结束，请稍后再试"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><h2 id="八-faq">八、FAQ </h2>
+<h3 id="q1-白名单用户有购买数量限制吗">Q1: 白名单用户有购买数量限制吗？ </h3>
+<p>A: 白名单只控制"能否购买"，不限制购买数量。但受限于：</p>
+<ul>
+<li>PancakeSwap 流动性池深度</li>
+<li>滑点设置</li>
+</ul>
+<h3 id="q2-预售期能否延长">Q2: 预售期能否延长？ </h3>
+<p>A: 可以重启预售（调用 <code>setPresaleActive(true)</code>），但会重置开始时间。<br>
+建议在原定时间内完成，避免影响用户预期。</p>
+<h3 id="q3-白名单用户能否卖出">Q3: 白名单用户能否卖出？ </h3>
+<p>A: 可以。白名单用户在预售期内可以自由买卖，无任何限制。</p>
+<h3 id="q4-预售期能否缩短">Q4: 预售期能否缩短？ </h3>
+<p>A: 可以手动关闭预售（<code>setPresaleActive(false)</code>），立即开放给所有用户。</p>
+<h3 id="q5-如何验证白名单是否生效">Q5: 如何验证白名单是否生效？ </h3>
+<p>A: 调用 <code>syi.feeWhitelisted(用户地址)</code> 返回 <code>true</code> 即为已加入白名单。</p>
+<h3 id="q6-黑名单优先级如何">Q6: 黑名单优先级如何？ </h3>
+<p>A: 黑名单 &gt; 白名单。即使在白名单中，黑名单用户仍无法购买。</p>
+<h2 id="九-部署检查清单">九、部署检查清单 </h2>
+<ul>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox"> 合约编译成功</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox"> 部署到 BSC 主网</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox"> 调用 <code>initializeWhitelist()</code> 初始化</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox"> 批量添加预售白名单地址</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox"> 验证白名单地址（随机抽查 <code>feeWhitelisted()</code>）</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox"> 检查预售状态（<code>getPresaleStatus()</code>）</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox"> 测试白名单用户购买（少量测试）</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox"> 测试非白名单用户购买失败（预期报错）</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox"> 添加流动性（确保有池子可交易）</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox"> 前端集成预售倒计时和提示</li>
+</ul>
+<h2 id="十-相关代码文件">十、相关代码文件 </h2>
+<table>
+<thead>
+<tr>
+<th>文件</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>contracts/SYI/abstract/SYIBase.sol:568-574</code></td>
+<td>预售期检查逻辑</td>
+</tr>
+<tr>
+<td><code>contracts/SYI/abstract/SYIBase.sol:512-519</code></td>
+<td>白名单豁免逻辑</td>
+</tr>
+<tr>
+<td><code>contracts/SYI/mainnet/SYI.sol:30-33</code></td>
+<td>预售时长配置（30天）</td>
+</tr>
+<tr>
+<td><code>contracts/SYI/abstract/SYIBase.sol:140-150</code></td>
+<td><code>initializeWhitelist()</code> 函数</td>
+</tr>
+<tr>
+<td><code>contracts/SYI/abstract/SYIBase.sol:164-178</code></td>
+<td>白名单管理函数</td>
+</tr>
+<tr>
+<td><code>scripts/deploySYI.js</code></td>
+<td>部署脚本参考</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p><strong>结论</strong>：通过白名单 + 预售期机制，可以完美实现"只有白名单用户能在预售期购买"的效果，无需额外开发预售合约。</p>
+</div>
+      </div>
+      
+      
+    
+    
+    <script type="module">
+// TODO: If ZenUML gets integrated into mermaid in the future,
+//      we can remove the following lines.
+
+
+var MERMAID_CONFIG = ({"startOnLoad":false});
+if (typeof MERMAID_CONFIG !== 'undefined') {
+  MERMAID_CONFIG.startOnLoad = false
+  MERMAID_CONFIG.cloneCssStyles = false
+  MERMAID_CONFIG.theme = "default"
+}
+
+mermaid.initialize(MERMAID_CONFIG || {})
+if (typeof(window['Reveal']) !== 'undefined') {
+  function mermaidRevealHelper(event) {
+    var currentSlide = event.currentSlide
+    var diagrams = currentSlide.querySelectorAll('.mermaid')
+    for (var i = 0; i < diagrams.length; i++) {
+      var diagram = diagrams[i]
+      if (!diagram.hasAttribute('data-processed')) {
+        mermaid.init(null, diagram, ()=> {
+          Reveal.slide(event.indexh, event.indexv)
+        })
+      }
+    }
+  }
+  Reveal.addEventListener('slidetransitionend', mermaidRevealHelper)
+  Reveal.addEventListener('ready', mermaidRevealHelper)
+  await mermaid.run({
+    nodes: document.querySelectorAll('.mermaid')
+  })
+} else {
+  await mermaid.run({
+    nodes: document.querySelectorAll('.mermaid')
+  })
+}
+</script>
+    
+    
+    
+  
+    </body></html>
