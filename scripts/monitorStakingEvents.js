@@ -158,25 +158,27 @@ const eventHandlers = {
   // 推荐与好友系统事件
   // =========================================================================
 
-  "BindReferral": (user, parent, event) => {
+  "BindReferral": (user, parent, blockNumber, event) => {
     console.log("\n" + "=".repeat(80));
     console.log("🔗 事件：绑定推荐人 (BindReferral)");
     console.log("=".repeat(80));
     console.log(`用户地址：     ${user} (${formatAddress(user)})`);
     console.log(`推荐人：       ${parent} (${formatAddress(parent)})`);
-    console.log(`区块高度：     ${event.blockNumber}`);
+    console.log(`绑定块高度：   #${blockNumber}`);
+    console.log(`链上块高度：   ${event.blockNumber}`);
     console.log(`交易哈希：     ${event.transactionHash}`);
     console.log("=".repeat(80));
   },
 
-  "BindFriend": (user, friend, event) => {
+  "BindFriend": (user, friend, blockNumber, event) => {
     console.log("\n" + "=".repeat(80));
     console.log("👥 事件：绑定好友 (BindFriend)");
     console.log("=".repeat(80));
     console.log(`用户地址：     ${user} (${formatAddress(user)})`);
     console.log(`好友地址：     ${friend} (${formatAddress(friend)})`);
     console.log(`说明：         好友将接收用户的直推5%奖励`);
-    console.log(`区块高度：     ${event.blockNumber}`);
+    console.log(`绑定块高度：   #${blockNumber}`);
+    console.log(`链上块高度：   ${event.blockNumber}`);
     console.log(`交易哈希：     ${event.transactionHash}`);
     console.log("=".repeat(80));
   },

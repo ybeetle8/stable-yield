@@ -159,8 +159,9 @@ async function main() {
           console.log("\n质押事件详情:");
           console.log("- 用户:", parsed.args.user);
           console.log("- 质押金额:", hre.ethers.formatEther(parsed.args.amount), "USDT");
-          console.log("- 档位索引:", parsed.args.stakeIndex.toString());
-          console.log("- sSYI 铸造量:", hre.ethers.formatEther(parsed.args.sSyiAmount), "sSYI");
+          console.log("- 时间戳:", new Date(Number(parsed.args.timestamp) * 1000).toLocaleString());
+          console.log("- 记录索引:", parsed.args.index.toString());
+          console.log("- 质押周期:", parsed.args.stakeTime.toString(), "秒");
         }
       } catch (e) {
         // 忽略无法解析的日志
@@ -185,8 +186,8 @@ async function main() {
   console.log("sSYI 余额:", hre.ethers.formatEther(ssyiBalance), "sSYI");
 
   // 查询推荐关系
-  const referrer = await staking.referrers(randomWallet.address);
-  const friend = await staking.friends(randomWallet.address);
+  const referrer = await staking.getReferral(randomWallet.address);
+  const friend = await staking.getFriend(randomWallet.address);
   console.log("\n推荐关系:");
   console.log("- 推荐人 (referrer):", referrer);
   console.log("- 朋友 (friend):", friend);
@@ -194,37 +195,32 @@ async function main() {
   // 查询最新的质押记录
   if (stakeCount > 0n) {
     const latestStakeIndex = stakeCount - 1n;
-    const stakeRecord = await staking.userStakeRecord(randomWallet.address, latestStakeIndex);
+    const stakeDetails = await staking.getUserStakeDetails(randomWallet.address, latestStakeIndex);
 
     console.log("\n最新质押记录详情:");
-    console.log("- 本金:", hre.ethers.formatEther(stakeRecord.amount), "USDT");
-    console.log("- 档位:", stakeRecord.stakeType.toString());
-    console.log("- 质押时间:", new Date(Number(stakeRecord.stakeTime) * 1000).toLocaleString());
-    console.log("- 到期时间:", new Date(Number(stakeRecord.originalEndTime) * 1000).toLocaleString());
-    console.log("- 是否已提取:", stakeRecord.withdrawn);
+    console.log("- 本金:", hre.ethers.formatEther(stakeDetails.principal), "USDT");
+    console.log("- 当前价值:", hre.ethers.formatEther(stakeDetails.currentValue), "USDT");
+    console.log("- 新增利润:", hre.ethers.formatEther(stakeDetails.newProfit), "USDT");
+    console.log("- 累计提取:", hre.ethers.formatEther(stakeDetails.totalWithdrawn), "USDT");
+    console.log("- 质押时间:", new Date(Number(stakeDetails.startTime) * 1000).toLocaleString());
+    console.log("- 到期时间:", new Date(Number(stakeDetails.originalEndTime) * 1000).toLocaleString());
+    console.log("- 是否可以解除质押:", stakeDetails.canWithdraw);
 
-    // 计算预期收益
-    const canWithdraw = await staking.canWithdrawStake(randomWallet.address, latestStakeIndex);
-    console.log("- 是否可以解除质押:", canWithdraw);
-
-    if (!canWithdraw) {
-      const currentTime = Math.floor(Date.now() / 1000);
-      const timeRemaining = Number(stakeRecord.originalEndTime) - currentTime;
+    if (!stakeDetails.canWithdraw && stakeDetails.timeRemaining > 0) {
+      const timeRemaining = Number(stakeDetails.timeRemaining);
       console.log("- 距离到期还有:", timeRemaining, "秒 (约", (timeRemaining / 86400).toFixed(2), "天)");
     }
   }
 
   // 查询团队信息
-  const totalInvested = await staking.totalInvested(randomWallet.address);
-  const tier = await staking.getTeamTier(randomWallet.address);
+  const userInfo = await staking.getUserInfo(randomWallet.address);
+  const teamKPI = await staking.getTeamKpi(randomWallet.address);
 
-  console.log("\n团队信息:");
-  console.log("- 团队总投资:", hre.ethers.formatEther(totalInvested), "SYI");
-  console.log("- 团队层级:", tier.toString(), "(V" + tier.toString() + ")");
-
-  // 查询是否是传教士
-  const isPreacher = totalInvested >= hre.ethers.parseEther("200");
-  console.log("- 是否是传教士 (≥200 SYI):", isPreacher);
+  console.log("\n用户信息:");
+  console.log("- 本人总质押:", hre.ethers.formatEther(userInfo.totalStaked), "USDT");
+  console.log("- 团队 KPI:", hre.ethers.formatEther(teamKPI), "USDT");
+  console.log("- 是否是传教士 (≥200 USDT):", userInfo.isPreacherStatus);
+  console.log("- 已绑定推荐人:", userInfo.hasLockedReferral);
 
   console.log("\n==========================================");
   console.log("测试总结");

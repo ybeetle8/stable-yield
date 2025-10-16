@@ -187,15 +187,17 @@ interface IStaking {
      * @notice Emitted when referral relationship is bound
      * @param user User being referred
      * @param parent Referrer address
+     * @param blockNumber Block number when the binding occurred
      */
-    event BindReferral(address indexed user, address indexed parent);
+    event BindReferral(address indexed user, address indexed parent, uint256 blockNumber);
 
     /**
      * @notice Emitted when a user binds a friend account for direct reward
      * @param user User who binds the friend
      * @param friend Friend address to receive direct rewards
+     * @param blockNumber Block number when the binding occurred
      */
-    event BindFriend(address indexed user, address indexed friend);
+    event BindFriend(address indexed user, address indexed friend, uint256 blockNumber);
 
     /**
      * @notice Emitted for token transfers (minting/burning)
