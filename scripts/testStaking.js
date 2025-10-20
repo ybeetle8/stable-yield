@@ -4,9 +4,9 @@ const fs = require("fs");
 const path = require("path");
 
 // ========================================
-// 可配置参数
+// 可配置参数  0xe819cb7246732C9DaC4e742D4751c4003f3D30Aa
 // ========================================
-const REFERRER_ADDRESS = "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC"; // 推荐人地址 填的钱包
+const REFERRER_ADDRESS = "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC"; // root: "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC"; // 推荐人地址 填的钱包
 const STAKE_USDT_AMOUNT = "200"; // 质押 USDT 数量
 
 async function main() {
