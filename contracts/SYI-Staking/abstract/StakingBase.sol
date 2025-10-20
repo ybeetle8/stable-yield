@@ -129,6 +129,23 @@ abstract contract StakingBase is Ownable, IStaking {
     mapping(address => IStaking.WithdrawalRecord[])
         private _userWithdrawalHistory;
 
+    // =========================================================================
+    // REFERRAL REQUIREMENT CONFIGURATION
+    // =========================================================================
+
+    /**
+     * @notice 当前系统是否要求推荐人必须质押
+     * @dev true = 推荐人必须持有 > 1 sSYI，false = 无质押要求
+     */
+    bool public requireReferrerStaked;
+
+    /**
+     * @notice 记录用户绑定推荐人时的系统配置快照
+     * @dev mapping(用户地址 => 绑定时是否要求推荐人质押)
+     * @dev 一旦绑定，该状态永久生效
+     */
+    mapping(address => bool) private _userReferralRequirementSnapshot;
+
     // Fee collection
     address public feeRecipient;
     uint256 public constant REDEMPTION_FEE_RATE = 100; // 1% = 100 basis points
@@ -258,6 +275,9 @@ abstract contract StakingBase is Ownable, IStaking {
 
         // 初始化 tierManager 为 owner
         tierManager = msg.sender;
+
+        // 初始化推荐人质押要求为 true（保持原有严格行为）
+        requireReferrerStaked = true;
 
         IERC20(_usdt).approve(_router, type(uint256).max);
         _updateRatesForMode();
@@ -456,9 +476,11 @@ abstract contract StakingBase is Ownable, IStaking {
 
         if (_referrer == user) revert CannotReferSelf();
 
-        if (_referrer != rootAddress && balanceOf(_referrer) <= 1 ether) {
-            revert InvalidReferrer();
-        }
+        // ⭐ 验证推荐人资格（新逻辑）
+        _validateReferrer(_referrer);
+
+        // ⭐ 记录用户绑定时的系统配置快照
+        _userReferralRequirementSnapshot[user] = requireReferrerStaked;
 
         _referrals[user] = _referrer;
         _children[_referrer].push(user);
@@ -1133,6 +1155,40 @@ abstract contract StakingBase is Ownable, IStaking {
     // PRIVATE FUNCTIONS
     // =========================================================================
 
+    /**
+     * @notice 验证推荐人资格（内部函数）
+     * @param _referrer 推荐人地址
+     * @dev 复杂的继承规则逻辑封装在此函数中
+     */
+    function _validateReferrer(address _referrer) private view {
+        // rootAddress 永远合法
+        if (_referrer == rootAddress) {
+            return;
+        }
+
+        // 当前系统不要求质押，直接通过
+        if (!requireReferrerStaked) {
+            return;
+        }
+
+        // 当前系统要求质押，需要检查推荐人状态
+        if (_hasLocked[_referrer]) {
+            // 推荐人已绑定，检查其历史快照
+            if (_userReferralRequirementSnapshot[_referrer]) {
+                // 推荐人当时也需要质押，检查其当前质押状态
+                if (balanceOf(_referrer) <= 1 ether) {
+                    revert InvalidReferrer();
+                }
+            }
+            // 推荐人当时不需要质押，永久豁免检查
+        } else {
+            // 推荐人未绑定（特殊情况），按当前规则检查
+            if (balanceOf(_referrer) <= 1 ether) {
+                revert InvalidReferrer();
+            }
+        }
+    }
+
     function _mintStakeRecord(
         address sender,
         uint160 _amount,
@@ -1739,6 +1795,18 @@ abstract contract StakingBase is Ownable, IStaking {
         address oldRecipient = feeRecipient;
         feeRecipient = _feeRecipient;
         emit FeeRecipientUpdated(oldRecipient, _feeRecipient);
+    }
+
+    /**
+     * @notice 设置推荐人质押要求（仅限管理员）
+     * @param _required 是否要求推荐人必须质押
+     * @dev 只影响未来的新绑定，不影响已绑定用户
+     */
+    function setRequireReferrerStaked(bool _required) external onlyOwner {
+        bool oldValue = requireReferrerStaked;
+        requireReferrerStaked = _required;
+
+        emit ReferrerStakeRequirementUpdated(oldValue, _required, block.timestamp);
     }
 
     // =========================================================================

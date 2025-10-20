@@ -69,7 +69,14 @@ npx hardhat run scripts/testStaking.js --network localhost
 
 # 读取合约上用户信息的测试代码（前端,后端需要）
 npx hardhat run scripts/testUserInfo.js --network localhost
+
+# 管理员修改, 推荐人是否需要质押的配置
+npx hardhat run scripts/testReferrerStakeRequirement.js --network localhost
+
+
 ```
+
+
 
 ### 相关文档
 

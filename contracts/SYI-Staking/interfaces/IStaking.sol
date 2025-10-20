@@ -327,6 +327,18 @@ interface IStaking {
         uint256 timestamp
     );
 
+    /**
+     * @notice Emitted when referrer stake requirement configuration is updated
+     * @param oldValue Previous requirement value
+     * @param newValue New requirement value
+     * @param timestamp Update timestamp
+     */
+    event ReferrerStakeRequirementUpdated(
+        bool oldValue,
+        bool newValue,
+        uint256 timestamp
+    );
+
     // =========================================================================
     // CORE STAKING FUNCTIONS
     // =========================================================================
