@@ -16,7 +16,7 @@ async function main() {
 
     // 加载部署信息
     const deployment = require("../syi-deployment.json");
-    const stakingAddress = deployment.Staking;
+    const stakingAddress = deployment.contracts.Staking;
 
     console.log("📋 使用的合约地址:");
     console.log("  Staking:", stakingAddress);
@@ -26,7 +26,15 @@ async function main() {
     const staking = Staking.attach(stakingAddress);
 
     // 获取测试账户
-    const [deployer, user1, user2, user3] = await ethers.getSigners();
+    // accounts[0] = deployer
+    // accounts[1] = feeRecipientWallet
+    // accounts[2] = rootWallet (rootAddress)
+    // accounts[3+] = 测试用户
+    const accounts = await ethers.getSigners();
+    const deployer = accounts[0];
+    const user1 = accounts[3]; // 使用 accounts[3] 避免与系统账户冲突
+    const user2 = accounts[4];
+    const user3 = accounts[5];
 
     console.log("\n👥 测试账户:");
     console.log("  deployer:", deployer.address);
@@ -174,8 +182,10 @@ async function main() {
 
     console.log("📝 user1 尝试调用 setRequireReferrerStaked(false)...");
     try {
-        await staking.connect(user1).setRequireReferrerStaked(false);
+        const tx7 = await staking.connect(user1).setRequireReferrerStaked(false);
+        await tx7.wait();
         console.log("❌ 非管理员成功修改了配置！这是一个安全漏洞！");
+        console.log("   新配置:", await staking.requireReferrerStaked());
     } catch (error) {
         console.log("✅ 非管理员修改配置失败（符合预期）");
         console.log("   错误信息:", error.message.split('\n')[0]);
