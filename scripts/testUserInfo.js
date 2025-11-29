@@ -3,7 +3,7 @@
 // =============================================================================
 
 // 目标用户地址 (可手动修改)
-const TARGET_USER_ADDRESS = "0x874CD5eA9B672112973Ab8dF9C53Afbe16F649b8";
+const TARGET_USER_ADDRESS = "0xb7F2cd38e14a4CECf19d36b0584cBdd6BdCa5c84";
 
 const { ethers } = require("hardhat");
 const fs = require("fs");

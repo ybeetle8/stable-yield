@@ -3,7 +3,7 @@ const hre = require("hardhat");
 
 async function main() {
   const [deployer] = await hre.ethers.getSigners(); // 使用第一个 signer 发出转账
-  const to = "0xA14AB5CEC3E43b39Ce9bD2172e98daaf95CD63eD"; // 改成你自已的钱包
+  const to = "0xa238253d15bBA0CB25B1E7E4d043673edeF60222"; // 改成你自已的钱包
 
   // BSC 主网 USDT 地址
   const usdtAddress = "0x55d398326f99059fF775485246999027B3197955";
