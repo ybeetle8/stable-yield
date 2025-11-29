@@ -106,6 +106,8 @@ npx hardhat run scripts/deployReferral.js --network bsc
 
 ```bash
 npx hardhat run scripts/testReferral.js --network localhost
+npx hardhat run scripts/testReferralPaged.js --network localhost
+
 ```
 
 ### 3.2 测试用例说明

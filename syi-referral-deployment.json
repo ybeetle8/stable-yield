@@ -1,8 +1,8 @@
 {
-  "network": "localhost",
-  "contractAddress": "0x1947D7713ff749E057Eb5D5c87A55D96201e62eE",
-  "rootAddress": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
-  "deployer": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
-  "deployedAt": "2025-11-29T10:01:30.380Z",
-  "blockNumber": 69877859
+  "network": "bsc",
+  "contractAddress": "0x3344Ac60D69f6182463A4ACA8Cb5F85b92d9E825",
+  "rootAddress": "0x4DC1fA4BBfBc92E654473c225C490EEcBcfec2c0",
+  "deployer": "0x4DC1fA4BBfBc92E654473c225C490EEcBcfec2c0",
+  "deployedAt": "2025-11-29T10:50:41.676Z",
+  "blockNumber": 69882592
 }

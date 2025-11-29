@@ -5,3 +5,5 @@ artifacts/
 package-lock.json
 
 证书/
+
+.env

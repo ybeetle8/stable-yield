@@ -226,6 +226,37 @@ contract SYIReferral is Ownable {
     }
 
     /**
+     * @notice 分页获取用户的直接下线
+     * @param user 用户地址
+     * @param offset 起始索引
+     * @param limit 查询数量
+     * @return 下线地址数组
+     */
+    function getChildrenPaged(
+        address user,
+        uint256 offset,
+        uint256 limit
+    ) external view returns (address[] memory) {
+        uint256 total = _children[user].length;
+
+        if (offset >= total) {
+            return new address[](0);
+        }
+
+        uint256 count = limit;
+        if (offset + count > total) {
+            count = total - offset;
+        }
+
+        address[] memory result = new address[](count);
+        for (uint256 i = 0; i < count; i++) {
+            result[i] = _children[user][offset + i];
+        }
+
+        return result;
+    }
+
+    /**
      * @notice 批量查询用户信息
      * @param users 用户地址数组
      * @return referrers 推荐人数组

@@ -1,3 +1,4 @@
+require("dotenv").config();
 require("@nomicfoundation/hardhat-toolbox");
 require("hardhat-preprocessor");
 const fs = require("fs");
@@ -65,8 +66,13 @@ module.exports = {
       }
     },
     bsc: {
-      url: "https://bsc-dataseed1.binance.org/",
+      url: process.env.BSC_RPC_URL || "https://bsc.rpc.pinax.network/v1/0ec07b264c688cae48efc650c47976f1c02bb0ae73288f12",
       chainId: 56,
+      accounts: process.env.BSC_PRIVATE_KEY
+        ? [`0x${process.env.BSC_PRIVATE_KEY}`]
+        : [],
+      gasPrice: 3000000000, // 3 Gwei
+      timeout: 120000, // 2分钟超时
     },
     bscTestnet: {
       url: "https://data-seed-prebsc-1-s1.binance.org:8545/",
