@@ -44,15 +44,22 @@ module.exports = {
   },
   networks: {
     hardhat: {
+      allowUnlimitedContractSize: true,
+      chainId: 56,
+      forking: {
+        url: "https://bsc.rpc.pinax.network/v1/0ec07b264c688cae48efc650c47976f1c02bb0ae73288f12/",
+        enabled: true
+      },
       mining: {
-        auto: false,
+        auto: true,
         interval: 3000  // 每3秒自动挖一个块 (单位: 毫秒)
       }
     },
+
     localhost: {
-      //url: "http://127.0.0.1:8545",
-      url: "https://bsc.ai-hello.cn/",
-      chainId: 31337,
+      url: "http://127.0.0.1:8545",
+      //url: "https://bsc.ai-hello.cn/",
+      chainId: 56,
       accounts: {
         mnemonic: "test test test test test test test test test test test junk"
       }
