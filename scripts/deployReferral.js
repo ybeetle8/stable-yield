@@ -10,8 +10,8 @@ async function main() {
     console.log("部署账户:", deployer.address);
     console.log("账户余额:", hre.ethers.formatEther(await hre.ethers.provider.getBalance(deployer.address)), "ETH\n");
 
-    // 设置根地址(使用部署者地址作为根地址)
-    const rootAddress = deployer.address;
+    // 设置根地址(使用指定的固定地址)
+    const rootAddress = "0xF4d1cD67cD570aE5e78ae89Bf664A299DeEdEFC7";
     console.log("根地址(Root Address):", rootAddress, "\n");
 
     // 部署 SYIReferral 合约

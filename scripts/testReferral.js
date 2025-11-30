@@ -43,12 +43,22 @@ async function main() {
 
     const deploymentInfo = JSON.parse(fs.readFileSync(deploymentPath, 'utf8'));
     const referralAddress = deploymentInfo.contractAddress;
+    const rootAddress = deploymentInfo.rootAddress;
 
     printInfo(`合约地址: ${referralAddress}`);
-    printInfo(`根地址: ${deploymentInfo.rootAddress}\n`);
+    printInfo(`根地址: ${rootAddress}\n`);
 
     // 获取合约实例
     const referral = await hre.ethers.getContractAt("SYIReferral", referralAddress);
+
+    // 验证根地址设置
+    const contractRootAddress = await referral.rootAddress();
+    printInfo(`合约中的根地址: ${contractRootAddress}`);
+    if (contractRootAddress !== rootAddress) {
+        printWarning(`根地址不匹配! 部署文件: ${rootAddress}, 合约: ${contractRootAddress}`);
+    } else {
+        printSuccess(`根地址验证成功!\n`);
+    }
 
     // 获取测试账户(生成10个地址)
     const signers = await hre.ethers.getSigners();
@@ -59,6 +69,7 @@ async function main() {
     for (let i = 0; i < accounts.length; i++) {
         console.log(`账户 ${i}: ${accounts[i].address}`);
     }
+    console.log(`\nRoot: ${rootAddress}`);
 
     // =========================================================================
     // 测试 1: 建立推荐关系
@@ -67,21 +78,27 @@ async function main() {
 
     console.log("建立推荐关系树:");
     console.log(`
-账户 0 (Root)
-    ├─ 账户 1
-    │   ├─ 账户 3
-    │   │   └─ 账户 7
-    │   └─ 账户 4
-    │       └─ 账户 8
-    └─ 账户 2
-        ├─ 账户 5
-        │   └─ 账户 9
-        └─ 账户 6
+Root (${rootAddress})
+    ├─ 账户 0
+    │   ├─ 账户 2
+    │   │   └─ 账户 6
+    │   └─ 账户 3
+    │       └─ 账户 7
+    └─ 账户 1
+        ├─ 账户 4
+        │   └─ 账户 8
+        └─ 账户 5
     `);
 
-    // 账户1 绑定 账户0 为推荐人
-    printInfo("账户1 绑定推荐人 账户0...");
-    let tx = await referral.connect(accounts[1]).lockReferral(accounts[0].address);
+    // 账户0 绑定 rootAddress 为推荐人
+    printInfo("账户0 绑定推荐人 Root...");
+    let tx = await referral.connect(accounts[0]).lockReferral(rootAddress);
+    await tx.wait();
+    printSuccess("绑定成功!");
+
+    // 账户1 绑定 rootAddress 为推荐人
+    printInfo("账户1 绑定推荐人 Root...");
+    tx = await referral.connect(accounts[1]).lockReferral(rootAddress);
     await tx.wait();
     printSuccess("绑定成功!");
 
@@ -91,9 +108,9 @@ async function main() {
     await tx.wait();
     printSuccess("绑定成功!");
 
-    // 账户3 绑定 账户1 为推荐人
-    printInfo("账户3 绑定推荐人 账户1...");
-    tx = await referral.connect(accounts[3]).lockReferral(accounts[1].address);
+    // 账户3 绑定 账户0 为推荐人
+    printInfo("账户3 绑定推荐人 账户0...");
+    tx = await referral.connect(accounts[3]).lockReferral(accounts[0].address);
     await tx.wait();
     printSuccess("绑定成功!");
 
@@ -103,9 +120,9 @@ async function main() {
     await tx.wait();
     printSuccess("绑定成功!");
 
-    // 账户5 绑定 账户2 为推荐人
-    printInfo("账户5 绑定推荐人 账户2...");
-    tx = await referral.connect(accounts[5]).lockReferral(accounts[2].address);
+    // 账户5 绑定 账户1 为推荐人
+    printInfo("账户5 绑定推荐人 账户1...");
+    tx = await referral.connect(accounts[5]).lockReferral(accounts[1].address);
     await tx.wait();
     printSuccess("绑定成功!");
 
@@ -127,32 +144,26 @@ async function main() {
     await tx.wait();
     printSuccess("绑定成功!");
 
-    // 账户9 绑定 账户5 为推荐人
-    printInfo("账户9 绑定推荐人 账户5...");
-    tx = await referral.connect(accounts[9]).lockReferral(accounts[5].address);
-    await tx.wait();
-    printSuccess("绑定成功!");
-
     // =========================================================================
     // 测试 2: 建立好友关系
     // =========================================================================
     printHeader("测试 2: 建立好友关系");
 
-    // 账户1 绑定 账户2 为好友
-    printInfo("账户1 绑定好友 账户2...");
-    tx = await referral.connect(accounts[1]).lockFriend(accounts[2].address);
+    // 账户0 绑定 账户1 为好友
+    printInfo("账户0 绑定好友 账户1...");
+    tx = await referral.connect(accounts[0]).lockFriend(accounts[1].address);
     await tx.wait();
     printSuccess("绑定成功!");
 
-    // 账户3 绑定 账户4 为好友
-    printInfo("账户3 绑定好友 账户4...");
-    tx = await referral.connect(accounts[3]).lockFriend(accounts[4].address);
+    // 账户2 绑定 账户3 为好友
+    printInfo("账户2 绑定好友 账户3...");
+    tx = await referral.connect(accounts[2]).lockFriend(accounts[3].address);
     await tx.wait();
     printSuccess("绑定成功!");
 
-    // 账户5 绑定 账户6 为好友
-    printInfo("账户5 绑定好友 账户6...");
-    tx = await referral.connect(accounts[5]).lockFriend(accounts[6].address);
+    // 账户4 绑定 账户5 为好友
+    printInfo("账户4 绑定好友 账户5...");
+    tx = await referral.connect(accounts[4]).lockFriend(accounts[5].address);
     await tx.wait();
     printSuccess("绑定成功!");
 
@@ -212,7 +223,15 @@ async function main() {
     // =========================================================================
     printHeader("测试 6: 查询直接下线");
 
-    console.log(`${colors.bright}查询账户0的直接下线:${colors.reset}`);
+    console.log(`${colors.bright}查询 Root 的直接下线:${colors.reset}`);
+    const childrenRoot = await referral.getChildren(rootAddress);
+    console.log(`直接下线数量: ${childrenRoot.length}`);
+    for (let i = 0; i < childrenRoot.length; i++) {
+        const accountIndex = accounts.findIndex(acc => acc.address === childrenRoot[i]);
+        console.log(`  下线${i + 1}: ${childrenRoot[i]} (账户 ${accountIndex})`);
+    }
+
+    console.log(`\n${colors.bright}查询账户0的直接下线:${colors.reset}`);
     const children0 = await referral.getChildren(accounts[0].address);
     console.log(`直接下线数量: ${children0.length}`);
     for (let i = 0; i < children0.length; i++) {
@@ -228,25 +247,17 @@ async function main() {
         console.log(`  下线${i + 1}: ${children1[i]} (账户 ${accountIndex})`);
     }
 
-    console.log(`\n${colors.bright}查询账户2的直接下线:${colors.reset}`);
-    const children2 = await referral.getChildren(accounts[2].address);
-    console.log(`直接下线数量: ${children2.length}`);
-    for (let i = 0; i < children2.length; i++) {
-        const accountIndex = accounts.findIndex(acc => acc.address === children2[i]);
-        console.log(`  下线${i + 1}: ${children2[i]} (账户 ${accountIndex})`);
-    }
-
     // =========================================================================
     // 测试 7: 批量查询用户信息
     // =========================================================================
     printHeader("测试 7: 批量查询用户信息");
 
     const batchAddresses = [
-        accounts[1].address,
-        accounts[3].address,
-        accounts[5].address,
-        accounts[7].address,
-        accounts[9].address
+        accounts[0].address,
+        accounts[2].address,
+        accounts[4].address,
+        accounts[6].address,
+        accounts[8].address
     ];
 
     const batchInfo = await referral.batchGetUserInfo(batchAddresses);
@@ -268,7 +279,7 @@ async function main() {
     printHeader("测试 8: 关系树可视化");
 
     console.log(`${colors.bright}推荐关系树:${colors.reset}\n`);
-    await printReferralTree(referral, accounts[0].address, accounts, 0);
+    await printReferralTree(referral, rootAddress, accounts, 0, rootAddress);
 
     // =========================================================================
     // 测试完成
@@ -278,21 +289,29 @@ async function main() {
 }
 
 // 递归打印推荐树
-async function printReferralTree(referral, address, accounts, depth) {
+async function printReferralTree(referral, address, accounts, depth, rootAddress) {
     const indent = "  ".repeat(depth);
     const accountIndex = accounts.findIndex(acc => acc.address === address);
     const children = await referral.getChildren(address);
     const childrenCount = children.length;
 
     if (depth === 0) {
-        console.log(`${indent}${colors.bright}账户 ${accountIndex}${colors.reset} (${address})`);
+        if (address === rootAddress) {
+            console.log(`${indent}${colors.bright}Root${colors.reset} (${address})`);
+        } else {
+            console.log(`${indent}${colors.bright}账户 ${accountIndex}${colors.reset} (${address})`);
+        }
     } else {
         const symbol = "└─";
-        console.log(`${indent}${symbol} ${colors.bright}账户 ${accountIndex}${colors.reset} (下线: ${childrenCount})`);
+        if (accountIndex >= 0) {
+            console.log(`${indent}${symbol} ${colors.bright}账户 ${accountIndex}${colors.reset} (下线: ${childrenCount})`);
+        } else {
+            console.log(`${indent}${symbol} ${colors.bright}Root${colors.reset} (下线: ${childrenCount})`);
+        }
     }
 
     for (let i = 0; i < children.length; i++) {
-        await printReferralTree(referral, children[i], accounts, depth + 1);
+        await printReferralTree(referral, children[i], accounts, depth + 1, rootAddress);
     }
 }
 
