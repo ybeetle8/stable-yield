@@ -31,26 +31,6 @@ contract AetherReferral is Ownable {
         uint256 timestamp
     );
 
-    event OperatorUpdated(
-        address indexed oldOperator,
-        address indexed newOperator,
-        uint256 timestamp
-    );
-
-    event AdminReferralBound(
-        address indexed user,
-        address indexed referrer,
-        address indexed admin,
-        uint256 timestamp
-    );
-
-    event AdminFriendBound(
-        address indexed user,
-        address indexed friend,
-        address indexed admin,
-        uint256 timestamp
-    );
-
     // =========================================================================
     // ERRORS
     // =========================================================================
@@ -59,7 +39,6 @@ contract AetherReferral is Ownable {
     error CannotBindSelf();
     error InvalidAddress();
     error CircularReference();
-    error NotAuthorized();
 
     // =========================================================================
     // STATE VARIABLES
@@ -67,9 +46,6 @@ contract AetherReferral is Ownable {
 
     /// @notice 根地址(默认推荐人)
     address public rootAddress;
-
-    /// @notice 操作员地址(可以管理绑定关系)
-    address public operator;
 
     /// @notice 用户 => 推荐人
     mapping(address => address) private _referrals;
@@ -96,7 +72,6 @@ contract AetherReferral is Ownable {
     constructor(address _rootAddress) Ownable(msg.sender) {
         require(_rootAddress != address(0), "Invalid root address");
         rootAddress = _rootAddress;
-        operator = msg.sender; // 默认操作员为部署者
     }
 
     // =========================================================================
@@ -406,94 +381,6 @@ contract AetherReferral is Ownable {
         address oldRoot = rootAddress;
         rootAddress = _rootAddress;
         emit RootAddressUpdated(oldRoot, _rootAddress, block.timestamp);
-    }
-
-    /**
-     * @notice 设置操作员
-     * @param _operator 新的操作员地址
-     */
-    function setOperator(address _operator) external onlyOwner {
-        require(_operator != address(0), "Invalid operator address");
-        address oldOperator = operator;
-        operator = _operator;
-        emit OperatorUpdated(oldOperator, _operator, block.timestamp);
-    }
-
-    /**
-     * @notice 管理员绑定推荐关系
-     * @param user 用户地址
-     * @param _referrer 推荐人地址
-     */
-    function adminBindReferral(
-        address user,
-        address _referrer
-    ) external onlyOperator {
-        // 检查是否已绑定
-        if (_hasLockedReferral[user]) revert AlreadyBound();
-
-        // 检查推荐人地址
-        if (_referrer == address(0)) {
-            _referrer = rootAddress;
-        }
-
-        // 不能推荐自己
-        if (_referrer == user) revert CannotBindSelf();
-
-        // 推荐人必须已经绑定（除了 rootAddress）
-        if (_referrer != rootAddress && !_hasLockedReferral[_referrer]) {
-            revert InvalidAddress();
-        }
-
-        // 检查循环引用
-        if (_wouldCreateCircularReference(user, _referrer)) {
-            revert CircularReference();
-        }
-
-        // 绑定推荐关系
-        _referrals[user] = _referrer;
-        _children[_referrer].push(user);
-        _hasLockedReferral[user] = true;
-
-        emit AdminReferralBound(user, _referrer, msg.sender, block.timestamp);
-    }
-
-    /**
-     * @notice 管理员绑定好友关系
-     * @param user 用户地址
-     * @param _friend 好友地址
-     */
-    function adminBindFriend(
-        address user,
-        address _friend
-    ) external onlyOperator {
-        // 检查是否已绑定
-        if (_hasLockedFriend[user]) revert AlreadyBound();
-
-        // 检查好友地址
-        if (_friend == address(0)) revert InvalidAddress();
-
-        // 不能绑定自己
-        if (_friend == user) revert CannotBindSelf();
-
-        // 绑定好友关系
-        _friends[user] = _friend;
-        _hasLockedFriend[user] = true;
-
-        emit AdminFriendBound(user, _friend, msg.sender, block.timestamp);
-    }
-
-    // =========================================================================
-    // MODIFIERS
-    // =========================================================================
-
-    /**
-     * @notice 只有 owner 或 operator 可以调用
-     */
-    modifier onlyOperator() {
-        if (msg.sender != owner() && msg.sender != operator) {
-            revert NotAuthorized();
-        }
-        _;
     }
 
     // =========================================================================

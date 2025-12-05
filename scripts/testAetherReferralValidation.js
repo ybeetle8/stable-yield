@@ -193,9 +193,60 @@ async function main() {
     }
 
     // =========================================================================
-    // 测试 6: 验证推荐链
+    // 测试 6: 异常流程 - 绑定随机外部地址（未绑定）
     // =========================================================================
-    printHeader("测试 6: 验证推荐链");
+    printHeader("测试 6: 异常流程 - 绑定随机外部地址（未绑定）");
+
+    const randomAddress = "0x49472E7776d9791B6a34Bcc819816D304084dceC";
+
+    try {
+        printInfo(`账户 [新账户] 尝试绑定推荐人 ${randomAddress} (随机外部地址)...`);
+
+        // 先检查随机地址是否已绑定
+        const hasLockedRandom = await referral.hasLockedReferral(randomAddress);
+        printInfo(`  随机地址绑定状态: ${hasLockedRandom}`);
+
+        if (hasLockedRandom) {
+            printError("测试环境错误: 随机地址不应该已经绑定!");
+            process.exit(1);
+        }
+
+        // 使用一个新账户（比如 accounts 之外的）来测试
+        // 为了简化，我们可以使用 signers[10] 如果有的话
+        const testSigner = signers[10] || signers[5];
+
+        // 检查测试账户是否已绑定
+        const hasLockedTest = await referral.hasLockedReferral(testSigner.address);
+        if (hasLockedTest) {
+            printError("测试账户已绑定，跳过此测试");
+        } else {
+            // 尝试绑定随机地址
+            let tx = await referral.connect(testSigner).lockReferral(randomAddress);
+            await tx.wait();
+
+            // 如果到达这里，说明绑定成功了，这是错误的
+            printError("❌❌❌ BUG: 成功绑定了未注册的随机外部地址! 这不应该发生!");
+            printError("修复失败，推荐人验证逻辑仍有问题!");
+            process.exit(1);
+        }
+
+    } catch (error) {
+        // 期望抛出 InvalidAddress 错误
+        if (error.message.includes("InvalidAddress")) {
+            printSuccess("正确阻止了随机外部地址作为推荐人!");
+            printInfo(`  错误信息: ${error.message}\n`);
+        } else if (error.message.includes("already")) {
+            printInfo("测试账户已绑定，测试跳过\n");
+        } else {
+            printError("抛出了非预期的错误: " + error.message);
+            process.exit(1);
+        }
+    }
+
+    // =========================================================================
+    // 测试 7: 验证推荐链
+    // =========================================================================
+    printHeader("测试 7: 验证推荐链");
 
     console.log(`${colors.bright}最终推荐关系树:${colors.reset}\n`);
     console.log(`Root (${rootAddress})`);
@@ -237,6 +288,7 @@ async function main() {
     printSuccess("✅ 推荐人必须已绑定的验证逻辑工作正常!");
     printSuccess("✅ rootAddress 作为推荐人永远有效!");
     printSuccess("✅ address(0) 正确转换为 rootAddress!");
+    printSuccess("✅ 随机外部地址（未绑定）正确被拒绝!");
 }
 
 // 执行测试
