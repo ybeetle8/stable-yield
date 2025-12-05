@@ -25,12 +25,6 @@ contract AetherReferral is Ownable {
         uint256 timestamp
     );
 
-    event RootAddressUpdated(
-        address indexed oldRoot,
-        address indexed newRoot,
-        uint256 timestamp
-    );
-
     event OperatorUpdated(
         address indexed oldOperator,
         address indexed newOperator,
@@ -97,6 +91,9 @@ contract AetherReferral is Ownable {
         require(_rootAddress != address(0), "Invalid root address");
         rootAddress = _rootAddress;
         operator = msg.sender; // 默认操作员为部署者
+
+        // 标记 rootAddress 为已绑定，解决冷启动问题
+        _hasLockedReferral[_rootAddress] = true;
     }
 
     // =========================================================================
@@ -397,16 +394,6 @@ contract AetherReferral is Ownable {
     // ADMIN FUNCTIONS
     // =========================================================================
 
-    /**
-     * @notice 设置根地址
-     * @param _rootAddress 新的根地址
-     */
-    function setRootAddress(address _rootAddress) external onlyOwner {
-        require(_rootAddress != address(0), "Invalid root address");
-        address oldRoot = rootAddress;
-        rootAddress = _rootAddress;
-        emit RootAddressUpdated(oldRoot, _rootAddress, block.timestamp);
-    }
 
     /**
      * @notice 设置操作员
